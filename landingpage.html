@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>2K26 Tournament Series – Coming Soon | Bodega Cats GC</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-size: 3.2rem;
+      color: #FF4D00;
+      margin-bottom: 1rem;
+      animation: fadeIn 1.2s ease-in-out;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      color: #ccc;
+      max-width: 700px;
+      margin-bottom: 2rem;
+      animation: fadeIn 1.8s ease-in-out;
+    }
+
+    .logo {
+      width: 150px;
+      height: auto;
+      margin-bottom: 1.5rem;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    .details {
+      max-width: 800px;
+      margin-bottom: 3rem;
+      font-size: 1.15rem;
+      line-height: 1.8;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    .highlight {
+      color: #FF4D00;
+      font-weight: 600;
+    }
+
+    .cta-button {
+      background-color: #FF4D00;
+      color: #000;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 0 10px rgba(255, 77, 0, 0.5);
+      animation: pulse 2.5s infinite;
+    }
+
+    .cta-button:hover {
+      background-color: #007BFF;
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    .footer {
+      font-size: 0.9rem;
+      color: #888;
+      margin-top: 2rem;
+    }
+
+    a {
+      color: #007BFF;
+      text-decoration: none;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255, 77, 0, 0.5); }
+      70% { box-shadow: 0 0 0 20px rgba(255, 77, 0, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 77, 0, 0); }
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.2rem; }
+      .details { font-size: 1rem; padding: 0 1rem; }
+      .cta-button { width: 80%; }
+    }
+  </style>
+</head>
+<body>
+  <img class="logo" src= assets/logo.png alt="Bodega Cats GC Logo" />
+
+  <h1>2K26 Tournament Series</h1>
+  <h2>$52,000. 11 Months. One Community. Starts October 2025.</h2>
+
+  <div class="details">
+    The <span class="highlight">2K26 Tournament Series</span> is Bodega Cats GC’s next evolution in competitive NBA 2K.<br /><br />
+    Featuring <span class="highlight">monthly events</span> from October through August—including <strong>March Madness</strong>, 
+    <strong>Locals</strong>, and the <strong>World Championship</strong>—this series delivers nonstop action and community-first competition.<br /><br />
+
+    With double and single elimination formats, live content drops, social-driven highlights, and a growing network of affiliates, 2K26 will showcase 
+    <span class="highlight">who really runs the court.</span>
+  </div>
+
+  <button class="cta-button" onclick="location.href='https://bodegacatsgc.gg'">Follow the Journey</button>
+
+  <div class="footer">
+    © 2025 Bodega Cats GC • <a href="https://twitter.com/BodegaCatsGC" target="_blank">@BodegaCatsGC</a>
+  </div>
+</body>
+</html>
