@@ -134,10 +134,12 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="text-center">
-              <div className="w-48 h-48 bg-gray-200 dark:bg-gray-800 rounded-3xl mx-auto flex items-center justify-center">
-                <span className="text-gray-500 dark:text-gray-400 text-sm">
-                  Christian &quot;Cager&quot; 
-                </span>
+              <div className="w-48 h-48 rounded-3xl mx-auto overflow-hidden">
+                <img 
+                  src="/founder/cager.jpg" 
+                  alt="Christian 'Cager' Werwaiss" 
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>

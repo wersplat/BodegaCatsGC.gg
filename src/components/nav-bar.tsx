@@ -24,9 +24,11 @@ export function NavBar() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <div className="h-8 w-8 bg-bcg-accent rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">BC</span>
-            </div>
+            <img 
+              src="/teams/bodega-cats-logo.png" 
+              alt="Bodega Cats GC" 
+              className="h-8 w-8 object-contain"
+            />
             <span className="font-bold text-xl">BodegaCatsGC</span>
           </Link>
 

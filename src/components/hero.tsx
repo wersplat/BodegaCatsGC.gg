@@ -11,8 +11,12 @@ export function Hero() {
         <div className="text-center max-w-4xl mx-auto">
           {/* Logo */}
           <div className="mb-8">
-            <div className="inline-flex items-center justify-center w-24 h-24 bg-bcg-accent rounded-3xl mb-6 shadow-2xl">
-              <span className="text-white font-bold text-3xl">BC</span>
+            <div className="inline-flex items-center justify-center w-32 h-32 mb-6">
+              <img 
+                src="/teams/bodega-cats-logo.png" 
+                alt="Bodega Cats GC Logo" 
+                className="w-full h-full object-contain"
+              />
             </div>
           </div>
 

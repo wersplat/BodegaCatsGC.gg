@@ -9,7 +9,10 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Bodega Cats Gaming Club',
-  description: 'Street-smart gaming, bodega-style. The premier gaming club bringing authentic energy to competitive gaming.',
+  description: 'Street-smart gaming, bodega-style. Building something real in the NBA 2K Pro-Am ecosystem.',
+  icons: {
+    icon: '/favicon.png',
+  },
   keywords: ['gaming', 'esports', 'competitive', 'bodega cats', 'gaming club'],
   authors: [{ name: 'Bodega Cats Gaming Club' }],
   openGraph: {

@@ -12,10 +12,12 @@ export function TeamCard({ team, featured = false }: TeamCardProps) {
   return (
     <Card className={`group hover:scale-105 transition-all duration-300 ${featured ? 'ring-2 ring-bcg-accent' : ''}`}>
       <CardHeader className="text-center">
-        <div className="mx-auto mb-4 w-16 h-16 bg-gray-200 dark:bg-gray-800 rounded-2xl flex items-center justify-center">
-          <span className="text-2xl font-bold" style={{ color: team.color }}>
-            {team.name.split(' ').map(word => word[0]).join('')}
-          </span>
+        <div className="mx-auto mb-4 w-16 h-16 rounded-2xl flex items-center justify-center">
+          <img 
+            src={team.logo} 
+            alt={`${team.name} Logo`}
+            className="w-full h-full object-contain"
+          />
         </div>
         <CardTitle className="text-xl">{team.name}</CardTitle>
         <CardDescription className="text-bcg-accent font-medium">

@@ -38,9 +38,11 @@ export function SiteFooter() {
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
             <Link href="/" className="flex items-center space-x-2 mb-4">
-              <div className="h-8 w-8 bg-bcg-accent rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">BC</span>
-              </div>
+              <img 
+                src="/teams/bodega-cats-logo.png" 
+                alt="Bodega Cats GC" 
+                className="h-8 w-8 object-contain"
+              />
               <span className="font-bold text-xl">BodegaCatsGC</span>
             </Link>
             <p className="text-gray-600 dark:text-gray-400 max-w-md">

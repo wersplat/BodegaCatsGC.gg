@@ -64,7 +64,7 @@ export const mockTeams: Team[] = [
     name: 'Capitol City Cats',
     tagline: 'Elite precision, political strategy',
     description: 'The sophisticated squad from the capital, combining strategic thinking with elite NBA 2K Pro-Am skills.',
-    logo: '/teams/capitol-city-cats-logo.png',
+    logo: '/teams/capitol-city-cats-logo.webp',
     color: '#00d4ff',
     players: [
       {

@@ -39,10 +39,12 @@ export default async function TeamPage({ params }: TeamPageProps) {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Team Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center justify-center w-32 h-32 bg-gray-200 dark:bg-gray-800 rounded-3xl mb-6">
-            <span className="text-4xl font-bold" style={{ color: team.color }}>
-              {team.name.split(' ').map(word => word[0]).join('')}
-            </span>
+          <div className="inline-flex items-center justify-center w-32 h-32 mb-6">
+            <img 
+              src={team.logo} 
+              alt={`${team.name} Logo`}
+              className="w-full h-full object-contain"
+            />
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold mb-4">{team.name}</h1>
           <p className="text-xl text-bcg-accent font-medium mb-4">{team.tagline}</p>
