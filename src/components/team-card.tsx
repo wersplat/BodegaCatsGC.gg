@@ -3,22 +3,14 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Trophy, Users, TrendingUp, DollarSign, Crown, UserCheck } from 'lucide-react'
-import type { Team, TeamRosterPlayer } from '@/lib/types'
+import type { Team } from '@/lib/types'
 
 interface TeamCardProps {
   team: Team
-  roster?: {
-    team_id: string
-    team_name: string
-    players: TeamRosterPlayer[]
-    total_players: number
-    captains: TeamRosterPlayer[]
-    coaches: TeamRosterPlayer[]
-  }
   featured?: boolean
 }
 
-export function TeamCard({ team, roster, featured = false }: TeamCardProps) {
+export function TeamCard({ team, featured = false }: TeamCardProps) {
   // Handle real team structure
   const logoUrl = team.logo_url || '/teams/default-team-logo.png'
   const description = `${team.name} - A competitive team in the NBA 2K community.`
@@ -30,11 +22,6 @@ export function TeamCard({ team, roster, featured = false }: TeamCardProps) {
   const leaderboardTier = team.leaderboard_tier || 'Unknown'
   const moneyWon = team.money_won || 0
   const playerRankScore = team.player_rank_score || 0
-  
-  // Roster data
-  const playerCount = roster?.total_players || 0
-  const captainCount = roster?.captains.length || 0
-  const coachCount = roster?.coaches.length || 0
 
   return (
     <Card className={`group hover:scale-105 transition-all duration-300 ${featured ? 'ring-2 ring-bcg-accent' : ''}`}>
@@ -81,34 +68,6 @@ export function TeamCard({ team, roster, featured = false }: TeamCardProps) {
             ELO: {eloRating}
           </div>
         </div>
-        
-        {/* Roster Info */}
-        {roster && (
-          <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-            <div className="flex items-center justify-center mb-2">
-              <Users className="h-4 w-4 mr-2 text-bcg-accent" />
-              <span className="text-sm font-semibold">Roster</span>
-            </div>
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              <div className="flex items-center">
-                <span className="mr-1">Players:</span>
-                <span className="font-bold">{playerCount}</span>
-              </div>
-              {captainCount > 0 && (
-                <div className="flex items-center">
-                  <Crown className="h-3 w-3 mr-1 text-yellow-500" />
-                  <span className="font-bold">{captainCount}</span>
-                </div>
-              )}
-              {coachCount > 0 && (
-                <div className="flex items-center">
-                  <UserCheck className="h-3 w-3 mr-1 text-blue-500" />
-                  <span className="font-bold">{coachCount}</span>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
         
         {/* Team Stats */}
         <div className="flex justify-center space-x-2 mb-4">
