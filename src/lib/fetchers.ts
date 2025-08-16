@@ -90,10 +90,77 @@ export async function getTeam(id: string): Promise<Team | null> {
 // Team roster fetchers
 export async function getTeamRoster(teamId: string): Promise<TeamRosterPlayer[]> {
   console.log(`[API] Fetching team roster for team ID: ${teamId}`)
-  // For now, filter mock data by team ID. In the future, this would call a backend endpoint
-  const roster = mockTeamRoster.filter(player => player.team_id === teamId)
-  console.log(`[API] Found ${roster.length} players for team ${teamId}`)
-  return roster
+  
+  try {
+    const response = await apiCall(`/v1/team-roster-current/team/${teamId}`, { players: mockTeamRoster.filter(player => player.team_id === teamId) })
+    
+    // Handle the new backend response structure
+    if (response && typeof response === 'object' && 'players' in response && Array.isArray(response.players)) {
+      console.log(`[API] Backend returned ${response.players.length} players for team ${teamId}`)
+      return response.players
+    }
+    
+    // Fallback to direct array if response is already an array
+    if (Array.isArray(response)) {
+      console.log(`[API] Backend returned ${response.length} players (direct array)`)
+      return response
+    }
+    
+    console.log(`[API] Using fallback mock data`)
+    return mockTeamRoster.filter(player => player.team_id === teamId)
+  } catch (error) {
+    console.error(`[API] Error in getTeamRoster:`, error)
+    return mockTeamRoster.filter(player => player.team_id === teamId)
+  }
+}
+
+export async function getAllTeamRosters(): Promise<{ team_id: string; team_name: string; players: TeamRosterPlayer[]; total_players: number; captains: TeamRosterPlayer[]; coaches: TeamRosterPlayer[] }[]> {
+  console.log(`[API] Fetching all team rosters`)
+  
+  try {
+    const response = await apiCall(`/v1/team-roster-current/teams`, [])
+    
+    if (Array.isArray(response)) {
+      console.log(`[API] Backend returned ${response.length} teams with rosters`)
+      return response
+    }
+    
+    console.log(`[API] Using fallback mock data`)
+    // Group mock data by team
+    const teamsMap = new Map<string, { team_id: string; team_name: string; players: TeamRosterPlayer[]; captains: TeamRosterPlayer[]; coaches: TeamRosterPlayer[] }>()
+    
+    mockTeamRoster.forEach(player => {
+      if (!player.team_id) return
+      
+      if (!teamsMap.has(player.team_id)) {
+        teamsMap.set(player.team_id, {
+          team_id: player.team_id,
+          team_name: player.team_name || 'Unknown Team',
+          players: [],
+          captains: [],
+          coaches: []
+        })
+      }
+      
+      const team = teamsMap.get(player.team_id)!
+      team.players.push(player)
+      
+      if (player.is_captain) {
+        team.captains.push(player)
+      }
+      if (player.is_player_coach) {
+        team.coaches.push(player)
+      }
+    })
+    
+    return Array.from(teamsMap.values()).map(team => ({
+      ...team,
+      total_players: team.players.length
+    }))
+  } catch (error) {
+    console.error(`[API] Error in getAllTeamRosters:`, error)
+    return []
+  }
 }
 
 // Tournament fetchers

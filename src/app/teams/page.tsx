@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { TeamCard } from '@/components/team-card'
-import { getTeams } from '@/lib/fetchers'
+import { getTeams, getAllTeamRosters } from '@/lib/fetchers'
 
 export const metadata: Metadata = {
   title: 'Teams - Bodega Cats Gaming Club',
@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 
 export default async function TeamsPage() {
   const teams = await getTeams()
+  const teamRosters = await getAllTeamRosters()
 
   return (
     <div className="py-20">
@@ -23,9 +24,17 @@ export default async function TeamsPage() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          {teams.map((team) => (
-            <TeamCard key={team.id} team={team} />
-          ))}
+          {teams.map((team) => {
+            // Find roster data for this team
+            const roster = teamRosters.find(r => r.team_id === team.id)
+            return (
+              <TeamCard 
+                key={team.id} 
+                team={team} 
+                roster={roster}
+              />
+            )
+          })}
         </div>
       </div>
     </div>
