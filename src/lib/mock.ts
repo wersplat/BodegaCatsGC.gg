@@ -1,5 +1,32 @@
-import type {  Event, RankingRow, MediaItem, TeamRosterPlayer } from './types'
+import type { Team, Event, RankingRow, MediaItem, TeamRosterPlayer } from './types'
 
+// Only the two real teams that should be displayed
+export const mockTeams: Team[] = [
+  {
+    id: 'ed3e6f8d-3176-4c15-a20f-0ccfe04a99ca', // Real Bodega Cats team ID
+    name: 'Bodega Cats',
+    logo_url: '/teams/bodega-cats-logo.png',
+    created_at: '2023-01-15T00:00:00Z',
+    current_rp: 1250,
+    elo_rating: 1850,
+    global_rank: 15,
+    leaderboard_tier: 'Elite',
+    money_won: 5000,
+    player_rank_score: 85.5,
+  },
+  {
+    id: 'a66e363f-bc0d-4fbf-82a1-bf9ab1c760f7', // Real Capitol City Cats team ID
+    name: 'Capitol City Cats',
+    logo_url: '/teams/capitol-city-cats-logo.webp',
+    created_at: '2023-02-20T00:00:00Z',
+    current_rp: 1100,
+    elo_rating: 1750,
+    global_rank: 25,
+    leaderboard_tier: 'Pro',
+    money_won: 3000,
+    player_rank_score: 78.2,
+  },
+]
 
 // Team roster data for the two teams
 export const mockTeamRoster: TeamRosterPlayer[] = [

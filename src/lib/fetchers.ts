@@ -9,7 +9,7 @@ import type {
   ApiResponse,
   TeamRosterPlayer
 } from './types'
-import { mockEvents, mockRankings, mockMedia, mockTeamRoster } from './mock'
+import { mockTeams, mockEvents, mockRankings, mockMedia, mockTeamRoster } from './mock'
 import { API_CONFIG, isBuildTime, buildApiUrl } from './config'
 
 // Helper function for API calls with error handling and new response structure
@@ -57,7 +57,7 @@ export async function getTeams(): Promise<Team[]> {
   console.log(`[API] Fetching teams from: ${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.TEAMS}`)
   
   try {
-    const response = await apiCall(API_CONFIG.ENDPOINTS.TEAMS, { items: [], total: 0, page: 1, size: 20, has_more: false })
+    const response = await apiCall(API_CONFIG.ENDPOINTS.TEAMS, { items: mockTeams, total: mockTeams.length, page: 1, size: 20, has_more: false })
     
     // Handle backend's paginated response format
     if (response && typeof response === 'object' && 'items' in response && Array.isArray(response.items)) {
@@ -72,10 +72,10 @@ export async function getTeams(): Promise<Team[]> {
     }
     
     console.log(`[API] Using fallback mock data`)
-    return []
+    return mockTeams
   } catch (error) {
     console.error(`[API] Error in getTeams:`, error)
-    return []
+    return mockTeams
   }
 }
 
