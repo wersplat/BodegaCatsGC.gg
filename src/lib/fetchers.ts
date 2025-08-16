@@ -27,67 +27,37 @@ async function apiCall<T>(endpoint: string, fallback: T): Promise<T> {
     })
     
     if (!response.ok) {
-      console.warn(`API call failed for ${endpoint}:`, response.status, response.statusText)
+      console.warn(`API call failed for ${endpoint}: ${response.status} ${response.statusText}`)
       return fallback
     }
-    
-    const result = await response.json()
+
+    const data = await response.json()
     
     // Handle new API response structure
-    if (result && typeof result === 'object' && 'data' in result) {
-      return result.data || fallback
+    if (data && typeof data === 'object' && 'data' in data) {
+      return data.data || fallback
     }
     
-    // Handle legacy response structure
-    return result || fallback
+    return data || fallback
   } catch (error) {
     console.warn(`API call error for ${endpoint}:`, error)
     return fallback
   }
 }
 
-// Teams API
+// Team fetchers
 export async function getTeams(): Promise<Team[]> {
-  const result = await apiCall<TeamListResponse>(`${API_CONFIG.ENDPOINTS.TEAMS}?size=100`, { items: mockTeams, total: mockTeams.length, page: 1, size: 100, has_more: false })
-  return result.items || mockTeams
+  return apiCall(API_CONFIG.ENDPOINTS.TEAMS, mockTeams)
 }
 
 export async function getTeam(id: string): Promise<Team | null> {
-  // During build time, always return mock data
-  if (isBuildTime) {
-    return mockTeams.find(t => t.id === id) || null
-  }
-
-  try {
-    const url = buildApiUrl(`${API_CONFIG.ENDPOINTS.TEAMS}/${id}`, { include_players: 'true' })
-    const response = await fetch(url, {
-      signal: AbortSignal.timeout(API_CONFIG.REQUEST_CONFIG.TIMEOUT),
-      headers: API_CONFIG.REQUEST_CONFIG.HEADERS
-    })
-    
-    if (!response.ok) {
-      console.warn(`Team not found: ${id}`)
-      return mockTeams.find(t => t.id === id) || null
-    }
-    
-    const result = await response.json()
-    
-    // Handle new API response structure
-    if (result && typeof result === 'object' && 'data' in result) {
-      return result.data || null
-    }
-    
-    return result || null
-  } catch (error) {
-    console.warn(`API call error for team ${id}:`, error)
-    return mockTeams.find(t => t.id === id) || null
-  }
+  const teams = await getTeams()
+  return teams.find(team => team.id === id) || null
 }
 
-// Tournaments/Events API
+// Tournament fetchers
 export async function getTournaments(): Promise<Tournament[]> {
-  const result = await apiCall<Tournament[]>(`${API_CONFIG.ENDPOINTS.TOURNAMENTS}?limit=100`, [])
-  return result || []
+  return apiCall(API_CONFIG.ENDPOINTS.TOURNAMENTS, [])
 }
 
 export async function getEvents(): Promise<Event[]> {
@@ -95,122 +65,72 @@ export async function getEvents(): Promise<Event[]> {
   const tournaments = await getTournaments()
   return tournaments.map(tournament => ({
     id: tournament.id,
-    title: tournament.name,
-    description: tournament.description || '',
-    date: tournament.start_date,
-    image: tournament.banner_url || '',
-    url: tournament.rules_url,
-    featured: tournament.tier === 'T1' // T1 tournaments are considered featured
+    title: tournament.name || 'Untitled Tournament',
+    description: tournament.description || 'A competitive tournament in the NBA 2K community.',
+    date: tournament.start_date || 'TBD',
+    image: tournament.banner_url || '/events/default-tournament.jpg',
+    url: `/tournaments/${tournament.id}`,
+    featured: tournament.tier === 'T1' || tournament.tier === 'T2'
   }))
 }
 
 export async function getFeaturedEvents(): Promise<Event[]> {
-  // During build time, always return mock data
-  if (isBuildTime) {
-    return mockEvents.filter(e => e.featured)
-  }
-
-  try {
-    const url = buildApiUrl(API_CONFIG.ENDPOINTS.TOURNAMENTS, { tier: 'T1', limit: 10 })
-    const response = await fetch(url, {
-      signal: AbortSignal.timeout(API_CONFIG.REQUEST_CONFIG.TIMEOUT),
-      headers: API_CONFIG.REQUEST_CONFIG.HEADERS
-    })
-    
-    if (!response.ok) {
-      return mockEvents.filter(e => e.featured)
-    }
-    
-    const result = await response.json()
-    const tournaments = result.data || result || []
-    
-    return tournaments.map((tournament: Tournament) => ({
-      id: tournament.id,
-      title: tournament.name,
-      description: tournament.description || '',
-      date: tournament.start_date,
-      image: tournament.banner_url || '',
-      url: tournament.rules_url,
-      featured: true
-    }))
-  } catch (error) {
-    console.warn(`API call error for featured events:`, error)
-    return mockEvents.filter(e => e.featured)
-  }
+  const events = await getEvents()
+  return events.filter(event => event.featured)
 }
 
-// Leaderboard API
-export async function getLeaderboard(limit: number = 100): Promise<PlayerProfile[]> {
-  const result = await apiCall<PlayerProfile[]>(`${API_CONFIG.ENDPOINTS.LEADERBOARD}?limit=${limit}`, [])
-  return result || []
+// Leaderboard fetchers
+export async function getLeaderboard(): Promise<RankingRow[]> {
+  return apiCall(API_CONFIG.ENDPOINTS.LEADERBOARD, mockRankings)
 }
 
 export async function getRankings(): Promise<RankingRow[]> {
-  // Convert PlayerProfile to RankingRow for backward compatibility
-  const leaderboard = await getLeaderboard()
-  return leaderboard.map((player, index) => ({
-    id: player.id,
-    rank: player.rank || index + 1,
-    player: player.name,
-    team: player.current_team_name || 'Free Agent',
-    points: player.player_rp,
-    wins: player.wins,
-    losses: player.losses,
-    winRate: player.win_rate
+  return getLeaderboard()
+}
+
+export async function getPlayerProfiles(): Promise<PlayerProfile[]> {
+  // Convert leaderboard data to player profiles for backward compatibility
+  const rankings = await getLeaderboard()
+  return rankings.map((row, index) => ({
+    id: row.id,
+    name: row.player,
+    player_rp: row.points,
+    player_rank_score: row.points * 0.1, // Convert RP to rank score
+    wins: row.wins,
+    losses: row.losses,
+    win_rate: row.winRate,
+    rank: row.rank,
+    tier: row.points > 1000 ? 'Elite' : row.points > 500 ? 'Pro' : 'Amateur',
+    current_team_name: row.team,
   }))
 }
 
-// Media API (placeholder - backend doesn't seem to have media endpoints yet)
+// Media fetchers
 export async function getMedia(): Promise<MediaItem[]> {
-  return apiCall('/media', mockMedia)
+  return apiCall('/v1/media', mockMedia)
 }
 
 export async function getVideos(): Promise<MediaItem[]> {
-  // During build time, always return mock data
-  if (isBuildTime) {
-    return mockMedia.filter(m => m.type === 'video')
-  }
-
-  try {
-    const url = buildApiUrl('/media', { type: 'video' })
-    const response = await fetch(url, {
-      signal: AbortSignal.timeout(API_CONFIG.REQUEST_CONFIG.TIMEOUT),
-      headers: API_CONFIG.REQUEST_CONFIG.HEADERS
-    })
-    
-    if (!response.ok) {
-      return mockMedia.filter(m => m.type === 'video')
-    }
-    
-    const result = await response.json()
-    return result.data || result || mockMedia.filter(m => m.type === 'video')
-  } catch (error) {
-    console.warn(`API call error for videos:`, error)
-    return mockMedia.filter(m => m.type === 'video')
-  }
+  const media = await getMedia()
+  return media.filter(m => m.type === 'video')
 }
 
 export async function getImages(): Promise<MediaItem[]> {
-  // During build time, always return mock data
-  if (isBuildTime) {
-    return mockMedia.filter(m => m.type === 'image')
-  }
+  const media = await getMedia()
+  return media.filter(m => m.type === 'image')
+}
 
-  try {
-    const url = buildApiUrl('/media', { type: 'image' })
-    const response = await fetch(url, {
-      signal: AbortSignal.timeout(API_CONFIG.REQUEST_CONFIG.TIMEOUT),
-      headers: API_CONFIG.REQUEST_CONFIG.HEADERS
-    })
-    
-    if (!response.ok) {
-      return mockMedia.filter(m => m.type === 'image')
-    }
-    
-    const result = await response.json()
-    return result.data || result || mockMedia.filter(m => m.type === 'image')
-  } catch (error) {
-    console.warn(`API call error for images:`, error)
-    return mockMedia.filter(m => m.type === 'image')
-  }
+// Player fetchers
+export async function getPlayers(): Promise<any[]> {
+  return apiCall(API_CONFIG.ENDPOINTS.PLAYERS, [])
+}
+
+// Match fetchers
+export async function getMatches(): Promise<any[]> {
+  return apiCall(API_CONFIG.ENDPOINTS.MATCHES, [])
+}
+
+// Player stats fetchers
+export async function getPlayerStats(): Promise<any[]> {
+  return apiCall(API_CONFIG.ENDPOINTS.PLAYER_STATS, [])
 }
