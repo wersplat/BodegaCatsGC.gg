@@ -56,6 +56,7 @@ export default function RootLayout({
           defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
+          storageKey="bodega-cats-theme"
         >
           <div className="min-h-screen flex flex-col">
             <NavBar />
