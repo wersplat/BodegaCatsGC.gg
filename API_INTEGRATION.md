@@ -49,6 +49,7 @@ export const API_CONFIG = {
 The frontend has been updated with new TypeScript interfaces that match the backend models:
 
 #### Team Model
+
 ```typescript
 export interface Team {
   id: string
@@ -66,6 +67,7 @@ export interface Team {
 ```
 
 #### Player Profile Model
+
 ```typescript
 export interface PlayerProfile {
   id: string
@@ -133,23 +135,27 @@ NEXT_PUBLIC_API_URL=https://api.bodegacatsgc.gg
 ## Key Changes Made
 
 ### 1. Updated Data Models
+
 - Aligned TypeScript interfaces with backend models
 - Added new `PlayerProfile` interface for leaderboard data
 - Updated `Team` interface to match backend structure
 
 ### 2. Enhanced API Fetchers
+
 - Added support for new API response format
 - Implemented proper error handling and fallbacks
 - Added centralized configuration management
 - Maintained backward compatibility with existing components
 
 ### 3. Updated Components
+
 - Modified `TeamCard` component to handle new team structure
 - Updated `TeamPage` to use ID-based routing and new data fields
 - Enhanced `LeaderboardTable` to work with new ranking data
 - Updated configuration usage in `SiteFooter` and `RankingsTeaser`
 
 ### 4. Configuration Management
+
 - Created centralized `config.ts` for API settings
 - Added helper functions for URL building
 - Separated external service configuration
@@ -166,11 +172,13 @@ The frontend implements robust error handling:
 ## Development Workflow
 
 ### Local Development
+
 1. Set `NEXT_PUBLIC_API_URL=http://localhost:8000` in `.env.local`
 2. Start the backend server on port 8000
 3. Run the frontend development server
 
 ### Production Deployment
+
 1. Set `NEXT_PUBLIC_API_URL=https://api.bodegacatsgc.gg`
 2. Ensure backend is deployed and accessible
 3. Deploy frontend with proper environment variables
@@ -204,6 +212,7 @@ Planned improvements for the API integration:
 ### Debug Mode
 
 Enable debug logging by setting:
+
 ```env
 NEXT_PUBLIC_DEBUG=true
 ```

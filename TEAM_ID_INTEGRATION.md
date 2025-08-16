@@ -5,6 +5,7 @@ This document outlines the integration of real team IDs from the backend into th
 ## Real Team IDs
 
 ### Bodega Cats
+
 - **Team ID**: `ed3e6f8d-3176-4c15-a20f-0ccfe04a99ca`
 - **Name**: Bodega Cats
 - **Tier**: Elite
@@ -15,6 +16,7 @@ This document outlines the integration of real team IDs from the backend into th
 The mock data has been updated to use the real Bodega Cats team ID:
 
 ### Team Data
+
 ```typescript
 {
   id: 'ed3e6f8d-3176-4c15-a20f-0ccfe04a99ca', // Real Bodega Cats team ID
@@ -31,7 +33,9 @@ The mock data has been updated to use the real Bodega Cats team ID:
 ```
 
 ### Team Roster
+
 All Bodega Cats players now reference the real team ID:
+
 - ShadowPaw (Captain, Point Guard, S Tier)
 - MidnightMeow (Shooting Guard, A Tier)
 - WhiskerShot (Lock, A Tier)
@@ -39,6 +43,7 @@ All Bodega Cats players now reference the real team ID:
 ## Environment Configuration
 
 The environment configuration includes a reference to the team ID:
+
 ```bash
 # Team IDs (for reference)
 # Bodega Cats: ed3e6f8d-3176-4c15-a20f-0ccfe04a99ca
@@ -54,6 +59,7 @@ The environment configuration includes a reference to the team ID:
 ## Next Steps
 
 When additional team IDs are available from the backend, they can be easily integrated by:
+
 1. Updating the mock data with real team IDs
 2. Adding team ID references to the environment configuration
 3. Testing the integration with the real API
@@ -61,6 +67,7 @@ When additional team IDs are available from the backend, they can be easily inte
 ## API Integration
 
 When the frontend connects to the real backend API, it will:
+
 - Fetch team data using the real team ID
 - Display actual team statistics and roster information
 - Show real player data associated with the team

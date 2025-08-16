@@ -9,6 +9,7 @@ The frontend has been updated to use the real backend schema instead of custom b
 ## Real Backend Schema Structure
 
 ### Team Model (matching `teams` table)
+
 ```typescript
 interface Team {
   id: string
@@ -25,6 +26,7 @@ interface Team {
 ```
 
 ### Player Model (matching `players` table)
+
 ```typescript
 interface Player {
   id: string
@@ -45,6 +47,7 @@ interface Player {
 ```
 
 ### Team Roster View (matching `team_roster_current` view)
+
 ```typescript
 interface TeamRosterPlayer {
   player_id?: string | null
@@ -63,6 +66,7 @@ interface TeamRosterPlayer {
 ## Backend Enums
 
 ### Player Positions
+
 - `"Point Guard"`
 - `"Shooting Guard"`
 - `"Lock"`
@@ -70,6 +74,7 @@ interface TeamRosterPlayer {
 - `"Center"`
 
 ### Salary Tiers
+
 - `"S"` - Superstar
 - `"A"` - All-Star
 - `"B"` - Starter
@@ -77,15 +82,18 @@ interface TeamRosterPlayer {
 - `"D"` - Bench Player
 
 ### Game Years
+
 - `"2K16"` through `"2K26"`
 
 ### Event Tiers
+
 - `"T1"` - Tier 1 (Highest)
 - `"T2"` - Tier 2
 - `"T3"` - Tier 3
 - `"T4"` - Tier 4 (Lowest)
 
 ### Console Types
+
 - `"Cross Play"`
 - `"Playstation"`
 - `"Xbox"`
@@ -93,17 +101,20 @@ interface TeamRosterPlayer {
 ## Updated UI Components
 
 ### Team Cards
+
 - Display real team data: Current RP, ELO rating, global rank, leaderboard tier
 - Show money won and player rank score
 - Use actual team statistics from the backend
 
 ### Team Detail Pages
+
 - Comprehensive team statistics section with real data
 - Player roster using `team_roster_current` view
 - Individual player information with position, salary tier, and monthly value
 - Team performance metrics (RP, ELO, rank)
 
 ### Player Cards
+
 - Real player positions and salary tiers
 - Monthly value and performance metrics
 - Captain and coach role indicators
@@ -114,6 +125,7 @@ interface TeamRosterPlayer {
 The mock data has been updated to reflect the real schema:
 
 ### Bodega Cats
+
 - **Current RP**: 1,250
 - **ELO Rating**: 1,850
 - **Global Rank**: 15
@@ -122,6 +134,7 @@ The mock data has been updated to reflect the real schema:
 - **Player Rank Score**: 85.5
 
 ### Capitol City Cats
+
 - **Current RP**: 980
 - **ELO Rating**: 1,720
 - **Global Rank**: 42
@@ -132,6 +145,7 @@ The mock data has been updated to reflect the real schema:
 ## API Integration
 
 ### Endpoints Used
+
 - `/v1/teams` - Team data
 - `/v1/players` - Player data
 - `/v1/tournaments` - Tournament data
@@ -140,6 +154,7 @@ The mock data has been updated to reflect the real schema:
 - `/v1/player-stats` - Player statistics
 
 ### Response Handling
+
 - Proper error handling for API failures
 - Fallback to mock data during build time
 - Support for new API response structure with `data`, `meta`, and `error` fields

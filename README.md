@@ -50,28 +50,32 @@ src/
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - pnpm (recommended) or npm
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd BodegaCatsGC.gg
    ```
 
 2. **Install dependencies**
+
    ```bash
    pnpm install
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp env.local.example .env.local
    ```
-   
+
    Edit `.env.local` with your configuration:
+
    ```env
    NEXT_PUBLIC_ADMIN_URL=https://admin.bodegacatsgc.gg
    NEXT_PUBLIC_GLOBAL_RANKINGS_URL=https://k.siba.gg
@@ -79,6 +83,7 @@ src/
    ```
 
 4. **Run the development server**
+
    ```bash
    pnpm dev
    ```
@@ -168,6 +173,7 @@ interface RankingRow {
 
 1. **Update fetchers**: Modify functions in `src/lib/fetchers.ts`
 2. **Example API integration**:
+
    ```typescript
    export async function getTeams(): Promise<Team[]> {
      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/teams`)
@@ -190,10 +196,12 @@ interface RankingRow {
 ## 🎯 Key Components
 
 ### Navigation
+
 - **NavBar**: Sticky header with logo, navigation, and theme toggle
 - **SiteFooter**: Footer with links, socials, and admin portal button
 
 ### Content Components
+
 - **Hero**: Home page hero with CTAs
 - **TeamCard**: Team display with hover effects
 - **EventCard**: Event showcase with featured badges
@@ -201,6 +209,7 @@ interface RankingRow {
 - **LeaderboardTable**: Sortable rankings table with search
 
 ### Media Components
+
 - **VideoEmbed**: YouTube/Twitch video embeds
 - **ImageTile**: Image gallery tiles
 - **Timeline**: History timeline for about page
@@ -255,7 +264,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🆘 Support
 
-For support, email hello@bodegacatsgc.gg or join our Discord community.
+For support, email <hello@bodegacatsgc.gg> or join our Discord community.
 
 ---
 

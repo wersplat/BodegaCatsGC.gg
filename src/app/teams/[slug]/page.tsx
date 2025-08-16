@@ -3,9 +3,8 @@ import { notFound } from 'next/navigation'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Trophy, Users, Calendar, MapPin, TrendingUp, Award, DollarSign, Target } from 'lucide-react'
-import { getTeam } from '@/lib/fetchers'
+import { getTeam, getTeamRoster } from '@/lib/fetchers'
 import { formatDate } from '@/lib/utils'
-import { mockTeamRoster } from '@/lib/mock'
 
 interface TeamPageProps {
   params: Promise<{ slug: string }>
@@ -39,8 +38,8 @@ export default async function TeamPage({ params }: TeamPageProps) {
   const logoUrl = team.logo_url || '/teams/default-team-logo.png'
   const description = `${team.name} - A competitive team in the NBA 2K community.`
   
-  // Get team roster (in real app, this would come from API)
-  const teamRoster = mockTeamRoster.filter(player => player.team_id === team.id)
+  // Get team roster from API
+  const teamRoster = await getTeamRoster(team.id)
   const playerCount = teamRoster.length
 
   // Real team data
