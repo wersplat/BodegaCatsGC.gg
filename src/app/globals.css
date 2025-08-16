@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bcg-bg: #ffffff;
+    --bcg-fg: #0f0f0f;
+    --bcg-accent: #FF4D00;
+    --bcg-accent-2: #00d4ff;
+  }
+
+  .dark {
+    --bcg-bg: #0a0a0a;
+    --bcg-fg: #ffffff;
+    --bcg-accent: #FF4D00;
+    --bcg-accent-2: #00d4ff;
+  }
+
+  * {
+    @apply border-gray-200 dark:border-gray-800;
+  }
+
+  body {
+    @apply bg-bcg-bg text-bcg-fg transition-colors duration-200;
+  }
+
+  /* Focus styles */
+  .focus-visible {
+    @apply outline-none ring-2 ring-bcg-accent ring-offset-2 ring-offset-bcg-bg;
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-bcg-accent text-white px-6 py-3 rounded-2xl font-semibold hover:bg-bcg-accent/90 transition-all duration-200 focus-visible shadow-lg hover:shadow-xl;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent border-2 border-bcg-accent text-bcg-accent px-6 py-3 rounded-2xl font-semibold hover:bg-bcg-accent hover:text-white transition-all duration-200 focus-visible;
+  }
+
+  .card {
+    @apply bg-white dark:bg-gray-900 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 border border-gray-200 dark:border-gray-800;
+  }
+}

@@ -1,0 +1,7 @@
+export const config = {
+  adminUrl: process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.bodegacatsgc.gg',
+  globalRankingsUrl: process.env.NEXT_PUBLIC_GLOBAL_RANKINGS_URL || 'https://k.siba.gg',
+  globalRankingsEmbedUrl: process.env.NEXT_PUBLIC_GLOBAL_RANKINGS_EMBED_URL || 'https://k.siba.gg/embed/leaderboard',
+} as const
+
+export const { adminUrl, globalRankingsUrl, globalRankingsEmbedUrl } = config
