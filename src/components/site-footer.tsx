@@ -1,7 +1,8 @@
 import Link from 'next/link'
-import { Twitter, Twitch, Youtube, ExternalLink } from 'lucide-react'
+import { ThemeToggle } from './theme-toggle'
+import { EXTERNAL_CONFIG } from '@/lib/config'
+import { Facebook, Twitter, Instagram, Youtube, Twitch } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { adminUrl } from '@/lib/config'
 
 const navigation = {
   main: [
@@ -99,15 +100,13 @@ export function SiteFooter() {
                   asChild
                   className="w-full"
                 >
-                  <a
-                    href={adminUrl}
+                  <Link 
+                    href={EXTERNAL_CONFIG.ADMIN_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center space-x-2"
                   >
                     <span>Admin Portal</span>
-                    <ExternalLink className="h-4 w-4" />
-                  </a>
+                  </Link>
                 </Button>
               </div>
             </div>
