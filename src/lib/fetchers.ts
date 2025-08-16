@@ -1,46 +1,127 @@
 import type { Team, Event, RankingRow, MediaItem } from './types'
 import { mockTeams, mockEvents, mockRankings, mockMedia } from './mock'
 
-// TODO: Replace these functions with actual API calls to your existing services
-// Example: const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/teams`)
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.bodegacatsgc.gg'
+
+// Check if we're in a build environment
+const isBuildTime = process.env.NODE_ENV === 'production' && typeof window === 'undefined'
+
+// Helper function for API calls with error handling
+async function apiCall<T>(endpoint: string, fallback: T): Promise<T> {
+  // During build time, always return mock data to prevent timeouts
+  if (isBuildTime) {
+    return fallback
+  }
+
+  try {
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      // Add timeout to prevent hanging
+      signal: AbortSignal.timeout(5000)
+    })
+    if (!response.ok) {
+      console.warn(`API call failed for ${endpoint}:`, response.status, response.statusText)
+      return fallback
+    }
+    return await response.json()
+  } catch (error) {
+    console.warn(`API call error for ${endpoint}:`, error)
+    return fallback
+  }
+}
 
 export async function getTeams(): Promise<Team[]> {
-  // TODO: Replace with: return fetch('/api/teams').then(res => res.json())
-  return Promise.resolve(mockTeams)
+  return apiCall('/teams', mockTeams)
 }
 
 export async function getTeam(slug: string): Promise<Team | null> {
-  // TODO: Replace with: return fetch(`/api/teams/${slug}`).then(res => res.json())
-  const team = mockTeams.find(t => t.slug === slug)
-  return Promise.resolve(team || null)
+  // During build time, always return mock data
+  if (isBuildTime) {
+    return mockTeams.find(t => t.slug === slug) || null
+  }
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/teams/${slug}`, {
+      signal: AbortSignal.timeout(5000)
+    })
+    if (!response.ok) {
+      console.warn(`Team not found: ${slug}`)
+      return mockTeams.find(t => t.slug === slug) || null
+    }
+    return await response.json()
+  } catch (error) {
+    console.warn(`API call error for team ${slug}:`, error)
+    return mockTeams.find(t => t.slug === slug) || null
+  }
 }
 
 export async function getEvents(): Promise<Event[]> {
-  // TODO: Replace with: return fetch('/api/events').then(res => res.json())
-  return Promise.resolve(mockEvents)
+  return apiCall('/events', mockEvents)
 }
 
 export async function getFeaturedEvents(): Promise<Event[]> {
-  // TODO: Replace with: return fetch('/api/events?featured=true').then(res => res.json())
-  return Promise.resolve(mockEvents.filter(e => e.featured))
+  // During build time, always return mock data
+  if (isBuildTime) {
+    return mockEvents.filter(e => e.featured)
+  }
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/events?featured=true`, {
+      signal: AbortSignal.timeout(5000)
+    })
+    if (!response.ok) {
+      return mockEvents.filter(e => e.featured)
+    }
+    return await response.json()
+  } catch (error) {
+    console.warn(`API call error for featured events:`, error)
+    return mockEvents.filter(e => e.featured)
+  }
 }
 
 export async function getRankings(): Promise<RankingRow[]> {
-  // TODO: Replace with: return fetch('/api/rankings').then(res => res.json())
-  return Promise.resolve(mockRankings)
+  return apiCall('/rankings', mockRankings)
 }
 
 export async function getMedia(): Promise<MediaItem[]> {
-  // TODO: Replace with: return fetch('/api/media').then(res => res.json())
-  return Promise.resolve(mockMedia)
+  return apiCall('/media', mockMedia)
 }
 
 export async function getVideos(): Promise<MediaItem[]> {
-  // TODO: Replace with: return fetch('/api/media?type=video').then(res => res.json())
-  return Promise.resolve(mockMedia.filter(m => m.type === 'video'))
+  // During build time, always return mock data
+  if (isBuildTime) {
+    return mockMedia.filter(m => m.type === 'video')
+  }
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/media?type=video`, {
+      signal: AbortSignal.timeout(5000)
+    })
+    if (!response.ok) {
+      return mockMedia.filter(m => m.type === 'video')
+    }
+    return await response.json()
+  } catch (error) {
+    console.warn(`API call error for videos:`, error)
+    return mockMedia.filter(m => m.type === 'video')
+  }
 }
 
 export async function getImages(): Promise<MediaItem[]> {
-  // TODO: Replace with: return fetch('/api/media?type=image').then(res => res.json())
-  return Promise.resolve(mockMedia.filter(m => m.type === 'image'))
+  // During build time, always return mock data
+  if (isBuildTime) {
+    return mockMedia.filter(m => m.type === 'image')
+  }
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/media?type=image`, {
+      signal: AbortSignal.timeout(5000)
+    })
+    if (!response.ok) {
+      return mockMedia.filter(m => m.type === 'image')
+    }
+    return await response.json()
+  } catch (error) {
+    console.warn(`API call error for images:`, error)
+    return mockMedia.filter(m => m.type === 'image')
+  }
 }
