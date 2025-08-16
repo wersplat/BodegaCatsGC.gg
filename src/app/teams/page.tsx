@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { TeamCard } from '@/components/team-card'
-import { getTeams } from '@/lib/fetchers'
+import { getKnownTeams } from '@/lib/fetchers'
 
 export const metadata: Metadata = {
   title: 'Teams - Bodega Cats Gaming Club',
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 }
 
 export default async function TeamsPage() {
-  const teams = await getTeams()
+  const teams = await getKnownTeams()
 
   return (
     <div className="py-20">

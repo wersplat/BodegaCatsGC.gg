@@ -10,13 +10,14 @@ import type {
   TeamRosterPlayer
 } from './types'
 import { mockTeams, mockEvents, mockRankings, mockMedia, mockTeamRoster } from './mock'
-import { API_CONFIG, isBuildTime, buildApiUrl } from './config'
+import { API_CONFIG, isBuildTime, buildApiUrl, buildTeamUrl } from './config'
 
 // Helper function for API calls with error handling and new response structure
 async function apiCall<T>(endpoint: string, fallback: T): Promise<T> {
   // During build time, always return mock data to prevent timeouts
   if (isBuildTime) {
     console.log(`[API] Build time detected, using fallback for ${endpoint}`)
+    console.log(`[API] Build time check: NODE_ENV=${process.env.NODE_ENV}, window=${typeof window}, NEXT_PHASE=${process.env.NEXT_PHASE}, ENABLE_API_CALLS=${process.env.NEXT_PUBLIC_ENABLE_API_CALLS}`)
     return fallback
   }
 
@@ -48,7 +49,45 @@ async function apiCall<T>(endpoint: string, fallback: T): Promise<T> {
     return data || fallback
   } catch (error) {
     console.warn(`[API] Call error for ${endpoint}:`, error)
+    if (error instanceof Error) {
+      console.warn(`[API] Error details: ${error.name} - ${error.message}`)
+    }
     return fallback
+  }
+}
+
+// New function to get a specific team by ID directly from API
+async function getTeamById(teamId: string): Promise<Team | null> {
+  console.log(`[API] Fetching team by ID: ${teamId}`)
+  
+  try {
+    const url = buildTeamUrl(teamId)
+    console.log(`[API] Making direct team request to: ${url}`)
+    
+    const response = await fetch(url, {
+      signal: AbortSignal.timeout(API_CONFIG.REQUEST_CONFIG.TIMEOUT),
+      headers: API_CONFIG.REQUEST_CONFIG.HEADERS
+    })
+    
+    console.log(`[API] Team response status: ${response.status} ${response.statusText}`)
+    
+    if (!response.ok) {
+      console.warn(`[API] Team call failed for ${teamId}: ${response.status} ${response.statusText}`)
+      return null
+    }
+
+    const data = await response.json()
+    console.log(`[API] Team response data:`, data)
+    
+    // Handle API response structure
+    if (data && typeof data === 'object' && 'data' in data) {
+      return data.data || null
+    }
+    
+    return data || null
+  } catch (error) {
+    console.warn(`[API] Team call error for ${teamId}:`, error)
+    return null
   }
 }
 
@@ -81,10 +120,55 @@ export async function getTeams(): Promise<Team[]> {
 
 export async function getTeam(id: string): Promise<Team | null> {
   console.log(`[API] Fetching team with ID: ${id}`)
+  
+  // Try to get team directly from API first
+  const apiTeam = await getTeamById(id)
+  if (apiTeam) {
+    console.log(`[API] Found team via API:`, apiTeam)
+    return apiTeam
+  }
+  
+  // Fallback to fetching all teams and filtering
+  console.log(`[API] API call failed, falling back to getTeams() for team ${id}`)
   const teams = await getTeams()
   const team = teams.find(team => team.id === id) || null
-  console.log(`[API] Found team:`, team)
+  console.log(`[API] Found team via fallback:`, team)
   return team
+}
+
+// New function to get the specific known teams directly
+export async function getKnownTeams(): Promise<Team[]> {
+  console.log(`[API] Fetching known teams directly by ID`)
+  
+  const knownTeamIds = [
+    'ed3e6f8d-3176-4c15-a20f-0ccfe04a99ca', // Bodega Cats
+    'a66e363f-bc0d-4fbf-82a1-bf9ab1c760f7'  // Capitol City Cats
+  ]
+  
+  const teams: Team[] = []
+  
+  for (const teamId of knownTeamIds) {
+    try {
+      const team = await getTeamById(teamId)
+      if (team) {
+        teams.push(team)
+        console.log(`[API] Successfully fetched team: ${team.name}`)
+      } else {
+        console.warn(`[API] Failed to fetch team with ID: ${teamId}`)
+      }
+    } catch (error) {
+      console.error(`[API] Error fetching team ${teamId}:`, error)
+    }
+  }
+  
+  // If we couldn't get any teams from API, fall back to mock data
+  if (teams.length === 0) {
+    console.log(`[API] No teams fetched from API, using mock data`)
+    return mockTeams
+  }
+  
+  console.log(`[API] Successfully fetched ${teams.length} teams from API`)
+  return teams
 }
 
 // Team roster fetchers

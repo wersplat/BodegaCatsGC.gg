@@ -1,10 +1,10 @@
 import { Hero } from '@/components/hero'
 import { TeamCard } from '@/components/team-card'
 import { EventCard } from '@/components/event-card'
-import { getTeams, getFeaturedEvents } from '@/lib/fetchers'
+import { getKnownTeams, getFeaturedEvents } from '@/lib/fetchers'
 
 export default async function HomePage() {
-  const teams = await getTeams()
+  const teams = await getKnownTeams()
   const featuredEvents = await getFeaturedEvents()
 
   return (
