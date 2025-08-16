@@ -1,12 +1,11 @@
 import { Hero } from '@/components/hero'
 import { TeamCard } from '@/components/team-card'
 import { EventCard } from '@/components/event-card'
-import { getTeams, getFeaturedEvents, getAllTeamRosters } from '@/lib/fetchers'
+import { getTeams, getFeaturedEvents } from '@/lib/fetchers'
 
 export default async function HomePage() {
   const teams = await getTeams()
   const featuredEvents = await getFeaturedEvents()
-  const teamRosters = await getAllTeamRosters()
 
   return (
     <div>
@@ -34,18 +33,13 @@ export default async function HomePage() {
                 ]
                 return eliteTeamIds.includes(team.id)
               })
-              .map((team) => {
-                // Find roster data for this team
-                const roster = teamRosters.find(r => r.team_id === team.id)
-                return (
-                  <TeamCard 
-                    key={team.id} 
-                    team={team} 
-                    roster={roster}
-                    featured 
-                  />
-                )
-              })}
+              .map((team) => (
+                <TeamCard 
+                  key={team.id} 
+                  team={team} 
+                  featured 
+                />
+              ))}
           </div>
         </div>
       </section>
