@@ -1,11 +1,12 @@
 import { Hero } from '@/components/hero'
 import { TeamCard } from '@/components/team-card'
 import { EventCard } from '@/components/event-card'
-import { getTeams, getFeaturedEvents } from '@/lib/fetchers'
+import { getTeams, getFeaturedEvents, getAllTeamRosters } from '@/lib/fetchers'
 
 export default async function HomePage() {
   const teams = await getTeams()
   const featuredEvents = await getFeaturedEvents()
+  const teamRosters = await getAllTeamRosters()
 
   return (
     <div>
@@ -24,9 +25,27 @@ export default async function HomePage() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {teams.map((team) => (
-              <TeamCard key={team.id} team={team} featured />
-            ))}
+            {teams
+              .filter(team => {
+                // Filter to only show the 2 elite teams
+                const eliteTeamIds = [
+                  'ed3e6f8d-3176-4c15-a20f-0ccfe04a99ca', // Bodega Cats
+                  'a66e363f-bc0d-4fbf-82a1-bf9ab1c760f7', // Capitol City Cats
+                ]
+                return eliteTeamIds.includes(team.id)
+              })
+              .map((team) => {
+                // Find roster data for this team
+                const roster = teamRosters.find(r => r.team_id === team.id)
+                return (
+                  <TeamCard 
+                    key={team.id} 
+                    team={team} 
+                    roster={roster}
+                    featured 
+                  />
+                )
+              })}
           </div>
         </div>
       </section>
