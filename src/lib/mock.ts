@@ -2,7 +2,7 @@ import type { Team, Event, RankingRow, MediaItem, TeamRosterPlayer } from './typ
 
 export const mockTeams: Team[] = [
   {
-    id: '1',
+    id: 'ed3e6f8d-3176-4c15-a20f-0ccfe04a99ca', // Real Bodega Cats team ID
     name: 'Bodega Cats',
     logo_url: '/teams/bodega-cats-logo.png',
     created_at: '2023-01-15T00:00:00Z',
@@ -31,7 +31,7 @@ export const mockTeamRoster: TeamRosterPlayer[] = [
   // Bodega Cats Roster
   {
     player_id: '1',
-    team_id: '1',
+    team_id: 'ed3e6f8d-3176-4c15-a20f-0ccfe04a99ca', // Real Bodega Cats team ID
     team_name: 'Bodega Cats',
     gamertag: 'ShadowPaw',
     position: 'Point Guard',
@@ -43,7 +43,7 @@ export const mockTeamRoster: TeamRosterPlayer[] = [
   },
   {
     player_id: '2',
-    team_id: '1',
+    team_id: 'ed3e6f8d-3176-4c15-a20f-0ccfe04a99ca', // Real Bodega Cats team ID
     team_name: 'Bodega Cats',
     gamertag: 'MidnightMeow',
     position: 'Shooting Guard',
@@ -55,7 +55,7 @@ export const mockTeamRoster: TeamRosterPlayer[] = [
   },
   {
     player_id: '3',
-    team_id: '1',
+    team_id: 'ed3e6f8d-3176-4c15-a20f-0ccfe04a99ca', // Real Bodega Cats team ID
     team_name: 'Bodega Cats',
     gamertag: 'WhiskerShot',
     position: 'Lock',
