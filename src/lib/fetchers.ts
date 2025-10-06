@@ -143,6 +143,12 @@ export async function getTeam(id: string): Promise<Team | null> {
 export async function getKnownTeams(): Promise<Team[]> {
   console.log(`[API] Fetching known teams directly by ID`)
   
+  // During build time, always use mock data
+  if (isBuildTime) {
+    console.log(`[API] Build time detected, using mock data for known teams`)
+    return mockTeams
+  }
+  
   const knownTeamIds = [
     'ed3e6f8d-3176-4c15-a20f-0ccfe04a99ca', // Bodega Cats
     'a66e363f-bc0d-4fbf-82a1-bf9ab1c760f7'  // Capitol City Cats

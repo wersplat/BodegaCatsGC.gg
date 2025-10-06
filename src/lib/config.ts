@@ -35,11 +35,10 @@ export const EXTERNAL_CONFIG = {
   GLOBAL_RANKINGS_EMBED_URL: process.env.NEXT_PUBLIC_GLOBAL_RANKINGS_EMBED_URL || 'https://proamrank.gg/embed/leaderboard',
 } as const
 
-// Build environment check - only return true during actual build, not runtime
+// Build environment check - disable API calls during build time
 export const isBuildTime = process.env.NODE_ENV === 'production' && 
                           typeof window === 'undefined' && 
-                          process.env.NEXT_PHASE === 'phase-production-build' &&
-                          !process.env.NEXT_PUBLIC_ENABLE_API_CALLS
+                          process.env.NEXT_PHASE === 'phase-production-build'
 
 // Helper function to build API URLs
 export function buildApiUrl(endpoint: string, params?: Record<string, string | number>): string {
