@@ -105,9 +105,12 @@ export async function getTeams(): Promise<Team[]> {
     }
     
     // Handle backend's paginated response format
-    if (response && typeof response === 'object' && 'items' in response && Array.isArray(response.items)) {
-      console.log(`[API] Backend returned ${response.items.length} teams`)
-      return response.items
+    if (response && typeof response === 'object' && response !== null && 'items' in response) {
+      const items = (response as any).items
+      if (Array.isArray(items)) {
+        console.log(`[API] Backend returned ${items.length} teams`)
+        return items
+      }
     }
     
     console.log(`[API] Using fallback mock data`)
@@ -192,10 +195,13 @@ export async function getTeamRoster(teamId: string): Promise<TeamRosterPlayer[]>
     }
     
     // Handle the new backend response structure
-    if (response && typeof response === 'object' && 'players' in response && Array.isArray(response.players)) {
-      const teamPlayers = response.players.filter((player: any) => player.team_id === teamId)
-      console.log(`[API] Backend returned ${teamPlayers.length} players for team ${teamId}`)
-      return teamPlayers
+    if (response && typeof response === 'object' && response !== null && 'players' in response) {
+      const players = (response as any).players
+      if (Array.isArray(players)) {
+        const teamPlayers = players.filter((player: any) => player.team_id === teamId)
+        console.log(`[API] Backend returned ${teamPlayers.length} players for team ${teamId}`)
+        return teamPlayers
+      }
     }
     
     console.log(`[API] Using fallback mock data`)
@@ -210,11 +216,43 @@ export async function getAllTeamRosters(): Promise<{ team_id: string; team_name:
   console.log(`[API] Fetching all team rosters`)
   
   try {
-    const response = await apiCall(`/v1/team-roster-current/teams`, [])
+    const response = await apiCall(API_CONFIG.ENDPOINTS.TEAM_ROSTER, [])
     
     if (Array.isArray(response)) {
-      console.log(`[API] Backend returned ${response.length} teams with rosters`)
-      return response
+      console.log(`[API] Backend returned ${response.length} roster entries`)
+      
+      // Group by team
+      const teamsMap = new Map<string, { team_id: string; team_name: string; players: TeamRosterPlayer[]; captains: TeamRosterPlayer[]; coaches: TeamRosterPlayer[] }>()
+      
+      response.forEach((player: any) => {
+        const teamId = player.team_id
+        if (!teamId) return
+        
+        if (!teamsMap.has(teamId)) {
+          teamsMap.set(teamId, {
+            team_id: teamId,
+            team_name: player.team_name || 'Unknown Team',
+            players: [],
+            captains: [],
+            coaches: []
+          })
+        }
+        
+        const team = teamsMap.get(teamId)!
+        team.players.push(player)
+        
+        if (player.is_captain) {
+          team.captains.push(player)
+        }
+        if (player.is_player_coach) {
+          team.coaches.push(player)
+        }
+      })
+      
+      return Array.from(teamsMap.values()).map(team => ({
+        ...team,
+        total_players: team.players.length
+      }))
     }
     
     console.log(`[API] Using fallback mock data`)
