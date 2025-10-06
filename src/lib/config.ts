@@ -30,8 +30,8 @@ export const API_CONFIG = {
 // External services configuration
 export const EXTERNAL_CONFIG = {
   ADMIN_URL: process.env.NEXT_PUBLIC_ADMIN_URL || 'https://admin.bodegacatsgc.gg',
-  GLOBAL_RANKINGS_URL: process.env.NEXT_PUBLIC_GLOBAL_RANKINGS_URL || 'https://k.siba.gg',
-  GLOBAL_RANKINGS_EMBED_URL: process.env.NEXT_PUBLIC_GLOBAL_RANKINGS_EMBED_URL || 'https://k.siba.gg/embed/leaderboard',
+  GLOBAL_RANKINGS_URL: process.env.NEXT_PUBLIC_GLOBAL_RANKINGS_URL || 'https://proamrank.gg',
+  GLOBAL_RANKINGS_EMBED_URL: process.env.NEXT_PUBLIC_GLOBAL_RANKINGS_EMBED_URL || 'https://proamrank.gg/embed/leaderboard',
 } as const
 
 // Build environment check - only return true during actual build, not runtime

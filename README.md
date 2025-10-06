@@ -78,8 +78,8 @@ src/
 
    ```env
    NEXT_PUBLIC_ADMIN_URL=https://admin.bodegacatsgc.gg
-   NEXT_PUBLIC_GLOBAL_RANKINGS_URL=https://k.siba.gg
-   NEXT_PUBLIC_GLOBAL_RANKINGS_EMBED_URL=https://k.siba.gg/embed/leaderboard
+   NEXT_PUBLIC_GLOBAL_RANKINGS_URL=https://proamrank.gg
+   NEXT_PUBLIC_GLOBAL_RANKINGS_EMBED_URL=https://proamrank.gg/embed/leaderboard
    ```
 
 4. **Run the development server**
@@ -221,8 +221,8 @@ interface RankingRow {
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `NEXT_PUBLIC_ADMIN_URL` | Admin portal URL | `https://admin.bodegacatsgc.gg` |
-| `NEXT_PUBLIC_GLOBAL_RANKINGS_URL` | Global rankings site | `` |
-| `NEXT_PUBLIC_GLOBAL_RANKINGS_EMBED_URL` | Rankings embed URL | `https://k.siba.gg/embed/leaderboard` |
+| `NEXT_PUBLIC_GLOBAL_RANKINGS_URL` | Global rankings site | `https://proamrank.gg` |
+| `NEXT_PUBLIC_GLOBAL_RANKINGS_EMBED_URL` | Rankings embed URL | `https://proamrank.gg/embed/leaderboard` |
 
 ### Adding New Teams
 
