@@ -8,11 +8,12 @@ export const API_CONFIG = {
   
   // Endpoints
   ENDPOINTS: {
-    TEAMS: '/v1/teams',
-    TEAM_BY_ID: '/v1/teams/{team_id}', // Individual team endpoint
-    TOURNAMENTS: '/v1/tournaments',
-    LEADERBOARD: '/v1/leaderboard',
-    PLAYERS: '/v1/players',
+    TEAMS: '/teams/v1/teams/',
+    TEAM_BY_ID: '/teams/v1/teams/{team_id}', // Individual team endpoint
+    TEAM_ROSTER: '/views/team-roster-current', // Team roster endpoint
+    TOURNAMENTS: '/tournaments/v1/tournaments/',
+    LEADERBOARD: '/leaderboard/v1/leaderboard/',
+    PLAYERS: '/players/',
     MATCHES: '/v1/matches',
     PLAYER_STATS: '/v1/player-stats/{player_id}',
     AUTH: '/auth',

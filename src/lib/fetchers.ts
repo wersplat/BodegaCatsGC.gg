@@ -96,18 +96,18 @@ export async function getTeams(): Promise<Team[]> {
   console.log(`[API] Fetching teams from: ${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.TEAMS}`)
   
   try {
-    const response = await apiCall(API_CONFIG.ENDPOINTS.TEAMS, { items: mockTeams, total: mockTeams.length, page: 1, size: 20, has_more: false })
+    const response = await apiCall(API_CONFIG.ENDPOINTS.TEAMS, mockTeams)
+    
+    // Handle backend's direct array response format
+    if (Array.isArray(response)) {
+      console.log(`[API] Backend returned ${response.length} teams (direct array)`)
+      return response
+    }
     
     // Handle backend's paginated response format
     if (response && typeof response === 'object' && 'items' in response && Array.isArray(response.items)) {
       console.log(`[API] Backend returned ${response.items.length} teams`)
       return response.items
-    }
-    
-    // Fallback to direct array if response is already an array
-    if (Array.isArray(response)) {
-      console.log(`[API] Backend returned ${response.length} teams (direct array)`)
-      return response
     }
     
     console.log(`[API] Using fallback mock data`)
@@ -155,16 +155,22 @@ export async function getKnownTeams(): Promise<Team[]> {
         console.log(`[API] Successfully fetched team: ${team.name}`)
       } else {
         console.warn(`[API] Failed to fetch team with ID: ${teamId}`)
+        // Fallback to mock data for this team
+        const mockTeam = mockTeams.find(t => t.id === teamId)
+        if (mockTeam) {
+          teams.push(mockTeam)
+          console.log(`[API] Using mock data for team: ${mockTeam.name}`)
+        }
       }
     } catch (error) {
       console.error(`[API] Error fetching team ${teamId}:`, error)
+      // Fallback to mock data for this team
+      const mockTeam = mockTeams.find(t => t.id === teamId)
+      if (mockTeam) {
+        teams.push(mockTeam)
+        console.log(`[API] Using mock data for team: ${mockTeam.name}`)
+      }
     }
-  }
-  
-  // If we couldn't get any teams from API, fall back to mock data
-  if (teams.length === 0) {
-    console.log(`[API] No teams fetched from API, using mock data`)
-    return mockTeams
   }
   
   console.log(`[API] Successfully fetched ${teams.length} teams from API`)
@@ -176,18 +182,20 @@ export async function getTeamRoster(teamId: string): Promise<TeamRosterPlayer[]>
   console.log(`[API] Fetching team roster for team ID: ${teamId}`)
   
   try {
-    const response = await apiCall(`/v1/team-roster-current/team/${teamId}`, { players: mockTeamRoster.filter(player => player.team_id === teamId) })
+    const response = await apiCall(API_CONFIG.ENDPOINTS.TEAM_ROSTER, mockTeamRoster.filter(player => player.team_id === teamId))
+    
+    // Handle the new backend response structure - filter by team ID
+    if (Array.isArray(response)) {
+      const teamPlayers = response.filter((player: any) => player.team_id === teamId)
+      console.log(`[API] Backend returned ${teamPlayers.length} players for team ${teamId}`)
+      return teamPlayers
+    }
     
     // Handle the new backend response structure
     if (response && typeof response === 'object' && 'players' in response && Array.isArray(response.players)) {
-      console.log(`[API] Backend returned ${response.players.length} players for team ${teamId}`)
-      return response.players
-    }
-    
-    // Fallback to direct array if response is already an array
-    if (Array.isArray(response)) {
-      console.log(`[API] Backend returned ${response.length} players (direct array)`)
-      return response
+      const teamPlayers = response.players.filter((player: any) => player.team_id === teamId)
+      console.log(`[API] Backend returned ${teamPlayers.length} players for team ${teamId}`)
+      return teamPlayers
     }
     
     console.log(`[API] Using fallback mock data`)
