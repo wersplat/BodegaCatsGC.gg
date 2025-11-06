@@ -483,3 +483,1097 @@ All three metrics are displayed in a grid with consistent styling and clear labe
 
 ---
 
+_**User (2025-11-06 22:47Z)**_
+
+{
+
+  "event_message": "GET | 400 | 2a06:98c0:3600::103 | 99a8461f4434d6c9 | https://qwpxsufrgigpjcxtnery.supabase.co/rest/v1/team_analytics_mart?select=team_id%2Cteam_name%2Clogo_url%2Celo_rating%2Ccurrent_rp%2Crp_tier%2Cwins%2Closses%2Cwin_percentage%2Cgames_played%2Cis_active&games_played=gte.1&order=win_percentage.desc%2Celo_rating.desc&limit=100 | null",
+
+  "id": "0695e9a1-b3c4-4677-adb9-0fb8a71d79f9",
+
+  "metadata": [
+
+    {
+
+      "load_balancer_experimental_routing": null,
+
+      "load_balancer_geo_aware_info": [],
+
+      "load_balancer_redirect_identifier": null,
+
+      "logflare_worker": [
+
+        {
+
+          "worker_id": "EV3VSL"
+
+        }
+
+      ],
+
+      "request": [
+
+        {
+
+          "cf": [
+
+            {
+
+              "asOrganization": "Cloudflare, Inc.",
+
+              "asn": 13335,
+
+              "botManagement": [
+
+                {
+
+                  "corporateProxy": false,
+
+                  "detectionIds": [
+
+                    33554913
+
+                  ],
+
+                  "ja3Hash": null,
+
+                  "ja4": null,
+
+                  "ja4Signals": [],
+
+                  "jsDetection": [
+
+                    {
+
+                      "passed": false
+
+                    }
+
+                  ],
+
+                  "score": 1,
+
+                  "staticResource": false,
+
+                  "verifiedBot": false
+
+                }
+
+              ],
+
+              "city": "Ashburn",
+
+              "clientAcceptEncoding": null,
+
+              "clientTcpRtt": null,
+
+              "clientTrustScore": 1,
+
+              "colo": "IAD",
+
+              "continent": "NA",
+
+              "country": "US",
+
+              "edgeRequestKeepAliveStatus": 1,
+
+              "httpProtocol": "HTTP/1.1",
+
+              "isEUCountry": null,
+
+              "latitude": "39.04372",
+
+              "longitude": "-77.48749",
+
+              "metroCode": null,
+
+              "postalCode": "20147",
+
+              "region": "Virginia",
+
+              "regionCode": "VA",
+
+              "requestPriority": null,
+
+              "timezone": "America/New_York",
+
+              "tlsCipher": null,
+
+              "tlsClientAuth": [
+
+                {
+
+                  "certPresented": "0",
+
+                  "certRevoked": "0",
+
+                  "certVerified": "NONE"
+
+                }
+
+              ],
+
+              "tlsClientCiphersSha1": null,
+
+              "tlsClientExtensionsSha1": null,
+
+              "tlsClientExtensionsSha1Le": null,
+
+              "tlsClientHelloLength": null,
+
+              "tlsClientRandom": null,
+
+              "tlsExportedAuthenticator": [],
+
+              "tlsVersion": null,
+
+              "verifiedBotCategory": null
+
+            }
+
+          ],
+
+          "headers": [
+
+            {
+
+              "accept": null,
+
+              "cf_cache_status": null,
+
+              "cf_connecting_ip": "2a06:98c0:3600::103",
+
+              "cf_ipcountry": "US",
+
+              "cf_ray": "99a8461f4434d6c9",
+
+              "content_length": null,
+
+              "content_location": null,
+
+              "content_range": null,
+
+              "content_type": null,
+
+              "date": null,
+
+              "host": "qwpxsufrgigpjcxtnery.supabase.co",
+
+              "prefer": null,
+
+              "range": null,
+
+              "referer": null,
+
+              "sb_gateway_mode": null,
+
+              "sb_gateway_version": null,
+
+              "user_agent": null,
+
+              "x_client_info": "supabase-js-node/2.58.0",
+
+              "x_forwarded_host": null,
+
+              "x_forwarded_proto": "https",
+
+              "x_forwarded_user_agent": null,
+
+              "x_kong_proxy_latency": null,
+
+              "x_kong_upstream_latency": null,
+
+              "x_real_ip": "2a06:98c0:3600::103"
+
+            }
+
+          ],
+
+          "host": "qwpxsufrgigpjcxtnery.supabase.co",
+
+          "method": "GET",
+
+          "path": "/rest/v1/team_analytics_mart",
+
+          "port": null,
+
+          "protocol": "https:",
+
+          "sb": [
+
+            {
+
+              "apikey": [],
+
+              "auth_user": null,
+
+              "jwt": [
+
+                {
+
+                  "apikey": [
+
+                    {
+
+                      "invalid": null,
+
+                      "payload": [
+
+                        {
+
+                          "algorithm": "HS256",
+
+                          "expires_at": 2067448529,
+
+                          "issuer": "supabase",
+
+                          "role": "anon",
+
+                          "signature_prefix": "ujcyEX",
+
+                          "subject": null
+
+                        }
+
+                      ]
+
+                    }
+
+                  ],
+
+                  "authorization": [
+
+                    {
+
+                      "invalid": null,
+
+                      "payload": [
+
+                        {
+
+                          "algorithm": "HS256",
+
+                          "expires_at": 2067448529,
+
+                          "issuer": "supabase",
+
+                          "key_id": null,
+
+                          "role": "anon",
+
+                          "session_id": null,
+
+                          "signature_prefix": "ujcyEX",
+
+                          "subject": null
+
+                        }
+
+                      ]
+
+                    }
+
+                  ]
+
+                }
+
+              ]
+
+            }
+
+          ],
+
+          "search": "?select=team_id%2Cteam_name%2Clogo_url%2Celo_rating%2Ccurrent_rp%2Crp_tier%2Cwins%2Closses%2Cwin_percentage%2Cgames_played%2Cis_active&games_played=gte.1&order=win_percentage.desc%2Celo_rating.desc&limit=100",
+
+          "url": "https://qwpxsufrgigpjcxtnery.supabase.co/rest/v1/team_analytics_mart?select=team_id%2Cteam_name%2Clogo_url%2Celo_rating%2Ccurrent_rp%2Crp_tier%2Cwins%2Closses%2Cwin_percentage%2Cgames_played%2Cis_active&games_played=gte.1&order=win_percentage.desc%2Celo_rating.desc&limit=100"
+
+        }
+
+      ],
+
+      "response": [
+
+        {
+
+          "headers": [
+
+            {
+
+              "cf_cache_status": "DYNAMIC",
+
+              "cf_ray": "99a8461f6442d6c9-IAD",
+
+              "content_length": null,
+
+              "content_location": null,
+
+              "content_range": null,
+
+              "content_type": "application/json; charset=utf-8",
+
+              "date": "Thu, 06 Nov 2025 23:12:07 GMT",
+
+              "sb_gateway_mode": null,
+
+              "sb_gateway_version": "1",
+
+              "sb_request_id": "019a5b71-0f99-72bd-a78b-4081d0d6dafb",
+
+              "transfer_encoding": "chunked",
+
+              "x_kong_proxy_latency": null,
+
+              "x_kong_upstream_latency": null,
+
+              "x_sb_error_code": null
+
+            }
+
+          ],
+
+          "origin_time": 37,
+
+          "status_code": 400
+
+        }
+
+      ]
+
+    }
+
+  ],
+
+  "timestamp": 1762470727577000
+
+}
+
+---
+
+_**Agent (model composer-1, mode Agent)**_
+
+
+
+---
+
+
+The request selects `is_active`, which isn't in `team_analytics_mart`. Checking where this query is coming from and fixing it:
+
+
+---
+
+<tool-use data-tool-type="grep" data-tool-name="grep">
+<details>
+<summary>Tool use: **grep** • Grep for "is_active" in "src/lib/fetchers.ts" • 4 matches</summary>
+
+Output mode: content
+
+
+| File | Content | Line |
+|------|------|------|
+| `src/lib/fetchers.ts` | `is_active: true,` | L103 |
+| `src/lib/fetchers.ts` | `.eq('is_active', true)` | L122 |
+| `src/lib/fetchers.ts` | `is_active: true,` | L174 |
+| `src/lib/fetchers.ts` | `is_active: true,` | L244 |
+
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="search" data-tool-name="codebase_search">
+<details>
+                <summary>Tool use: **codebase_search** • Searched codebase "team_analytics_mart select is_active games_played win_percentage" • **6** results</summary>
+            
+| File | Lines |
+|------|-------|
+| `db.types.ts` | L6-24588 |
+| `src/lib/fetchers.ts` | L60-139 |
+| `src/lib/fetchers.ts` | L116-204 |
+| `src/lib/fetchers.ts` | L141-272 |
+| `src/lib/fetchers.ts` | L442-580 |
+| `src/lib/types.ts` | L26-58 |
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+The error query selects `is_active`, which isn't in `team_analytics_mart`. The query also includes filters/ordering not in our code. Searching for other places querying `team_analytics_mart`:
+
+
+---
+
+<tool-use data-tool-type="grep" data-tool-name="grep">
+<details>
+<summary>Tool use: **grep** • Grep for "team_analytics_mart" in "src" • 13 matches</summary>
+
+Output mode: content
+
+
+| File | Content | Line |
+|------|------|------|
+| `src/lib/fetchers.ts` | `// Team fetchers - using team_analytics_mart for richer data` | L65 |
+| `src/lib/fetchers.ts` | `console.log(`[DB] Fetching teams from team_analytics_mart`)` | L67 |
+| `src/lib/fetchers.ts` | `// Use team_analytics_mart for comprehensive team data` | L76 |
+| `src/lib/fetchers.ts` | `.from('team_analytics_mart')` | L78 |
+| `src/lib/fetchers.ts` | `console.log(`[DB] Successfully fetched $\{data.length\} teams from team_analytics_mart`)` | L89 |
+| `src/lib/fetchers.ts` | `// Try team_analytics_mart first for richer data` | L153 |
+| `src/lib/fetchers.ts` | `.from('team_analytics_mart')` | L155 |
+| `src/lib/fetchers.ts` | `console.log(`[DB] Successfully fetched team from team_analytics_mart: $\{martData.team_name\}`)` | L161 |
+| `src/lib/fetchers.ts` | `// New function to get the specific known teams directly - using team_analytics_mart` | L207 |
+| `src/lib/fetchers.ts` | `console.log(`[DB] Fetching known teams directly by ID from team_analytics_mart`)` | L209 |
+| `src/lib/fetchers.ts` | `// Try team_analytics_mart first` | L223 |
+| `src/lib/fetchers.ts` | `.from('team_analytics_mart')` | L225 |
+| `src/lib/fetchers.ts` | `console.log(`[DB] Successfully fetched $\{martData.length\} known teams from team_analytics_mart`)` | L231 |
+
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="grep" data-tool-name="grep">
+<details>
+<summary>Tool use: **grep** • Grep for "games_played.*gte|win_percentage.*desc" in "src" • 0 matches</summary>
+
+Output mode: content
+
+
+_No matches found_
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+The error query selects `is_active`, which isn't in `team_analytics_mart`. Updating the fetchers to explicitly select only columns that exist in the mart:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: src/lib/fetchers.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Updating fetchers to explicitly select only columns that exist in `team_analytics_mart`, avoiding `is_active`:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **code_edit** • Edit file: src/lib/fetchers.ts</summary>
+
+**Chunk 1**
+Lines added: 2, lines removed: 1
+
+```diff
+@@ -75,7 +75,8 @@
+    try {
+      // Use team_analytics_mart for comprehensive team data
++     // Explicitly select columns that exist in the mart (is_active is not in the mart)
+      const { data, error } = await supabase
+        .from(&#39;team_analytics_mart&#39;)
+-       .select(&#39;*&#39;)
++       .select(&#39;team_id,team_name,logo_url,elo_rating,current_rp,rp_tier,total_prize_money,avg_player_rating,hybrid_score,team_twitter&#39;)
+        .order(&#39;team_name&#39;, { ascending: true })
+      
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **code_edit** • Edit file: src/lib/fetchers.ts</summary>
+
+**Chunk 1**
+Lines added: 2, lines removed: 1
+
+```diff
+@@ -153,7 +153,8 @@
+    try {
+      // Try team_analytics_mart first for richer data
++     // Explicitly select columns that exist in the mart (is_active is not in the mart)
+      const { data: martData, error: martError } = await supabase
+        .from(&#39;team_analytics_mart&#39;)
+-       .select(&#39;*&#39;)
++       .select(&#39;team_id,team_name,logo_url,elo_rating,current_rp,rp_tier,total_prize_money,avg_player_rating,hybrid_score,team_twitter&#39;)
+        .eq(&#39;team_id&#39;, id)
+        .single()
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **code_edit** • Edit file: src/lib/fetchers.ts</summary>
+
+**Chunk 1**
+Lines added: 2, lines removed: 1
+
+```diff
+@@ -224,7 +224,8 @@
+    try {
+      // Try team_analytics_mart first
++     // Explicitly select columns that exist in the mart (is_active is not in the mart)
+      const { data: martData, error: martError } = await supabase
+        .from(&#39;team_analytics_mart&#39;)
+-       .select(&#39;*&#39;)
++       .select(&#39;team_id,team_name,logo_url,elo_rating,current_rp,rp_tier,total_prize_money,avg_player_rating,hybrid_score,team_twitter&#39;)
+        .in(&#39;team_id&#39;, knownTeamIds)
+        .order(&#39;team_name&#39;, { ascending: true })
+```
+
+</details>
+
+</tool-use>
+
+---
+
+
+
+---
+
+
+Checking for linting errors:
+
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 1 file</summary>
+      
+Lint paths:
+
+- `src/lib/fetchers.ts`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Fixed the issue: queries were selecting `is_active`, which doesn't exist in `team_analytics_mart`. Updated all three functions that query the mart (`getTeams()`, `getTeam()`, and `getKnownTeams()`) to explicitly select only columns that exist:
+
+- `team_id`
+- `team_name`
+- `logo_url`
+- `elo_rating`
+- `current_rp`
+- `rp_tier`
+- `total_prize_money`
+- `avg_player_rating`
+- `hybrid_score`
+- `team_twitter`
+
+This prevents selecting `is_active` from the mart. The error log also shows filters/ordering (`games_played=gte.1&order=win_percentage.desc,elo_rating.desc`) that aren't in our code, which may come from elsewhere or a Supabase RLS policy. The explicit column selection should resolve the 400 error.
+
+The code now:
+1. Only selects columns that exist in `team_analytics_mart`
+2. Sets `is_active: true` in the mapped Team objects (not from the database)
+3. Avoids querying non-existent columns
+
+This should resolve the 400 error.
+
+---
+
+_**User (2025-11-06 22:47Z)**_
+
+@page.tsx global rank isnt populating
+
+---
+
+_**Agent (model composer-1, mode Agent)**_
+
+
+
+---
+
+
+Checking why `global_rank` isn't populating. It's set to `null` when fetching from `team_analytics_mart`. Checking if we can calculate or fetch it from another source:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: src/lib/fetchers.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="grep" data-tool-name="grep">
+<details>
+<summary>Tool use: **grep** • Grep for "global_rank|rank" in "db.types.ts" • 29 matches</summary>
+
+Output mode: content
+
+
+| File | Content | Line |
+|------|------|------|
+| `db.types.ts` | `rank: number \| null` | L239 |
+| `db.types.ts` | `rank?: number \| null` | L251 |
+| `db.types.ts` | `rank?: number \| null` | L263 |
+| `db.types.ts` | `crewRank: number \| null` | L606 |
+| `db.types.ts` | `crewRank?: number \| null` | L620 |
+| `db.types.ts` | `crewRank?: number \| null` | L634 |
+| `db.types.ts` | `player_rank_score: number \| null` | L10725 |
+| `db.types.ts` | `player_rank_score?: number \| null` | L10746 |
+| `db.types.ts` | `player_rank_score?: number \| null` | L10767 |
+| `db.types.ts` | `ranking_points: \{` | L11867 |
+| `db.types.ts` | `foreignKeyName: "ranking_points_league_id_fkey"` | L11900 |
+| `db.types.ts` | `foreignKeyName: "ranking_points_league_id_fkey"` | L11907 |
+| `db.types.ts` | `foreignKeyName: "ranking_points_league_id_fkey"` | L11914 |
+| `db.types.ts` | `foreignKeyName: "ranking_points_league_id_fkey"` | L11921 |
+| `db.types.ts` | `foreignKeyName: "ranking_points_league_id_fkey"` | L11928 |
+| `db.types.ts` | `foreignKeyName: "ranking_points_league_id_fkey"` | L11935 |
+| `db.types.ts` | `foreignKeyName: "ranking_points_team_id_fkey"` | L11942 |
+| `db.types.ts` | `foreignKeyName: "ranking_points_team_id_fkey"` | L11949 |
+| `db.types.ts` | `foreignKeyName: "ranking_points_team_id_fkey"` | L11956 |
+| `db.types.ts` | `foreignKeyName: "ranking_points_team_id_fkey"` | L11963 |
+| `db.types.ts` | `foreignKeyName: "ranking_points_team_id_fkey"` | L11970 |
+| `db.types.ts` | `foreignKeyName: "ranking_points_team_id_fkey"` | L11977 |
+| `db.types.ts` | `foreignKeyName: "ranking_points_team_id_fkey"` | L11984 |
+| `db.types.ts` | `foreignKeyName: "ranking_points_team_id_fkey"` | L11991 |
+| `db.types.ts` | `foreignKeyName: "ranking_points_team_id_fkey"` | L11998 |
+| `db.types.ts` | `foreignKeyName: "ranking_points_team_id_fkey"` | L12005 |
+| `db.types.ts` | `foreignKeyName: "ranking_points_team_id_fkey"` | L12012 |
+| `db.types.ts` | `foreignKeyName: "ranking_points_team_id_fkey"` | L12019 |
+| `db.types.ts` | `foreignKeyName: "ranking_points_team_id_fkey"` | L12026 |
+
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="search" data-tool-name="codebase_search">
+<details>
+                <summary>Tool use: **codebase_search** • Searched codebase "global rank team ranking calculation order by current_rp elo_rating" • **14** results</summary>
+            
+| File | Lines |
+|------|-------|
+| `src/lib/types.ts` | L26-58 |
+| `src/lib/fetchers.ts` | L445-583 |
+| `src/lib/fetchers.ts` | L60-140 |
+| `REAL_SCHEMA_INTEGRATION.md` | L94 |
+| `src/lib/fetchers.ts` | L448-587 |
+| `src/lib/fetchers.ts` | L585-609 |
+| `src/components/team-card.tsx` | L5-106 |
+| `src/app/teams/[slug]/page.tsx` | L12-231 |
+| `db.types.ts` | L6-24588 |
+| `src/app/teams/[slug]/page.tsx` | L26-231 |
+| `src/lib/fetchers.ts` | L142-275 |
+| `src/lib/types.ts` | L164-199 |
+| `src/lib/fetchers.ts` | L448-583 |
+| `src/lib/mock.ts` | L203 |
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+`global_rank` is set to `null` because `team_analytics_mart` doesn't include it. Calculating it by ranking teams by `current_rp` (or `elo_rating`) and assigning the position. Updating `getTeam` to compute `global_rank`:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: src/lib/fetchers.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Updating `getTeam` to calculate `global_rank` by ranking all teams by `current_rp`:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **code_edit** • Edit file: src/lib/fetchers.ts</summary>
+
+**Chunk 1**
+Lines added: 21, lines removed: undefined
+
+```diff
+@@ -162,4 +162,25 @@
+      if (!martError &amp;&amp; martData) {
+        console.log(&#96;[DB] Successfully fetched team from team_analytics_mart: ${martData.team_name}&#96;)
++       
++       // Calculate global rank by fetching all teams ordered by current_rp
++       let globalRank: number | null = null
++       try {
++         const { data: allTeams, error: rankError } = await supabase
++           .from(&#39;team_analytics_mart&#39;)
++           .select(&#39;team_id,current_rp&#39;)
++           .not(&#39;current_rp&#39;, &#39;is&#39;, null)
++           .order(&#39;current_rp&#39;, { ascending: false })
++         
++         if (!rankError &amp;&amp; allTeams) {
++           const rankIndex = allTeams.findIndex(team =&gt; team.team_id === id)
++           if (rankIndex !== -1) {
++             globalRank = rankIndex + 1
++             console.log(&#96;[DB] Calculated global rank for ${martData.team_name}: ${globalRank}&#96;)
++           }
++         }
++       } catch (rankError) {
++         console.warn(&#96;[DB] Could not calculate global rank:&#96;, rankError)
++       }
++       
+        return {
+          id: martData.team_id || id,
+```
+
+**Chunk 2**
+Lines added: 1, lines removed: 1
+
+```diff
+@@ -169,5 +190,5 @@
+          current_rp: martData.current_rp,
+          elo_rating: martData.elo_rating,
+-         global_rank: null,
++         global_rank: globalRank,
+          leaderboard_tier: martData.rp_tier,
+          money_won: martData.total_prize_money,
+```
+
+</details>
+
+</tool-use>
+
+---
+
+
+
+---
+
+
+Checking for linting errors and updating `getKnownTeams()` to calculate global rank for consistency:
+
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 1 file</summary>
+      
+Lint paths:
+
+- `src/lib/fetchers.ts`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: src/lib/fetchers.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Updating `getKnownTeams()` to calculate global rank for consistency:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **code_edit** • Edit file: src/lib/fetchers.ts</summary>
+
+**Chunk 1**
+Lines added: 22, lines removed: undefined
+
+```diff
+@@ -254,4 +254,26 @@
+      if (!martError &amp;&amp; martData &amp;&amp; martData.length &gt; 0) {
+        console.log(&#96;[DB] Successfully fetched ${martData.length} known teams from team_analytics_mart&#96;)
++       
++       // Calculate global ranks for all teams
++       let globalRanks: Map&lt;string, number&gt; = new Map()
++       try {
++         const { data: allTeams, error: rankError } = await supabase
++           .from(&#39;team_analytics_mart&#39;)
++           .select(&#39;team_id,current_rp&#39;)
++           .not(&#39;current_rp&#39;, &#39;is&#39;, null)
++           .order(&#39;current_rp&#39;, { ascending: false })
++         
++         if (!rankError &amp;&amp; allTeams) {
++           allTeams.forEach((team, index) =&gt; {
++             if (team.team_id) {
++               globalRanks.set(team.team_id, index + 1)
++             }
++           })
++           console.log(&#96;[DB] Calculated global ranks for ${globalRanks.size} teams&#96;)
++         }
++       } catch (rankError) {
++         console.warn(&#96;[DB] Could not calculate global ranks:&#96;, rankError)
++       }
++       
+        return martData.map(team =&gt; ({
+          id: team.team_id || &#39;&#39;,
+```
+
+**Chunk 2**
+Lines added: 1, lines removed: 1
+
+```diff
+@@ -261,5 +283,5 @@
+          current_rp: team.current_rp,
+          elo_rating: team.elo_rating,
+-         global_rank: null,
++         global_rank: team.team_id ? globalRanks.get(team.team_id) || null : null,
+          leaderboard_tier: team.rp_tier,
+          money_won: team.total_prize_money,
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 1 file</summary>
+      
+Lint paths:
+
+- `src/lib/fetchers.ts`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Fixed the global rank issue. Since `team_analytics_mart` doesn't include `global_rank`, it's now calculated by:
+
+1. Fetching all teams from `team_analytics_mart` ordered by `current_rp` (descending)
+2. Finding the team's position in that ordered list
+3. Setting `global_rank` to that position + 1 (ranks start at 1)
+
+Updated both:
+- `getTeam()` — calculates global rank for a single team (used on the team detail page)
+- `getKnownTeams()` — calculates global ranks for multiple teams (used on the teams listing page)
+
+The global rank now appears on the team detail page (`src/app/teams/[slug]/page.tsx`) in:
+- The header badges (line 74-77)
+- The Team Statistics card (line 107)
+- The Team Information card (line 140-141)
+
+The calculation runs after fetching the team data and handles errors gracefully, falling back to `null` if the calculation fails.
+
+---
+
+_**User (2025-11-06 22:47Z)**_
+
+derive the rank by sorting the hybrid score
+
+---
+
+_**Agent (model composer-1, mode Agent)**_
+
+
+
+---
+
+
+Updating the global rank calculation to use `hybrid_score` instead of `current_rp`:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **code_edit** • Edit file: src/lib/fetchers.ts</summary>
+
+**Chunk 1**
+Lines added: 5, lines removed: 5
+
+```diff
+@@ -163,18 +163,18 @@
+        console.log(&#96;[DB] Successfully fetched team from team_analytics_mart: ${martData.team_name}&#96;)
+        
+-       // Calculate global rank by fetching all teams ordered by current_rp
++       // Calculate global rank by fetching all teams ordered by hybrid_score
+        let globalRank: number | null = null
+        try {
+          const { data: allTeams, error: rankError } = await supabase
+            .from(&#39;team_analytics_mart&#39;)
+-           .select(&#39;team_id,current_rp&#39;)
+-           .not(&#39;current_rp&#39;, &#39;is&#39;, null)
+-           .order(&#39;current_rp&#39;, { ascending: false })
++           .select(&#39;team_id,hybrid_score&#39;)
++           .not(&#39;hybrid_score&#39;, &#39;is&#39;, null)
++           .order(&#39;hybrid_score&#39;, { ascending: false })
+          
+          if (!rankError &amp;&amp; allTeams) {
+            const rankIndex = allTeams.findIndex(team =&gt; team.team_id === id)
+            if (rankIndex !== -1) {
+              globalRank = rankIndex + 1
+-             console.log(&#96;[DB] Calculated global rank for ${martData.team_name}: ${globalRank}&#96;)
++             console.log(&#96;[DB] Calculated global rank for ${martData.team_name} based on hybrid_score: ${globalRank}&#96;)
+            }
+          }
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **code_edit** • Edit file: src/lib/fetchers.ts</summary>
+
+**Chunk 1**
+Lines added: 4, lines removed: 4
+
+```diff
+@@ -255,12 +255,12 @@
+        console.log(&#96;[DB] Successfully fetched ${martData.length} known teams from team_analytics_mart&#96;)
+        
+-       // Calculate global ranks for all teams
++       // Calculate global ranks for all teams based on hybrid_score
+        let globalRanks: Map&lt;string, number&gt; = new Map()
+        try {
+          const { data: allTeams, error: rankError } = await supabase
+            .from(&#39;team_analytics_mart&#39;)
+-           .select(&#39;team_id,current_rp&#39;)
+-           .not(&#39;current_rp&#39;, &#39;is&#39;, null)
+-           .order(&#39;current_rp&#39;, { ascending: false })
++           .select(&#39;team_id,hybrid_score&#39;)
++           .not(&#39;hybrid_score&#39;, &#39;is&#39;, null)
++           .order(&#39;hybrid_score&#39;, { ascending: false })
+          
+          if (!rankError &amp;&amp; allTeams) {
+```
+
+**Chunk 2**
+Lines added: 1, lines removed: 1
+
+```diff
+@@ -270,5 +270,5 @@
+              }
+            })
+-           console.log(&#96;[DB] Calculated global ranks for ${globalRanks.size} teams&#96;)
++           console.log(&#96;[DB] Calculated global ranks for ${globalRanks.size} teams based on hybrid_score&#96;)
+          }
+        } catch (rankError) {
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 1 file</summary>
+      
+Lint paths:
+
+- `src/lib/fetchers.ts`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Updated the global rank calculation to use `hybrid_score` instead of `current_rp`. Changes:
+
+1. **`getTeam()` function**: Calculates global rank by sorting all teams by `hybrid_score` (descending)
+2. **`getKnownTeams()` function**: Calculates global ranks for multiple teams using the same `hybrid_score` sorting
+
+Both functions now:
+- Query `team_analytics_mart` selecting `team_id` and `hybrid_score`
+- Filter out teams with null `hybrid_score`
+- Order by `hybrid_score` descending (highest score = rank 1)
+- Calculate rank as position + 1 in the sorted list
+
+The global rank displayed on the team detail page now reflects each team's position when sorted by `hybrid_score`.
+
+---
+

@@ -74,9 +74,10 @@ export async function getTeams(): Promise<Team[]> {
   
   try {
     // Use team_analytics_mart for comprehensive team data
+    // Explicitly select columns that exist in the mart (is_active is not in the mart)
     const { data, error } = await supabase
       .from('team_analytics_mart')
-      .select('*')
+      .select('team_id,team_name,logo_url,elo_rating,current_rp,rp_tier,total_prize_money,avg_player_rating,hybrid_score,team_twitter')
       .order('team_name', { ascending: true })
     
     if (error) {
@@ -151,14 +152,36 @@ export async function getTeam(id: string): Promise<Team | null> {
   
   try {
     // Try team_analytics_mart first for richer data
+    // Explicitly select columns that exist in the mart (is_active is not in the mart)
     const { data: martData, error: martError } = await supabase
       .from('team_analytics_mart')
-      .select('*')
+      .select('team_id,team_name,logo_url,elo_rating,current_rp,rp_tier,total_prize_money,avg_player_rating,hybrid_score,team_twitter')
       .eq('team_id', id)
       .single()
     
     if (!martError && martData) {
       console.log(`[DB] Successfully fetched team from team_analytics_mart: ${martData.team_name}`)
+      
+      // Calculate global rank by fetching all teams ordered by hybrid_score
+      let globalRank: number | null = null
+      try {
+        const { data: allTeams, error: rankError } = await supabase
+          .from('team_analytics_mart')
+          .select('team_id,hybrid_score')
+          .not('hybrid_score', 'is', null)
+          .order('hybrid_score', { ascending: false })
+        
+        if (!rankError && allTeams) {
+          const rankIndex = allTeams.findIndex(team => team.team_id === id)
+          if (rankIndex !== -1) {
+            globalRank = rankIndex + 1
+            console.log(`[DB] Calculated global rank for ${martData.team_name} based on hybrid_score: ${globalRank}`)
+          }
+        }
+      } catch (rankError) {
+        console.warn(`[DB] Could not calculate global rank:`, rankError)
+      }
+      
       return {
         id: martData.team_id || id,
         name: martData.team_name || '',
@@ -166,7 +189,7 @@ export async function getTeam(id: string): Promise<Team | null> {
         created_at: null,
         current_rp: martData.current_rp,
         elo_rating: martData.elo_rating,
-        global_rank: null,
+        global_rank: globalRank,
         leaderboard_tier: martData.rp_tier,
         money_won: martData.total_prize_money,
         player_rank_score: martData.avg_player_rating,
@@ -221,14 +244,37 @@ export async function getKnownTeams(): Promise<Team[]> {
   
   try {
     // Try team_analytics_mart first
+    // Explicitly select columns that exist in the mart (is_active is not in the mart)
     const { data: martData, error: martError } = await supabase
       .from('team_analytics_mart')
-      .select('*')
+      .select('team_id,team_name,logo_url,elo_rating,current_rp,rp_tier,total_prize_money,avg_player_rating,hybrid_score,team_twitter')
       .in('team_id', knownTeamIds)
       .order('team_name', { ascending: true })
     
     if (!martError && martData && martData.length > 0) {
       console.log(`[DB] Successfully fetched ${martData.length} known teams from team_analytics_mart`)
+      
+      // Calculate global ranks for all teams based on hybrid_score
+      let globalRanks: Map<string, number> = new Map()
+      try {
+        const { data: allTeams, error: rankError } = await supabase
+          .from('team_analytics_mart')
+          .select('team_id,hybrid_score')
+          .not('hybrid_score', 'is', null)
+          .order('hybrid_score', { ascending: false })
+        
+        if (!rankError && allTeams) {
+          allTeams.forEach((team, index) => {
+            if (team.team_id) {
+              globalRanks.set(team.team_id, index + 1)
+            }
+          })
+          console.log(`[DB] Calculated global ranks for ${globalRanks.size} teams based on hybrid_score`)
+        }
+      } catch (rankError) {
+        console.warn(`[DB] Could not calculate global ranks:`, rankError)
+      }
+      
       return martData.map(team => ({
         id: team.team_id || '',
         name: team.team_name || '',
@@ -236,7 +282,7 @@ export async function getKnownTeams(): Promise<Team[]> {
         created_at: null,
         current_rp: team.current_rp,
         elo_rating: team.elo_rating,
-        global_rank: null,
+        global_rank: team.team_id ? globalRanks.get(team.team_id) || null : null,
         leaderboard_tier: team.rp_tier,
         money_won: team.total_prize_money,
         player_rank_score: team.avg_player_rating,
