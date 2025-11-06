@@ -330,3 +330,156 @@ Updating the TeamCard component to display hybrid score, ELO, and average player
 
 ---
 
+
+Checking how the fetchers map `team_analytics_mart` data to ensure we use the correct fields:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: src/lib/fetchers.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Updating TeamCard to display hybrid score, ELO, and average player rating with clearer labels:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **code_edit** • Edit file: src/components/team-card.tsx</summary>
+
+**Chunk 1**
+Lines added: 2, lines removed: 1
+
+```diff
+@@ -22,5 +22,6 @@
+    const leaderboardTier = team.leaderboard_tier || &#39;Unknown&#39;
+    const moneyWon = team.money_won || 0
+-   const playerRankScore = team.player_rank_score || 0
++   const avgPlayerRating = team.player_rank_score || 0
++   const hybridScore = team.hybrid_score || 0
+  
+    return (
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **code_edit** • Edit file: src/components/team-card.tsx</summary>
+
+**Chunk 1**
+Lines added: 17, lines removed: 2
+
+```diff
+@@ -66,6 +66,21 @@
+              {currentRp.toLocaleString()}
+            &lt;/div&gt;
+-           &lt;div className=&quot;text-xs text-gray-600 dark:text-gray-400&quot;&gt;
+-             ELO: {eloRating}
++         &lt;/div&gt;
++         
++         {/* Team Performance Metrics */}
++         &lt;div className=&quot;mb-4 space-y-2&quot;&gt;
++           &lt;div className=&quot;grid grid-cols-3 gap-2 text-xs&quot;&gt;
++             &lt;div className=&quot;p-2 bg-gray-50 dark:bg-gray-800 rounded&quot;&gt;
++               &lt;div className=&quot;text-gray-600 dark:text-gray-400 mb-1&quot;&gt;ELO Rating&lt;/div&gt;
++               &lt;div className=&quot;font-semibold text-bcg-accent&quot;&gt;{eloRating.toLocaleString()}&lt;/div&gt;
++             &lt;/div&gt;
++             &lt;div className=&quot;p-2 bg-gray-50 dark:bg-gray-800 rounded&quot;&gt;
++               &lt;div className=&quot;text-gray-600 dark:text-gray-400 mb-1&quot;&gt;Avg Player Rating&lt;/div&gt;
++               &lt;div className=&quot;font-semibold text-bcg-accent&quot;&gt;{avgPlayerRating.toFixed(1)}&lt;/div&gt;
++             &lt;/div&gt;
++             &lt;div className=&quot;p-2 bg-gray-50 dark:bg-gray-800 rounded&quot;&gt;
++               &lt;div className=&quot;text-gray-600 dark:text-gray-400 mb-1&quot;&gt;Hybrid Score&lt;/div&gt;
++               &lt;div className=&quot;font-semibold text-bcg-accent&quot;&gt;{hybridScore.toFixed(1)}&lt;/div&gt;
++             &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+```
+
+**Chunk 2**
+Lines added: undefined, lines removed: 5
+
+```diff
+@@ -77,9 +92,4 @@
+              ${moneyWon.toLocaleString()}
+            &lt;/Badge&gt;
+-           {playerRankScore &gt; 0 &amp;&amp; (
+-             &lt;Badge variant=&quot;outline&quot; className=&quot;text-xs&quot;&gt;
+-               Score: {playerRankScore.toFixed(1)}
+-             &lt;/Badge&gt;
+-           )}
+            &lt;Badge variant=&quot;outline&quot; className=&quot;text-xs&quot;&gt;
+              {leaderboardTier}
+```
+
+</details>
+
+</tool-use>
+
+---
+
+
+
+---
+
+
+Checking for linting errors:
+
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 1 file</summary>
+      
+Lint paths:
+
+- `src/components/team-card.tsx`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Updated the TeamCard component to display hybrid score, ELO rating, and average player rating with clearer labels. Changes:
+
+1. **Added hybrid score**: Extracted from `team.hybrid_score` and displayed in a dedicated section.
+
+2. **Improved ELO rating label**: Changed from "ELO: {value}" to "ELO Rating" with proper formatting.
+
+3. **Improved average player rating label**: Changed from "Score: {value}" to "Avg Player Rating" to clarify it represents the average player rating.
+
+4. **New layout**: Created a 3-column grid showing:
+   - **ELO Rating** (formatted with commas)
+   - **Avg Player Rating** (1 decimal place)
+   - **Hybrid Score** (1 decimal place)
+
+All three metrics are displayed in a grid with consistent styling and clear labels. The Current RP remains prominently displayed at the top, and the money won and tier badges remain at the bottom.
+
+---
+
