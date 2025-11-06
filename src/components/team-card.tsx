@@ -21,7 +21,8 @@ export function TeamCard({ team, featured = false }: TeamCardProps) {
   const globalRank = team.global_rank
   const leaderboardTier = team.leaderboard_tier || 'Unknown'
   const moneyWon = team.money_won || 0
-  const playerRankScore = team.player_rank_score || 0
+  const avgPlayerRating = team.player_rank_score || 0
+  const hybridScore = team.hybrid_score || 0
 
   return (
     <Card className={`group hover:scale-105 transition-all duration-300 ${featured ? 'ring-2 ring-bcg-accent' : ''}`}>
@@ -64,8 +65,23 @@ export function TeamCard({ team, featured = false }: TeamCardProps) {
           <div className="text-2xl font-bold text-bcg-accent">
             {currentRp.toLocaleString()}
           </div>
-          <div className="text-xs text-gray-600 dark:text-gray-400">
-            ELO: {eloRating}
+        </div>
+        
+        {/* Team Performance Metrics */}
+        <div className="mb-4 space-y-2">
+          <div className="grid grid-cols-3 gap-2 text-xs">
+            <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded">
+              <div className="text-gray-600 dark:text-gray-400 mb-1">ELO Rating</div>
+              <div className="font-semibold text-bcg-accent">{eloRating.toLocaleString()}</div>
+            </div>
+            <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded">
+              <div className="text-gray-600 dark:text-gray-400 mb-1">Avg Player Rating</div>
+              <div className="font-semibold text-bcg-accent">{avgPlayerRating.toFixed(1)}</div>
+            </div>
+            <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded">
+              <div className="text-gray-600 dark:text-gray-400 mb-1">Hybrid Score</div>
+              <div className="font-semibold text-bcg-accent">{hybridScore.toFixed(1)}</div>
+            </div>
           </div>
         </div>
         
@@ -75,11 +91,6 @@ export function TeamCard({ team, featured = false }: TeamCardProps) {
             <DollarSign className="h-3 w-3 mr-1" />
             ${moneyWon.toLocaleString()}
           </Badge>
-          {playerRankScore > 0 && (
-            <Badge variant="outline" className="text-xs">
-              Score: {playerRankScore.toFixed(1)}
-            </Badge>
-          )}
           <Badge variant="outline" className="text-xs">
             {leaderboardTier}
           </Badge>

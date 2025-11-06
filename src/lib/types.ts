@@ -27,7 +27,7 @@ export type EventTier = "T1" | "T2" | "T3" | "T4"
 export type Status = "scheduled" | "in progress" | "completed" | "under review" | "reviewed" | "approved"
 export type Stage = "Regular Season" | "Group Play" | "Round 1" | "Round 2" | "Round 3" | "Round 4" | "Semi Finals" | "Finals" | "Grand Finals" | "L1" | "L2" | "L3" | "L4" | "L5" | "W1" | "W2" | "W3" | "W4" | "LF" | "WF"
 
-// Team Model (matching backend teams table)
+// Team Model (matching database teams table)
 export interface Team {
   id: string
   name: string
@@ -39,6 +39,15 @@ export interface Team {
   leaderboard_tier?: string | null
   money_won?: number | null
   player_rank_score?: number | null
+  color_accent?: string | null
+  color_primary?: string | null
+  color_secondary?: string | null
+  hybrid_score?: number | null
+  is_active?: boolean | null
+  lg_conf?: string | null
+  lg_division?: string | null
+  team_twitter?: string | null
+  theme_json?: any | null
 }
 
 export interface TeamListResponse {
