@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -35,9 +36,11 @@ export function NavBar() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2" onClick={closeMobileMenu}>
-            <img 
+            <Image 
               src="/teams/bodega-cats-logo.png" 
               alt="Bodega Cats GC" 
+              width={32}
+              height={32}
               className="h-8 w-8 object-contain"
             />
             <span className="font-bold text-xl">BodegaCatsGC</span>

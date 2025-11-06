@@ -2013,3 +2013,455 @@ Deploy and check the production logs to see what's happening.
 
 ---
 
+_**User (2025-11-06 22:47Z)**_
+
+@team-card.tsx use actual types
+
+---
+
+_**Agent (model composer-1, mode Agent)**_
+
+
+
+---
+
+
+Checking the Team type definition and updating the component to use proper types:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: src/lib/types.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="grep" data-tool-name="grep">
+<details>
+<summary>Tool use: **grep** • Grep for "team_analytics_mart.*Row" in "db.types.ts" • 0 matches</summary>
+
+Output mode: content
+
+
+_No matches found_
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Checking database types and updating the component to use proper TypeScript types:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: db.types.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="grep" data-tool-name="grep">
+<details>
+<summary>Tool use: **grep** • Grep for "as Team|Team\[\]|Team \|" in "src/lib/fetchers.ts" • 19 matches</summary>
+
+Output mode: content
+
+
+| File | Content | Line |
+|------|------|------|
+| `src/lib/fetchers.ts` | `async function getTeamById(teamId: string): Promise<Team \| null> \{` | L61 |
+| `src/lib/fetchers.ts` | `export async function getTeams(): Promise<Team[]> \{` | L66 |
+| `src/lib/fetchers.ts` | `\})) as Team[]` | L106 |
+| `src/lib/fetchers.ts` | `async function getTeamsFallback(): Promise<Team[]> \{` | L118 |
+| `src/lib/fetchers.ts` | `return data as Team[]` | L133 |
+| `src/lib/fetchers.ts` | `export async function getTeam(id: string): Promise<Team \| null> \{` | L143 |
+| `src/lib/fetchers.ts` | `return mockTeam \|\| null` | L150 |
+| `src/lib/fetchers.ts` | `\} as Team` | L220 |
+| `src/lib/fetchers.ts` | `return mockTeam \|\| null` | L234 |
+| `src/lib/fetchers.ts` | `return data as Team` | L239 |
+| `src/lib/fetchers.ts` | `return mockTeam \|\| null` | L243 |
+| `src/lib/fetchers.ts` | `return mockTeam \|\| null` | L247 |
+| `src/lib/fetchers.ts` | `export async function getKnownTeams(): Promise<Team[]> \{` | L252 |
+| `src/lib/fetchers.ts` | `\})) as Team[]` | L320 |
+| `src/lib/fetchers.ts` | `return data as Team[]` | L338 |
+| `src/lib/fetchers.ts` | `uniquePlayers.set(player.player_id, player as TeamRosterPlayer)` | L376 |
+| `src/lib/fetchers.ts` | `team.players.push(player as TeamRosterPlayer)` | L469 |
+| `src/lib/fetchers.ts` | `team.captains.push(player as TeamRosterPlayer)` | L472 |
+| `src/lib/fetchers.ts` | `team.coaches.push(player as TeamRosterPlayer)` | L475 |
+
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Updating the component to use proper TypeScript types and handle nullable values correctly:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **code_edit** • Edit file: src/components/team-card.tsx</summary>
+
+**Chunk 1**
+Lines added: 12, lines removed: undefined
+
+```diff
+@@ -1,2 +1,14 @@
++ import Link from &#39;next/link&#39;
++ import { Button } from &#39;@/components/ui/button&#39;
++ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from &#39;@/components/ui/card&#39;
++ import { Badge } from &#39;@/components/ui/badge&#39;
++ import { Trophy, Users, TrendingUp, DollarSign, Crown, UserCheck } from &#39;lucide-react&#39;
++ import type { Team } from &#39;@/lib/types&#39;
++ 
++ interface TeamCardProps {
++   team: Team
++   featured?: boolean
++ }
++ 
+  import Link from &#39;next/link&#39;
+  import { Button } from &#39;@/components/ui/button&#39;
+```
+
+**Chunk 2**
+Lines added: 10, lines removed: 10
+
+```diff
+@@ -12,16 +24,16 @@
+  
+  export function TeamCard({ team, featured = false }: TeamCardProps) {
+-   // Handle real team structure
+-   const logoUrl = team.logo_url || &#39;/teams/default-team-logo.png&#39;
++   // Handle real team structure with proper type handling
++   const logoUrl: string = team.logo_url ?? &#39;/teams/default-team-logo.png&#39;
+    const description = &#96;${team.name} - A competitive team in the NBA 2K community.&#96;
+    
+-   // Real team data
+-   const currentRp = team.current_rp || 0
+-   const eloRating = team.elo_rating || 0
+-   const globalRank = team.global_rank
+-   const leaderboardTier = team.leaderboard_tier || &#39;Unknown&#39;
+-   const moneyWon = team.money_won || 0
+-   const avgPlayerRating = team.player_rank_score || 0
+-   const hybridScore = team.hybrid_score || 0
++   // Real team data with proper null handling
++   const currentRp: number = team.current_rp ?? 0
++   const eloRating: number = team.elo_rating ?? 0
++   const globalRank: number | null = team.global_rank ?? null
++   const leaderboardTier: string = team.leaderboard_tier ?? &#39;Unknown&#39;
++   const moneyWon: number = team.money_won ?? 0
++   const avgPlayerRating: number = team.player_rank_score ?? 0
++   const hybridScore: number = team.hybrid_score ?? 0
+  
+    return (
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 1 file</summary>
+      
+Lint paths:
+
+- `src/components/team-card.tsx`
+
+Lint results
+
+Lint errors for `src/components/team-card.tsx`
+
+
+| Message | Range | Severity |
+|-------|-------|----------|
+| Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element | 43:11-47:13 | DIAGNOSTIC_SEVERITY_WARNING |
+| Duplicate identifier 'Link'. | 1:8-1:12 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'Button'. | 2:10-2:16 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'Card'. | 3:10-3:14 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'CardContent'. | 3:16-3:27 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'CardDescription'. | 3:29-3:44 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'CardHeader'. | 3:46-3:56 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'CardTitle'. | 3:58-3:67 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'Badge'. | 4:10-4:15 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'Trophy'. | 5:10-5:16 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'Users'. | 5:18-5:23 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'TrendingUp'. | 5:25-5:35 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'DollarSign'. | 5:37-5:47 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'Crown'. | 5:49-5:54 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'UserCheck'. | 5:56-5:65 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'Team'. | 6:15-6:19 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'Link'. | 13:8-13:12 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'Button'. | 14:10-14:16 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'Card'. | 15:10-15:14 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'CardContent'. | 15:16-15:27 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'CardDescription'. | 15:29-15:44 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'CardHeader'. | 15:46-15:56 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'CardTitle'. | 15:58-15:67 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'Badge'. | 16:10-16:15 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'Trophy'. | 17:10-17:16 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'Users'. | 17:18-17:23 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'TrendingUp'. | 17:25-17:35 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'DollarSign'. | 17:37-17:47 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'Crown'. | 17:49-17:54 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'UserCheck'. | 17:56-17:65 | DIAGNOSTIC_SEVERITY_ERROR |
+| Duplicate identifier 'Team'. | 18:15-18:19 | DIAGNOSTIC_SEVERITY_ERROR |
+| 'Trophy' is declared but its value is never read. | 5:10-5:16 | DIAGNOSTIC_SEVERITY_HINT |
+| 'Users' is declared but its value is never read. | 5:18-5:23 | DIAGNOSTIC_SEVERITY_HINT |
+| 'Crown' is declared but its value is never read. | 5:49-5:54 | DIAGNOSTIC_SEVERITY_HINT |
+| 'UserCheck' is declared but its value is never read. | 5:56-5:65 | DIAGNOSTIC_SEVERITY_HINT |
+
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Fixing duplicate imports:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: src/components/team-card.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Removing duplicate imports:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **code_edit** • Edit file: src/components/team-card.tsx</summary>
+
+**Chunk 1**
+Lines added: undefined, lines removed: 12
+
+```diff
+@@ -1,14 +1,2 @@
+- import Link from &#39;next/link&#39;
+- import { Button } from &#39;@/components/ui/button&#39;
+- import { Card, CardContent, CardDescription, CardHeader, CardTitle } from &#39;@/components/ui/card&#39;
+- import { Badge } from &#39;@/components/ui/badge&#39;
+- import { Trophy, Users, TrendingUp, DollarSign, Crown, UserCheck } from &#39;lucide-react&#39;
+- import type { Team } from &#39;@/lib/types&#39;
+- 
+- interface TeamCardProps {
+-   team: Team
+-   featured?: boolean
+- }
+- 
+  import Link from &#39;next/link&#39;
+  import { Button } from &#39;@/components/ui/button&#39;
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 1 file</summary>
+      
+Lint paths:
+
+- `src/components/team-card.tsx`
+
+Lint results
+
+Lint errors for `src/components/team-card.tsx`
+
+
+| Message | Range | Severity |
+|-------|-------|----------|
+| Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element | 31:11-35:13 | DIAGNOSTIC_SEVERITY_WARNING |
+| 'Trophy' is declared but its value is never read. | 5:10-5:16 | DIAGNOSTIC_SEVERITY_HINT |
+| 'Users' is declared but its value is never read. | 5:18-5:23 | DIAGNOSTIC_SEVERITY_HINT |
+| 'Crown' is declared but its value is never read. | 5:49-5:54 | DIAGNOSTIC_SEVERITY_HINT |
+| 'UserCheck' is declared but its value is never read. | 5:56-5:65 | DIAGNOSTIC_SEVERITY_HINT |
+
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Updated the component to use explicit TypeScript types. Changes:
+
+1. **Explicit type annotations**: All variables now have explicit types (`string`, `number`, `number | null`).
+
+2. **Nullish coalescing operator (`??`)**: Replaced `||` with `??` for null/undefined handling:
+   - `??` only checks for `null` or `undefined`
+   - `||` also treats falsy values (`0`, `''`, `false`) as needing defaults
+
+3. **Proper null handling**: `globalRank` is typed as `number | null` to match the `Team` interface, allowing it to be `null` when not available.
+
+The component now aligns with the `Team` interface from `@/lib/types`, which matches the database schema. The only remaining linter message is a warning about using Next.js `<Image />` instead of `<img>`, which is a performance suggestion and not a type issue.
+
+---
+
+_**User (2025-11-06 22:47Z)**_
+
+For the code present, we get this error:
+```
+Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element
+```
+Fix it, verify, and then give a concise explanation. @nav-bar.tsx (40-43) 
+
+---
+
+_**Agent (model composer-1, mode Agent)**_
+
+
+
+---
+
+
+Replacing `<img>` with Next.js `<Image />`. Reading the file for context:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: src/components/nav-bar.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Replacing `<img>` with Next.js `<Image />`:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **code_edit** • Edit file: src/components/nav-bar.tsx</summary>
+
+**Chunk 1**
+Lines added: 1, lines removed: undefined
+
+```diff
+@@ -3,4 +3,5 @@
+  import { useState } from &#39;react&#39;
+  import Link from &#39;next/link&#39;
++ import Image from &#39;next/image&#39;
+  import { usePathname } from &#39;next/navigation&#39;
+  import { cn } from &#39;@/lib/utils&#39;
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **code_edit** • Edit file: src/components/nav-bar.tsx</summary>
+
+**Chunk 1**
+Lines added: 3, lines removed: 1
+
+```diff
+@@ -37,7 +37,9 @@
+            {/* Logo */}
+            &lt;Link href=&quot;/&quot; className=&quot;flex items-center space-x-2&quot; onClick={closeMobileMenu}&gt;
+-             &lt;img 
++             &lt;Image 
+                src=&quot;/teams/bodega-cats-logo.png&quot; 
+                alt=&quot;Bodega Cats GC&quot; 
++               width={32}
++               height={32}
+                className=&quot;h-8 w-8 object-contain&quot;
+              /&gt;
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 1 file</summary>
+      
+Lint paths:
+
+- `src/components/nav-bar.tsx`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Fixed the issue. Changes:
+
+1. **Added Image import**: `import Image from 'next/image'`
+2. **Replaced `<img>` with `<Image />`**: Using Next.js Image component
+3. **Added required props**: `width={32}` and `height={32}` (required by Next.js Image, matching the `h-8 w-8` classes which equal 32px)
+
+**Explanation**: Next.js `<Image />` provides automatic optimization (lazy loading, responsive images, modern formats), improving LCP and reducing bandwidth. The `width` and `height` props are required to prevent layout shift and enable optimization.
+
+The linter error is resolved and the component now uses Next.js Image optimization.
+
+---
+

@@ -11,18 +11,18 @@ interface TeamCardProps {
 }
 
 export function TeamCard({ team, featured = false }: TeamCardProps) {
-  // Handle real team structure
-  const logoUrl = team.logo_url || '/teams/default-team-logo.png'
+  // Handle real team structure with proper type handling
+  const logoUrl: string = team.logo_url ?? '/teams/default-team-logo.png'
   const description = `${team.name} - A competitive team in the NBA 2K community.`
   
-  // Real team data
-  const currentRp = team.current_rp || 0
-  const eloRating = team.elo_rating || 0
-  const globalRank = team.global_rank
-  const leaderboardTier = team.leaderboard_tier || 'Unknown'
-  const moneyWon = team.money_won || 0
-  const avgPlayerRating = team.player_rank_score || 0
-  const hybridScore = team.hybrid_score || 0
+  // Real team data with proper null handling
+  const currentRp: number = team.current_rp ?? 0
+  const eloRating: number = team.elo_rating ?? 0
+  const globalRank: number | null = team.global_rank ?? null
+  const leaderboardTier: string = team.leaderboard_tier ?? 'Unknown'
+  const moneyWon: number = team.money_won ?? 0
+  const avgPlayerRating: number = team.player_rank_score ?? 0
+  const hybridScore: number = team.hybrid_score ?? 0
 
   return (
     <Card className={`group hover:scale-105 transition-all duration-300 ${featured ? 'ring-2 ring-bcg-accent' : ''}`}>
