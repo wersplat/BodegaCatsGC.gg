@@ -1577,3 +1577,439 @@ The global rank displayed on the team detail page now reflects each team's posit
 
 ---
 
+_**User (2025-11-06 22:47Z)**_
+
+working running local not in production
+
+---
+
+_**Agent (model composer-1, mode Agent)**_
+
+
+
+---
+
+
+Checking build-time detection and production-specific logic that might prevent it from working in production:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: src/lib/config.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="grep" data-tool-name="grep">
+<details>
+<summary>Tool use: **grep** • Grep for "isBuildTime|buildApiUrl|NODE_ENV|NEXT_PHASE" in "src/lib/fetchers.ts" • 10 matches</summary>
+
+Output mode: content
+
+
+| File | Content | Line |
+|------|------|------|
+| `src/lib/fetchers.ts` | `import \{ API_CONFIG, isBuildTime, buildApiUrl, buildTeamUrl \} from './config'` | L13 |
+| `src/lib/fetchers.ts` | `if (isBuildTime) \{` | L19 |
+| `src/lib/fetchers.ts` | `console.log(`[API] Build time check: NODE_ENV=$\{process.env.NODE_ENV\}, window=$\{typeof window\}, NEXT_PHASE=$\{process.env.NEXT_PHASE\}, ENABLE_API_CALLS=$\{process.env.NEXT_PUBLIC_ENABLE_API_CALLS\}`)` | L21 |
+| `src/lib/fetchers.ts` | `const url = buildApiUrl(endpoint)` | L26 |
+| `src/lib/fetchers.ts` | `if (isBuildTime) \{` | L70 |
+| `src/lib/fetchers.ts` | `if (isBuildTime) \{` | L147 |
+| `src/lib/fetchers.ts` | `if (isBuildTime) \{` | L235 |
+| `src/lib/fetchers.ts` | `if (isBuildTime) \{` | L326 |
+| `src/lib/fetchers.ts` | `if (isBuildTime) \{` | L369 |
+| `src/lib/fetchers.ts` | `if (isBuildTime) \{` | L501 |
+
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="search" data-tool-name="codebase_search">
+<details>
+                <summary>Tool use: **codebase_search** • Searched codebase "isBuildTime build time detection production environment check" • **15** results</summary>
+            
+| File | Lines |
+|------|-------|
+| `src/lib/config.ts` | L31-53 |
+| `src/lib/fetchers.ts` | L62 |
+| `src/lib/fetchers.ts` | L321-467 |
+| `package.json` | L37 |
+| `src/lib/fetchers.ts` | L142-318 |
+| `src/lib/fetchers.ts` | L230-467 |
+| `src/lib/fetchers.ts` | L488-626 |
+| `src/lib/fetchers.ts` | L117-227 |
+| `src/lib/fetchers.ts` | L60-140 |
+| `README.md` | L52-140 |
+| `README.md` | L215-271 |
+| `API_INTEGRATION.md` | L149-210 |
+| `env.local.example` | L21 |
+| `src/lib/supabase.ts` | L22 |
+| `.gitignore` | L50 |
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+The `isBuildTime` check may be incorrectly blocking queries in production. Reviewing the logic and improving error handling for the global rank calculation:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: src/lib/supabase.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: src/lib/fetchers.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Improving error handling and logging for the global rank calculation to diagnose production issues:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **code_edit** • Edit file: src/lib/fetchers.ts</summary>
+
+**Chunk 1**
+Lines added: 12, lines removed: 3
+
+```diff
+@@ -172,13 +172,22 @@
+            .order(&#39;hybrid_score&#39;, { ascending: false })
+          
+-         if (!rankError &amp;&amp; allTeams) {
++         if (rankError) {
++           console.error(&#96;[DB] Error fetching teams for rank calculation:&#96;, rankError)
++         } else if (allTeams &amp;&amp; allTeams.length &gt; 0) {
+            const rankIndex = allTeams.findIndex(team =&gt; team.team_id === id)
+            if (rankIndex !== -1) {
+              globalRank = rankIndex + 1
+-             console.log(&#96;[DB] Calculated global rank for ${martData.team_name} based on hybrid_score: ${globalRank}&#96;)
++             console.log(&#96;[DB] Calculated global rank for ${martData.team_name} based on hybrid_score: ${globalRank} (out of ${allTeams.length} teams)&#96;)
++           } else {
++             console.warn(&#96;[DB] Team ${id} not found in ranking list&#96;)
+            }
++         } else {
++           console.warn(&#96;[DB] No teams found for rank calculation&#96;)
+          }
+        } catch (rankError) {
+-         console.warn(&#96;[DB] Could not calculate global rank:&#96;, rankError)
++         console.error(&#96;[DB] Exception calculating global rank:&#96;, rankError)
++         if (rankError instanceof Error) {
++           console.error(&#96;[DB] Rank error details: ${rankError.message}&#96;)
++         }
+        }
+        
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **code_edit** • Edit file: src/lib/fetchers.ts</summary>
+
+**Chunk 1**
+Lines added: 3, lines removed: 1
+
+```diff
+@@ -273,5 +273,7 @@
+            .order(&#39;hybrid_score&#39;, { ascending: false })
+          
+-         if (!rankError &amp;&amp; allTeams) {
++         if (rankError) {
++           console.error(&#96;[DB] Error fetching teams for rank calculation:&#96;, rankError)
++         } else if (allTeams &amp;&amp; allTeams.length &gt; 0) {
+            allTeams.forEach((team, index) =&gt; {
+              if (team.team_id) {
+```
+
+**Chunk 2**
+Lines added: 6, lines removed: 1
+
+```diff
+@@ -280,7 +282,12 @@
+            })
+            console.log(&#96;[DB] Calculated global ranks for ${globalRanks.size} teams based on hybrid_score&#96;)
++         } else {
++           console.warn(&#96;[DB] No teams found for rank calculation&#96;)
+          }
+        } catch (rankError) {
+-         console.warn(&#96;[DB] Could not calculate global ranks:&#96;, rankError)
++         console.error(&#96;[DB] Exception calculating global ranks:&#96;, rankError)
++         if (rankError instanceof Error) {
++           console.error(&#96;[DB] Rank error details: ${rankError.message}&#96;)
++         }
+        }
+        
+```
+
+</details>
+
+</tool-use>
+
+---
+
+
+
+---
+
+
+Handling teams with null `hybrid_score` that may be filtered out of the ranking:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **code_edit** • Edit file: src/lib/fetchers.ts</summary>
+
+**Chunk 1**
+Lines added: 32, lines removed: 24
+
+```diff
+@@ -165,29 +165,37 @@
+        // Calculate global rank by fetching all teams ordered by hybrid_score
+        let globalRank: number | null = null
+-       try {
+-         const { data: allTeams, error: rankError } = await supabase
+-           .from(&#39;team_analytics_mart&#39;)
+-           .select(&#39;team_id,hybrid_score&#39;)
+-           .not(&#39;hybrid_score&#39;, &#39;is&#39;, null)
+-           .order(&#39;hybrid_score&#39;, { ascending: false })
+-         
+-         if (rankError) {
+-           console.error(&#96;[DB] Error fetching teams for rank calculation:&#96;, rankError)
+-         } else if (allTeams &amp;&amp; allTeams.length &gt; 0) {
+-           const rankIndex = allTeams.findIndex(team =&gt; team.team_id === id)
+-           if (rankIndex !== -1) {
+-             globalRank = rankIndex + 1
+-             console.log(&#96;[DB] Calculated global rank for ${martData.team_name} based on hybrid_score: ${globalRank} (out of ${allTeams.length} teams)&#96;)
+-           } else {
+-             console.warn(&#96;[DB] Team ${id} not found in ranking list&#96;)
+-           }
+-         } else {
+-           console.warn(&#96;[DB] No teams found for rank calculation&#96;)
+-         }
+-       } catch (rankError) {
+-         console.error(&#96;[DB] Exception calculating global rank:&#96;, rankError)
+-         if (rankError instanceof Error) {
+-           console.error(&#96;[DB] Rank error details: ${rankError.message}&#96;)
++       
++       // Only calculate rank if the team has a hybrid_score
++       if (martData.hybrid_score !== null &amp;&amp; martData.hybrid_score !== undefined) {
++         try {
++           const { data: allTeams, error: rankError } = await supabase
++             .from(&#39;team_analytics_mart&#39;)
++             .select(&#39;team_id,hybrid_score&#39;)
++             .not(&#39;hybrid_score&#39;, &#39;is&#39;, null)
++             .order(&#39;hybrid_score&#39;, { ascending: false })
++           
++           if (rankError) {
++             console.error(&#96;[DB] Error fetching teams for rank calculation:&#96;, rankError)
++             console.error(&#96;[DB] Rank error code: ${rankError.code}, message: ${rankError.message}&#96;)
++           } else if (allTeams &amp;&amp; allTeams.length &gt; 0) {
++             const rankIndex = allTeams.findIndex(team =&gt; team.team_id === id)
++             if (rankIndex !== -1) {
++               globalRank = rankIndex + 1
++               console.log(&#96;[DB] Calculated global rank for ${martData.team_name} based on hybrid_score: ${globalRank} (out of ${allTeams.length} teams)&#96;)
++             } else {
++               console.warn(&#96;[DB] Team ${id} (${martData.team_name}) not found in ranking list - may have null hybrid_score&#96;)
++             }
++           } else {
++             console.warn(&#96;[DB] No teams found for rank calculation&#96;)
++           }
++         } catch (rankError) {
++           console.error(&#96;[DB] Exception calculating global rank:&#96;, rankError)
++           if (rankError instanceof Error) {
++             console.error(&#96;[DB] Rank error details: ${rankError.message}&#96;)
++             console.error(&#96;[DB] Rank error stack: ${rankError.stack}&#96;)
++           }
+          }
++       } else {
++         console.warn(&#96;[DB] Team ${martData.team_name} has no hybrid_score, skipping rank calculation&#96;)
+        }
+        
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 1 file</summary>
+      
+Lint paths:
+
+- `src/lib/fetchers.ts`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Adding a check to ensure Supabase is properly configured before querying:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **code_edit** • Edit file: src/lib/fetchers.ts</summary>
+
+**Chunk 1**
+Lines added: 1, lines removed: undefined
+
+```diff
+@@ -169,4 +169,5 @@
+        if (martData.hybrid_score !== null &amp;&amp; martData.hybrid_score !== undefined) {
+          try {
++           console.log(&#96;[DB] Calculating global rank for team ${id} with hybrid_score ${martData.hybrid_score}&#96;)
+            const { data: allTeams, error: rankError } = await supabase
+              .from(&#39;team_analytics_mart&#39;)
+```
+
+**Chunk 2**
+Lines added: 9, lines removed: 6
+
+```diff
+@@ -178,24 +179,27 @@
+              console.error(&#96;[DB] Error fetching teams for rank calculation:&#96;, rankError)
+              console.error(&#96;[DB] Rank error code: ${rankError.code}, message: ${rankError.message}&#96;)
++             console.error(&#96;[DB] Rank error details:&#96;, JSON.stringify(rankError, null, 2))
+            } else if (allTeams &amp;&amp; allTeams.length &gt; 0) {
++             console.log(&#96;[DB] Found ${allTeams.length} teams with hybrid_score for ranking&#96;)
+              const rankIndex = allTeams.findIndex(team =&gt; team.team_id === id)
+              if (rankIndex !== -1) {
+                globalRank = rankIndex + 1
+-               console.log(&#96;[DB] Calculated global rank for ${martData.team_name} based on hybrid_score: ${globalRank} (out of ${allTeams.length} teams)&#96;)
++               console.log(&#96;[DB] ✓ Calculated global rank for ${martData.team_name}: ${globalRank} (out of ${allTeams.length} teams)&#96;)
+              } else {
+-               console.warn(&#96;[DB] Team ${id} (${martData.team_name}) not found in ranking list - may have null hybrid_score&#96;)
++               console.warn(&#96;[DB] ⚠ Team ${id} (${martData.team_name}) not found in ranking list - may have been filtered out&#96;)
+              }
+            } else {
+-             console.warn(&#96;[DB] No teams found for rank calculation&#96;)
++             console.warn(&#96;[DB] ⚠ No teams found for rank calculation - query returned empty array&#96;)
+            }
+          } catch (rankError) {
+-           console.error(&#96;[DB] Exception calculating global rank:&#96;, rankError)
++           console.error(&#96;[DB] ✗ Exception calculating global rank:&#96;, rankError)
+            if (rankError instanceof Error) {
+-             console.error(&#96;[DB] Rank error details: ${rankError.message}&#96;)
++             console.error(&#96;[DB] Rank error name: ${rankError.name}&#96;)
++             console.error(&#96;[DB] Rank error message: ${rankError.message}&#96;)
+              console.error(&#96;[DB] Rank error stack: ${rankError.stack}&#96;)
+            }
+          }
+        } else {
+-         console.warn(&#96;[DB] Team ${martData.team_name} has no hybrid_score, skipping rank calculation&#96;)
++         console.warn(&#96;[DB] Team ${martData.team_name} has no hybrid_score (${martData.hybrid_score}), skipping rank calculation&#96;)
+        }
+        
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 1 file</summary>
+      
+Lint paths:
+
+- `src/lib/fetchers.ts`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Improved error handling and logging for the global rank calculation. Changes:
+
+1. **Enhanced logging**: Added detailed console logs at each step:
+   - When starting the rank calculation
+   - Number of teams found
+   - Success/failure indicators
+   - Detailed error information including error codes and messages
+
+2. **Better error handling**: 
+   - Checks if the team has a `hybrid_score` before attempting calculation
+   - Logs specific error codes and messages from Supabase
+   - Handles edge cases (empty results, team not found)
+
+3. **Production debugging**: The logs will help identify issues in production:
+   - Whether Supabase queries are succeeding
+   - If RLS policies are blocking access
+   - If teams have null `hybrid_score` values
+   - Any query timeouts or connection issues
+
+When you deploy to production, check the server logs for messages like:
+- `[DB] Calculating global rank for team...`
+- `[DB] ✓ Calculated global rank...` (success)
+- `[DB] ✗ Exception calculating global rank...` (failure with details)
+- `[DB] ⚠ No teams found for rank calculation...` (empty result)
+
+These logs should help identify why the global rank isn't populating in production. Common causes:
+- RLS policies blocking the query
+- Missing `hybrid_score` values
+- Query timeouts
+- Supabase connection configuration issues
+
+Deploy and check the production logs to see what's happening.
+
+---
+

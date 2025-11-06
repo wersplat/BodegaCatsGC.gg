@@ -164,22 +164,43 @@ export async function getTeam(id: string): Promise<Team | null> {
       
       // Calculate global rank by fetching all teams ordered by hybrid_score
       let globalRank: number | null = null
-      try {
-        const { data: allTeams, error: rankError } = await supabase
-          .from('team_analytics_mart')
-          .select('team_id,hybrid_score')
-          .not('hybrid_score', 'is', null)
-          .order('hybrid_score', { ascending: false })
-        
-        if (!rankError && allTeams) {
-          const rankIndex = allTeams.findIndex(team => team.team_id === id)
-          if (rankIndex !== -1) {
-            globalRank = rankIndex + 1
-            console.log(`[DB] Calculated global rank for ${martData.team_name} based on hybrid_score: ${globalRank}`)
+      
+      // Only calculate rank if the team has a hybrid_score
+      if (martData.hybrid_score !== null && martData.hybrid_score !== undefined) {
+        try {
+          console.log(`[DB] Calculating global rank for team ${id} with hybrid_score ${martData.hybrid_score}`)
+          const { data: allTeams, error: rankError } = await supabase
+            .from('team_analytics_mart')
+            .select('team_id,hybrid_score')
+            .not('hybrid_score', 'is', null)
+            .order('hybrid_score', { ascending: false })
+          
+          if (rankError) {
+            console.error(`[DB] Error fetching teams for rank calculation:`, rankError)
+            console.error(`[DB] Rank error code: ${rankError.code}, message: ${rankError.message}`)
+            console.error(`[DB] Rank error details:`, JSON.stringify(rankError, null, 2))
+          } else if (allTeams && allTeams.length > 0) {
+            console.log(`[DB] Found ${allTeams.length} teams with hybrid_score for ranking`)
+            const rankIndex = allTeams.findIndex(team => team.team_id === id)
+            if (rankIndex !== -1) {
+              globalRank = rankIndex + 1
+              console.log(`[DB] ✓ Calculated global rank for ${martData.team_name}: ${globalRank} (out of ${allTeams.length} teams)`)
+            } else {
+              console.warn(`[DB] ⚠ Team ${id} (${martData.team_name}) not found in ranking list - may have been filtered out`)
+            }
+          } else {
+            console.warn(`[DB] ⚠ No teams found for rank calculation - query returned empty array`)
+          }
+        } catch (rankError) {
+          console.error(`[DB] ✗ Exception calculating global rank:`, rankError)
+          if (rankError instanceof Error) {
+            console.error(`[DB] Rank error name: ${rankError.name}`)
+            console.error(`[DB] Rank error message: ${rankError.message}`)
+            console.error(`[DB] Rank error stack: ${rankError.stack}`)
           }
         }
-      } catch (rankError) {
-        console.warn(`[DB] Could not calculate global rank:`, rankError)
+      } else {
+        console.warn(`[DB] Team ${martData.team_name} has no hybrid_score (${martData.hybrid_score}), skipping rank calculation`)
       }
       
       return {
@@ -263,16 +284,23 @@ export async function getKnownTeams(): Promise<Team[]> {
           .not('hybrid_score', 'is', null)
           .order('hybrid_score', { ascending: false })
         
-        if (!rankError && allTeams) {
+        if (rankError) {
+          console.error(`[DB] Error fetching teams for rank calculation:`, rankError)
+        } else if (allTeams && allTeams.length > 0) {
           allTeams.forEach((team, index) => {
             if (team.team_id) {
               globalRanks.set(team.team_id, index + 1)
             }
           })
           console.log(`[DB] Calculated global ranks for ${globalRanks.size} teams based on hybrid_score`)
+        } else {
+          console.warn(`[DB] No teams found for rank calculation`)
         }
       } catch (rankError) {
-        console.warn(`[DB] Could not calculate global ranks:`, rankError)
+        console.error(`[DB] Exception calculating global ranks:`, rankError)
+        if (rankError instanceof Error) {
+          console.error(`[DB] Rank error details: ${rankError.message}`)
+        }
       }
       
       return martData.map(team => ({
