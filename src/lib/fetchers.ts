@@ -66,12 +66,6 @@ async function getTeamById(teamId: string): Promise<Team | null> {
 export async function getTeams(): Promise<Team[]> {
   console.log(`[DB] Fetching teams from team_analytics_mart`)
   
-  // During build time, use mock data
-  if (isBuildTime) {
-    console.log(`[DB] Build time detected, using mock data`)
-    return mockTeams
-  }
-  
   try {
     // Use team_analytics_mart for comprehensive team data
     // Explicitly select columns that exist in the mart (is_active is not in the mart)
@@ -126,7 +120,7 @@ async function getTeamsFallback(): Promise<Team[]> {
     
     if (error) {
       console.error(`[DB] Error fetching teams from fallback:`, error)
-      return mockTeams
+      return []
     }
     
     if (data && data.length > 0) {
@@ -134,24 +128,17 @@ async function getTeamsFallback(): Promise<Team[]> {
       return data as Team[]
     }
     
-    // Empty result is valid - return empty array instead of mock data in production
+    // Empty result is valid - return empty array
     console.warn(`[DB] No teams found in fallback query - returning empty array`)
     return []
   } catch (error) {
     console.error(`[DB] Exception in getTeamsFallback:`, error)
-    return mockTeams
+    return []
   }
 }
 
 export async function getTeam(id: string): Promise<Team | null> {
   console.log(`[DB] Fetching team with ID: ${id}`)
-  
-  // During build time, use mock data
-  if (isBuildTime) {
-    console.log(`[DB] Build time detected, using mock data`)
-    const mockTeam = mockTeams.find(t => t.id === id)
-    return mockTeam || null
-  }
   
   try {
     // Try team_analytics_mart first for richer data
@@ -233,8 +220,7 @@ export async function getTeam(id: string): Promise<Team | null> {
     
     if (error) {
       console.error(`[DB] Error fetching team ${id}:`, error)
-      const mockTeam = mockTeams.find(t => t.id === id)
-      return mockTeam || null
+      return null
     }
     
     if (data) {
@@ -242,24 +228,16 @@ export async function getTeam(id: string): Promise<Team | null> {
       return data as Team
     }
     
-    const mockTeam = mockTeams.find(t => t.id === id)
-    return mockTeam || null
+    return null
   } catch (error) {
     console.error(`[DB] Exception in getTeam:`, error)
-    const mockTeam = mockTeams.find(t => t.id === id)
-    return mockTeam || null
+    return null
   }
 }
 
 // New function to get the specific known teams directly - using team_analytics_mart
 export async function getKnownTeams(): Promise<Team[]> {
   console.log(`[DB] Fetching known teams directly by ID from team_analytics_mart`)
-  
-  // During build time, always use mock data
-  if (isBuildTime) {
-    console.log(`[DB] Build time detected, using mock data for known teams`)
-    return mockTeams
-  }
   
   const knownTeamIds = [
     'ed3e6f8d-3176-4c15-a20f-0ccfe04a99ca', // Bodega Cats
@@ -287,9 +265,7 @@ export async function getKnownTeams(): Promise<Team[]> {
       
       if (error) {
         console.error(`[DB] Error fetching known teams from fallback:`, error)
-        // Only use mock data if both queries fail
-        console.warn(`[DB] Both mart and fallback queries failed, using mock data`)
-        return mockTeams
+        return []
       }
       
       if (data && data.length > 0) {
@@ -297,7 +273,7 @@ export async function getKnownTeams(): Promise<Team[]> {
         return data as Team[]
       }
       
-      // Empty result - return empty array instead of mock data
+      // Empty result - return empty array
       console.warn(`[DB] No teams found in fallback query - returning empty array`)
       return []
     }
@@ -373,8 +349,6 @@ export async function getKnownTeams(): Promise<Team[]> {
     return []
   } catch (error) {
     console.error(`[DB] Exception in getKnownTeams:`, error)
-    // Only use mock data on actual exceptions, not empty results
-    console.warn(`[DB] Exception occurred, returning empty array instead of mock data`)
     return []
   }
 }
@@ -382,12 +356,6 @@ export async function getKnownTeams(): Promise<Team[]> {
 // Team roster fetchers - using Supabase directly, ensuring no duplicates
 export async function getTeamRoster(teamId: string): Promise<TeamRosterPlayer[]> {
   console.log(`[DB] Fetching team roster for team ID: ${teamId}`)
-  
-  // During build time, use mock data
-  if (isBuildTime) {
-    console.log(`[DB] Build time detected, using mock data`)
-    return mockTeamRoster.filter(player => player.team_id === teamId)
-  }
   
   try {
     const { data, error } = await supabase
@@ -398,7 +366,7 @@ export async function getTeamRoster(teamId: string): Promise<TeamRosterPlayer[]>
     
     if (error) {
       console.error(`[DB] Error fetching team roster:`, error)
-      return mockTeamRoster.filter(player => player.team_id === teamId)
+      return []
     }
     
     if (data && data.length > 0) {
@@ -415,51 +383,16 @@ export async function getTeamRoster(teamId: string): Promise<TeamRosterPlayer[]>
       return uniquePlayersArray
     }
     
-    console.log(`[DB] No players found, using fallback mock data`)
-    return mockTeamRoster.filter(player => player.team_id === teamId)
+    console.log(`[DB] No players found - returning empty array`)
+    return []
   } catch (error) {
     console.error(`[DB] Exception in getTeamRoster:`, error)
-    return mockTeamRoster.filter(player => player.team_id === teamId)
+    return []
   }
 }
 
 export async function getAllTeamRosters(): Promise<{ team_id: string; team_name: string; players: TeamRosterPlayer[]; total_players: number; captains: TeamRosterPlayer[]; coaches: TeamRosterPlayer[] }[]> {
   console.log(`[DB] Fetching all team rosters`)
-  
-  // During build time, use mock data
-  if (isBuildTime) {
-    console.log(`[DB] Build time detected, using mock data`)
-    const teamsMap = new Map<string, { team_id: string; team_name: string; players: TeamRosterPlayer[]; captains: TeamRosterPlayer[]; coaches: TeamRosterPlayer[] }>()
-    
-    mockTeamRoster.forEach(player => {
-      if (!player.team_id) return
-      
-      if (!teamsMap.has(player.team_id)) {
-        teamsMap.set(player.team_id, {
-          team_id: player.team_id,
-          team_name: player.team_name || 'Unknown Team',
-          players: [],
-          captains: [],
-          coaches: []
-        })
-      }
-      
-      const team = teamsMap.get(player.team_id)!
-      team.players.push(player)
-      
-      if (player.is_captain) {
-        team.captains.push(player)
-      }
-      if (player.is_player_coach) {
-        team.coaches.push(player)
-      }
-    })
-    
-    return Array.from(teamsMap.values()).map(team => ({
-      ...team,
-      total_players: team.players.length
-    }))
-  }
   
   try {
     const { data, error } = await supabase
@@ -558,12 +491,6 @@ export async function getFeaturedEvents(): Promise<Event[]> {
 export async function getLeaderboard(): Promise<RankingRow[]> {
   console.log(`[DB] Fetching leaderboard from player_performance_mart (filtered by team)`)
   
-  // During build time, use mock data
-  if (isBuildTime) {
-    console.log(`[DB] Build time detected, using mock data`)
-    return mockRankings
-  }
-  
   // Only show players from these teams
   const knownTeamIds = [
     'ed3e6f8d-3176-4c15-a20f-0ccfe04a99ca', // Bodega Cats
@@ -582,16 +509,12 @@ export async function getLeaderboard(): Promise<RankingRow[]> {
     
     if (playersError) {
       console.error(`[DB] Error fetching players:`, playersError)
-      return mockRankings.filter(ranking => {
-        return ranking.team === 'Bodega Cats' || ranking.team === 'Capitol City Cats'
-      })
+      return []
     }
     
     if (!players || players.length === 0) {
-      console.log(`[DB] No players found for specified teams, using filtered mock data`)
-      return mockRankings.filter(ranking => {
-        return ranking.team === 'Bodega Cats' || ranking.team === 'Capitol City Cats'
-      })
+      console.log(`[DB] No players found for specified teams - returning empty array`)
+      return []
     }
     
     console.log(`[DB] Successfully fetched ${players.length} players, calculating wins/losses from matches`)
@@ -681,9 +604,7 @@ export async function getLeaderboard(): Promise<RankingRow[]> {
     return rankings
   } catch (error) {
     console.error(`[DB] Exception in getLeaderboard:`, error)
-    return mockRankings.filter(ranking => {
-      return ranking.team === 'Bodega Cats' || ranking.team === 'Capitol City Cats'
-    })
+    return []
   }
 }
 
