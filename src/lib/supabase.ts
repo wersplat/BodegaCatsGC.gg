@@ -13,8 +13,8 @@ if (!supabaseUrl || !supabaseAnonKey) {
 // Create Supabase client - will use placeholder values if env vars are missing
 // Queries will fail gracefully and fetchers will fall back to mock data
 export const supabase = createClient<Database>(
-  supabaseUrl || 'https://placeholder.supabase.co',
-  supabaseAnonKey || 'placeholder-key',
+  supabaseUrl || 'https://qwpxsufrgigpjcxtnery.supabase.co',
+  supabaseAnonKey || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF3cHhzdWZyZ2lncGpjeHRuZXJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE4NzI1MjksImV4cCI6MjA2NzQ0ODUyOX0.ujcyEXDgpIJVaNb7IeFZV9Yrl2l41xHq-TdEut-Wxg0',
   {
     auth: {
       persistSession: false,

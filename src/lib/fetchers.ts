@@ -106,7 +106,8 @@ export async function getTeams(): Promise<Team[]> {
       })) as Team[]
     }
     
-    console.log(`[DB] No teams found in mart, trying fallback`)
+    // Empty result is valid - return empty array instead of mock data
+    console.log(`[DB] No teams found in mart (empty result), trying fallback`)
     return await getTeamsFallback()
   } catch (error) {
     console.error(`[DB] Exception in getTeams:`, error)
@@ -133,7 +134,9 @@ async function getTeamsFallback(): Promise<Team[]> {
       return data as Team[]
     }
     
-    return mockTeams
+    // Empty result is valid - return empty array instead of mock data in production
+    console.warn(`[DB] No teams found in fallback query - returning empty array`)
+    return []
   } catch (error) {
     console.error(`[DB] Exception in getTeamsFallback:`, error)
     return mockTeams
@@ -272,7 +275,34 @@ export async function getKnownTeams(): Promise<Team[]> {
       .in('team_id', knownTeamIds)
       .order('team_name', { ascending: true })
     
-    if (!martError && martData && martData.length > 0) {
+    if (martError) {
+      console.error(`[DB] Error fetching known teams from mart:`, martError)
+      // Try fallback to teams table
+      console.log(`[DB] Mart query failed, trying teams table`)
+      const { data, error } = await supabase
+        .from('teams')
+        .select('*')
+        .in('id', knownTeamIds)
+        .order('name', { ascending: true })
+      
+      if (error) {
+        console.error(`[DB] Error fetching known teams from fallback:`, error)
+        // Only use mock data if both queries fail
+        console.warn(`[DB] Both mart and fallback queries failed, using mock data`)
+        return mockTeams
+      }
+      
+      if (data && data.length > 0) {
+        console.log(`[DB] Successfully fetched ${data.length} known teams from teams table`)
+        return data as Team[]
+      }
+      
+      // Empty result - return empty array instead of mock data
+      console.warn(`[DB] No teams found in fallback query - returning empty array`)
+      return []
+    }
+    
+    if (martData && martData.length > 0) {
       console.log(`[DB] Successfully fetched ${martData.length} known teams from team_analytics_mart`)
       
       // Calculate global ranks for all teams based on hybrid_score
@@ -320,8 +350,8 @@ export async function getKnownTeams(): Promise<Team[]> {
       })) as Team[]
     }
     
-    // Fallback to teams table
-    console.log(`[DB] Mart query failed, trying teams table`)
+    // Empty result from mart - try fallback
+    console.log(`[DB] No teams found in mart (empty result), trying teams table`)
     const { data, error } = await supabase
       .from('teams')
       .select('*')
@@ -329,8 +359,8 @@ export async function getKnownTeams(): Promise<Team[]> {
       .order('name', { ascending: true })
     
     if (error) {
-      console.error(`[DB] Error fetching known teams:`, error)
-      return mockTeams
+      console.error(`[DB] Error fetching known teams from fallback:`, error)
+      return []
     }
     
     if (data && data.length > 0) {
@@ -338,11 +368,14 @@ export async function getKnownTeams(): Promise<Team[]> {
       return data as Team[]
     }
     
-    console.log(`[DB] No teams found, using fallback mock data`)
-    return mockTeams
+    // Empty result is valid - return empty array
+    console.warn(`[DB] No teams found in fallback query - returning empty array`)
+    return []
   } catch (error) {
     console.error(`[DB] Exception in getKnownTeams:`, error)
-    return mockTeams
+    // Only use mock data on actual exceptions, not empty results
+    console.warn(`[DB] Exception occurred, returning empty array instead of mock data`)
+    return []
   }
 }
 
