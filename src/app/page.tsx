@@ -3,6 +3,10 @@ import { TeamCard } from '@/components/team-card'
 import { EventCard } from '@/components/event-card'
 import { getKnownTeams, getFeaturedEvents } from '@/lib/fetchers'
 
+// Force dynamic rendering to ensure fresh data
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export default async function HomePage() {
   const teams = await getKnownTeams()
   const featuredEvents = await getFeaturedEvents()

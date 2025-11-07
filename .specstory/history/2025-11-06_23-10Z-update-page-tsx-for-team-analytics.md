@@ -2838,3 +2838,827 @@ The mock data override issue should now be resolved.
 
 ---
 
+_**User (2025-11-06 22:47Z)**_
+
+{
+
+  "event_message": "GET | 400 | 2a06:98c0:3600::103 | 99a88cc7e3f10a0f | https://qwpxsufrgigpjcxtnery.supabase.co/rest/v1/team_analytics_mart?select=team_id%2Cteam_name%2Clogo_url%2Celo_rating%2Ccurrent_rp%2Crp_tier%2Cwins%2Closses%2Cwin_percentage%2Cgames_played%2Cis_active&games_played=gte.1&order=win_percentage.desc%2Celo_rating.desc&limit=100 | null",
+
+  "id": "5aeef1b9-09a8-46d7-9379-80d8ff00ab36",
+
+  "metadata": [
+
+    {
+
+      "load_balancer_experimental_routing": null,
+
+      "load_balancer_geo_aware_info": [],
+
+      "load_balancer_redirect_identifier": null,
+
+      "logflare_worker": [
+
+        {
+
+          "worker_id": "SBICPD"
+
+        }
+
+      ],
+
+      "request": [
+
+        {
+
+          "cf": [
+
+            {
+
+              "asOrganization": "Cloudflare, Inc.",
+
+              "asn": 13335,
+
+              "botManagement": [
+
+                {
+
+                  "corporateProxy": false,
+
+                  "detectionIds": [
+
+                    33554913
+
+                  ],
+
+                  "ja3Hash": null,
+
+                  "ja4": null,
+
+                  "ja4Signals": [],
+
+                  "jsDetection": [
+
+                    {
+
+                      "passed": false
+
+                    }
+
+                  ],
+
+                  "score": 1,
+
+                  "staticResource": false,
+
+                  "verifiedBot": false
+
+                }
+
+              ],
+
+              "city": "Ashburn",
+
+              "clientAcceptEncoding": null,
+
+              "clientTcpRtt": null,
+
+              "clientTrustScore": 1,
+
+              "colo": "IAD",
+
+              "continent": "NA",
+
+              "country": "US",
+
+              "edgeRequestKeepAliveStatus": 1,
+
+              "httpProtocol": "HTTP/1.1",
+
+              "isEUCountry": null,
+
+              "latitude": "39.04372",
+
+              "longitude": "-77.48749",
+
+              "metroCode": null,
+
+              "postalCode": "20147",
+
+              "region": "Virginia",
+
+              "regionCode": "VA",
+
+              "requestPriority": null,
+
+              "timezone": "America/New_York",
+
+              "tlsCipher": null,
+
+              "tlsClientAuth": [
+
+                {
+
+                  "certPresented": "0",
+
+                  "certRevoked": "0",
+
+                  "certVerified": "NONE"
+
+                }
+
+              ],
+
+              "tlsClientCiphersSha1": null,
+
+              "tlsClientExtensionsSha1": null,
+
+              "tlsClientExtensionsSha1Le": null,
+
+              "tlsClientHelloLength": null,
+
+              "tlsClientRandom": null,
+
+              "tlsExportedAuthenticator": [],
+
+              "tlsVersion": null,
+
+              "verifiedBotCategory": null
+
+            }
+
+          ],
+
+          "headers": [
+
+            {
+
+              "accept": null,
+
+              "cf_cache_status": null,
+
+              "cf_connecting_ip": "2a06:98c0:3600::103",
+
+              "cf_ipcountry": "US",
+
+              "cf_ray": "99a88cc7e3f10a0f",
+
+              "content_length": null,
+
+              "content_location": null,
+
+              "content_range": null,
+
+              "content_type": null,
+
+              "date": null,
+
+              "host": "qwpxsufrgigpjcxtnery.supabase.co",
+
+              "prefer": null,
+
+              "range": null,
+
+              "referer": null,
+
+              "sb_gateway_mode": null,
+
+              "sb_gateway_version": null,
+
+              "user_agent": null,
+
+              "x_client_info": "supabase-js-node/2.58.0",
+
+              "x_forwarded_host": null,
+
+              "x_forwarded_proto": "https",
+
+              "x_forwarded_user_agent": null,
+
+              "x_kong_proxy_latency": null,
+
+              "x_kong_upstream_latency": null,
+
+              "x_real_ip": "2a06:98c0:3600::103"
+
+            }
+
+          ],
+
+          "host": "qwpxsufrgigpjcxtnery.supabase.co",
+
+          "method": "GET",
+
+          "path": "/rest/v1/team_analytics_mart",
+
+          "port": null,
+
+          "protocol": "https:",
+
+          "sb": [
+
+            {
+
+              "apikey": [],
+
+              "auth_user": null,
+
+              "jwt": [
+
+                {
+
+                  "apikey": [
+
+                    {
+
+                      "invalid": null,
+
+                      "payload": [
+
+                        {
+
+                          "algorithm": "HS256",
+
+                          "expires_at": 2067448529,
+
+                          "issuer": "supabase",
+
+                          "role": "anon",
+
+                          "signature_prefix": "ujcyEX",
+
+                          "subject": null
+
+                        }
+
+                      ]
+
+                    }
+
+                  ],
+
+                  "authorization": [
+
+                    {
+
+                      "invalid": null,
+
+                      "payload": [
+
+                        {
+
+                          "algorithm": "HS256",
+
+                          "expires_at": 2067448529,
+
+                          "issuer": "supabase",
+
+                          "key_id": null,
+
+                          "role": "anon",
+
+                          "session_id": null,
+
+                          "signature_prefix": "ujcyEX",
+
+                          "subject": null
+
+                        }
+
+                      ]
+
+                    }
+
+                  ]
+
+                }
+
+              ]
+
+            }
+
+          ],
+
+          "search": "?select=team_id%2Cteam_name%2Clogo_url%2Celo_rating%2Ccurrent_rp%2Crp_tier%2Cwins%2Closses%2Cwin_percentage%2Cgames_played%2Cis_active&games_played=gte.1&order=win_percentage.desc%2Celo_rating.desc&limit=100",
+
+          "url": "https://qwpxsufrgigpjcxtnery.supabase.co/rest/v1/team_analytics_mart?select=team_id%2Cteam_name%2Clogo_url%2Celo_rating%2Ccurrent_rp%2Crp_tier%2Cwins%2Closses%2Cwin_percentage%2Cgames_played%2Cis_active&games_played=gte.1&order=win_percentage.desc%2Celo_rating.desc&limit=100"
+
+        }
+
+      ],
+
+      "response": [
+
+        {
+
+          "headers": [
+
+            {
+
+              "cf_cache_status": "DYNAMIC",
+
+              "cf_ray": "99a88cc803fd0a0f-IAD",
+
+              "content_length": null,
+
+              "content_location": null,
+
+              "content_range": null,
+
+              "content_type": "application/json; charset=utf-8",
+
+              "date": "Fri, 07 Nov 2025 00:00:21 GMT",
+
+              "sb_gateway_mode": null,
+
+              "sb_gateway_version": "1",
+
+              "sb_request_id": "019a5b9d-38fb-7b48-90af-fc0b0fac98f8",
+
+              "transfer_encoding": "chunked",
+
+              "x_kong_proxy_latency": null,
+
+              "x_kong_upstream_latency": null,
+
+              "x_sb_error_code": null
+
+            }
+
+          ],
+
+          "origin_time": 47,
+
+          "status_code": 400
+
+        }
+
+      ]
+
+    }
+
+  ],
+
+  "timestamp": 1762473621755000
+
+}
+
+---
+
+_**Agent (model composer-1, mode Agent)**_
+
+
+
+---
+
+
+The error query selects `is_active` and includes filters/ordering not in our code. Searching for where this query is generated:
+
+
+---
+
+<tool-use data-tool-type="grep" data-tool-name="grep">
+<details>
+<summary>Tool use: **grep** • Grep for "is_active|games_played.*gte|win_percentage.*desc" in "src" • 8 matches</summary>
+
+Output mode: content
+
+
+| File | Content | Line |
+|------|------|------|
+| `src/lib/fetchers.ts` | `// Explicitly select columns that exist in the mart (is_active is not in the mart)` | L77 |
+| `src/lib/fetchers.ts` | `is_active: true,` | L104 |
+| `src/lib/fetchers.ts` | `.eq('is_active', true)` | L124 |
+| `src/lib/fetchers.ts` | `// Explicitly select columns that exist in the mart (is_active is not in the mart)` | L158 |
+| `src/lib/fetchers.ts` | `is_active: true,` | L221 |
+| `src/lib/fetchers.ts` | `// Explicitly select columns that exist in the mart (is_active is not in the mart)` | L271 |
+| `src/lib/fetchers.ts` | `is_active: true,` | L348 |
+| `src/lib/types.ts` | `is_active?: boolean \| null` | L46 |
+
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="search" data-tool-name="codebase_search">
+<details>
+                <summary>Tool use: **codebase_search** • Searched codebase "team_analytics_mart select is_active games_played win_percentage order limit" • **10** results</summary>
+            
+| File | Lines |
+|------|-------|
+| `src/lib/fetchers.ts` | L60-143 |
+| `src/lib/fetchers.ts` | L253-379 |
+| `db.types.ts` | L6-24588 |
+| `src/lib/fetchers.ts` | L145-379 |
+| `src/lib/fetchers.ts` | L118-251 |
+| `src/lib/fetchers.ts` | L549-687 |
+| `src/lib/fetchers.ts` | L143-251 |
+| `src/lib/fetchers.ts` | L143-253 |
+| `src/lib/fetchers.ts` | L65-251 |
+| `src/lib/fetchers.ts` | L423-528 |
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="grep" data-tool-name="grep">
+<details>
+<summary>Tool use: **grep** • Grep for "\.from\(.*team_analytics_mart" in "src" • 5 matches</summary>
+
+Output mode: content
+
+
+| File | Content | Line |
+|------|------|------|
+| `src/lib/fetchers.ts` | `.from('team_analytics_mart')` | L79 |
+| `src/lib/fetchers.ts` | `.from('team_analytics_mart')` | L160 |
+| `src/lib/fetchers.ts` | `.from('team_analytics_mart')` | L176 |
+| `src/lib/fetchers.ts` | `.from('team_analytics_mart')` | L273 |
+| `src/lib/fetchers.ts` | `.from('team_analytics_mart')` | L312 |
+
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+The error query selects `is_active` and includes filters/ordering not in our code. This likely comes from another source. Checking for other query sources and verifying our queries are correct:
+
+
+---
+
+<tool-use data-tool-type="grep" data-tool-name="grep">
+<details>
+<summary>Tool use: **grep** • Grep for "wins|losses|win_percentage|games_played" in "src" • 39 matches</summary>
+
+Output mode: content
+
+
+| File | Content | Line |
+|------|------|------|
+| `src/lib/fetchers.ts` | `// Calculates actual wins/losses from match results` | L557 |
+| `src/lib/fetchers.ts` | `console.log(`[DB] Successfully fetched $\{players.length\} players, calculating wins/losses from matches`)` | L597 |
+| `src/lib/fetchers.ts` | `// Fetch matches for these teams to calculate actual wins/losses` | L599 |
+| `src/lib/fetchers.ts` | `console.warn(`[DB] Error fetching matches, using estimated wins/losses:`, matchesError)` | L610 |
+| `src/lib/fetchers.ts` | `// Create a map to count wins/losses per player` | L613 |
+| `src/lib/fetchers.ts` | `const playerStats = new Map<string, \{ wins: number; losses: number \}>()` | L614 |
+| `src/lib/fetchers.ts` | `// Initialize all players with 0 wins/losses` | L616 |
+| `src/lib/fetchers.ts` | `playerStats.set(player.player_id, \{ wins: 0, losses: 0 \})` | L619 |
+| `src/lib/fetchers.ts` | `// Calculate wins/losses from matches` | L623 |
+| `src/lib/fetchers.ts` | `// Count wins for players on winning team` | L630 |
+| `src/lib/fetchers.ts` | `stats.wins++` | L636 |
+| `src/lib/fetchers.ts` | `// Count losses for players on losing team` | L642 |
+| `src/lib/fetchers.ts` | `stats.losses++` | L649 |
+| `src/lib/fetchers.ts` | `// Map to RankingRow format with actual wins/losses` | L657 |
+| `src/lib/fetchers.ts` | `const stats = playerStats.get(player.player_id \|\| '') \|\| \{ wins: 0, losses: 0 \}` | L660 |
+| `src/lib/fetchers.ts` | `const gamesPlayed = stats.wins + stats.losses \|\| player.games_played \|\| 0` | L661 |
+| `src/lib/fetchers.ts` | `// Use actual wins/losses if available, otherwise fall back to games_played` | L663 |
+| `src/lib/fetchers.ts` | `const wins = stats.wins > 0 ? stats.wins : (gamesPlayed > 0 ? Math.round(gamesPlayed * 0.5) : 0)` | L664 |
+| `src/lib/fetchers.ts` | `const losses = stats.losses > 0 ? stats.losses : (gamesPlayed - wins)` | L665 |
+| `src/lib/fetchers.ts` | `const winRate = gamesPlayed > 0 ? (wins / gamesPlayed) * 100 : 0` | L666 |
+| `src/lib/fetchers.ts` | `wins,` | L674 |
+| `src/lib/fetchers.ts` | `losses,` | L675 |
+| `src/lib/fetchers.ts` | `console.log(`[DB] Successfully calculated rankings with actual wins/losses for $\{rankings.length\} players`)` | L680 |
+| `src/lib/fetchers.ts` | `wins: row.wins,` | L702 |
+| `src/lib/fetchers.ts` | `losses: row.losses,` | L703 |
+| `src/lib/types.ts` | `wins: number` | L180 |
+| `src/lib/types.ts` | `losses: number` | L181 |
+| `src/lib/types.ts` | `wins: number` | L197 |
+| `src/lib/types.ts` | `losses: number` | L198 |
+| `src/lib/mock.ts` | `wins: 25,` | L236 |
+| `src/lib/mock.ts` | `losses: 15,` | L237 |
+| `src/lib/mock.ts` | `wins: 20,` | L246 |
+| `src/lib/mock.ts` | `losses: 20,` | L247 |
+| `src/lib/mock.ts` | `wins: 22,` | L256 |
+| `src/lib/mock.ts` | `losses: 18,` | L257 |
+| `src/components/leaderboard-table.tsx` | `\{ranking.wins\}W - \{ranking.losses\}L` | L152 |
+| `src/lib/utils.ts` | `export function formatWinRate(wins: number, losses: number) \{` | L16 |
+| `src/lib/utils.ts` | `const total = wins + losses` | L17 |
+| `src/lib/utils.ts` | `return `$\{((wins / total) * 100).toFixed(1)\}%`` | L19 |
+
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: src/lib/supabase.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="search" data-tool-name="codebase_search">
+<details>
+                <summary>Tool use: **codebase_search** • Searched codebase "supabase query builder select wins losses win_percentage games_played" • **12** results</summary>
+            
+| File | Lines |
+|------|-------|
+| `src/lib/fetchers.ts` | L552-687 |
+| `src/lib/fetchers.ts` | L549-687 |
+| `src/lib/fetchers.ts` | L552-691 |
+| `db.types.ts` | L6-24588 |
+| `src/lib/fetchers.ts` | L60-143 |
+| `src/lib/fetchers.ts` | L118-251 |
+| `src/lib/fetchers.ts` | L145-379 |
+| `src/lib/fetchers.ts` | L253-379 |
+| `src/lib/types.ts` | L164-199 |
+| `src/lib/fetchers.ts` | L689-713 |
+| `src/lib/fetchers.ts` | L254-528 |
+| `src/lib/fetchers.ts` | L423-528 |
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+The error query doesn't match our code. It selects `is_active` (not in `team_analytics_mart`) and includes filters/ordering we don't use. Our queries explicitly select only valid columns.
+
+This likely comes from:
+1. Supabase Dashboard/API Explorer
+2. Another service/application
+3. Cached/old queries
+4. RLS policies or middleware
+
+Our code is correct. Verifying our queries don't include `is_active`:
+
+
+---
+
+<tool-use data-tool-type="grep" data-tool-name="grep">
+<details>
+<summary>Tool use: **grep** • Grep for "\.from\(.*team_analytics_mart.*\)\s*\.select" in "src/lib/fetchers.ts" • 0 matches</summary>
+
+Output mode: content
+
+
+_No matches found_
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: src/lib/fetchers.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Our queries are correct. They don't select `is_active` or use those filters. The error query is not from our codebase.
+
+**Our queries correctly select only valid columns:**
+- `team_id,team_name,logo_url,elo_rating,current_rp,rp_tier,total_prize_money,avg_player_rating,hybrid_score,team_twitter`
+
+**The error query includes invalid columns:**
+- `is_active` (doesn't exist in `team_analytics_mart`)
+- `wins,losses,win_percentage,games_played` (not selected in our queries)
+- Filters and ordering we don't use
+
+**Possible sources:**
+1. Supabase Dashboard/API Explorer — manual queries
+2. Another service/application using the same database
+3. Cached queries or browser dev tools
+4. RLS policies or database triggers
+
+**To fix:**
+- Check Supabase Dashboard logs to see where the query originates
+- Review other services/applications that query this database
+- Ensure RLS policies aren't modifying queries
+
+Our code is correct and won't generate this query. The 400 error is from a different source querying `team_analytics_mart` with invalid columns.
+
+---
+
+_**User (2025-11-06 22:47Z)**_
+
+https://bodegacatsgc.gg/teams/ed3e6f8d-3176-4c15-a20f-0ccfe04a99ca shows correct data
+
+
+
+https://bodegacatsgc.gg/ doesnt
+
+https://bodegacatsgc.gg/teams  doesnt
+
+
+
+---
+
+_**Agent (model composer-1, mode Agent)**_
+
+
+
+---
+
+
+The team detail page shows correct data (Rank #13, ELO: 1717.22), but the home and teams pages show different values (Rank #16, ELO: 1,685.65). This suggests `getTeam()` works, but `getKnownTeams()` may be returning stale data. Checking the difference:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: src/lib/fetchers.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: src/app/page.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: src/app/teams/page.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Both pages use `getKnownTeams()`, which may be cached or statically generated. The team detail page likely fetches fresh data. Checking for static generation or caching and ensuring these pages fetch fresh data:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: src/lib/fetchers.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="grep" data-tool-name="grep">
+<details>
+<summary>Tool use: **grep** • Grep for "export const revalidate|export const dynamic|force-dynamic" in "src/app" • 0 matches</summary>
+
+Output mode: content
+
+
+_No matches found_
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="search" data-tool-name="codebase_search">
+<details>
+                <summary>Tool use: **codebase_search** • Searched codebase "next.js static generation caching revalidate dynamic rendering" • **15** results</summary>
+            
+| File | Lines |
+|------|-------|
+| `next.config.js` | L11 |
+| `src/lib/fetchers.ts` | L62 |
+| `src/app/layout.tsx` | L71 |
+| `package.json` | L37 |
+| `src/app/layout.tsx` | L9-71 |
+| `README.md` | L61 |
+| `API_INTEGRATION.md` | L149-210 |
+| `src/app/page.tsx` | L88 |
+| `env.local.example` | L21 |
+| `src/app/teams/[slug]/page.tsx` | L6-231 |
+| `src/lib/config.ts` | L35 |
+| `src/lib/config.ts` | L31-53 |
+| `src/app/teams/[slug]/page.tsx` | L12-231 |
+| `src/app/media/page.tsx` | L70 |
+| `src/app/media/page.tsx` | L6-70 |
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+The home and teams pages are statically generated and cached, while the team detail page is dynamic. Adding dynamic rendering to ensure fresh data:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **code_edit** • Edit file: src/app/page.tsx</summary>
+
+**Chunk 1**
+Lines added: 4, lines removed: undefined
+
+```diff
+@@ -3,4 +3,8 @@
+  import { EventCard } from &#39;@/components/event-card&#39;
+  import { getKnownTeams, getFeaturedEvents } from &#39;@/lib/fetchers&#39;
++ 
++ // Force dynamic rendering to ensure fresh data
++ export const dynamic = &#39;force-dynamic&#39;
++ export const revalidate = 0
+  
+  export default async function HomePage() {
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **code_edit** • Edit file: src/app/teams/page.tsx</summary>
+
+**Chunk 1**
+Lines added: 4, lines removed: undefined
+
+```diff
+@@ -7,4 +7,8 @@
+    description: &#39;Meet the elite teams of Bodega Cats Gaming Club. From street-smart Bodega Cats to sophisticated Capitol City Cats.&#39;,
+  }
++ 
++ // Force dynamic rendering to ensure fresh data
++ export const dynamic = &#39;force-dynamic&#39;
++ export const revalidate = 0
+  
+  export default async function TeamsPage() {
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 2 files</summary>
+      
+Lint paths:
+
+- `src/app/page.tsx`
+- `src/app/teams/page.tsx`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Added dynamic rendering to both pages. The issue was Next.js statically generating and caching the home and teams pages at build time, so they showed stale data.
+
+**Changes made:**
+
+1. **`src/app/page.tsx`** — Added:
+   - `export const dynamic = 'force-dynamic'` — Forces dynamic rendering (no static generation)
+   - `export const revalidate = 0` — Disables caching (always fetches fresh data)
+
+2. **`src/app/teams/page.tsx`** — Added the same dynamic rendering flags
+
+**Why this fixes it:**
+
+- The team detail page (`/teams/[slug]`) uses dynamic params, so it renders dynamically and fetches fresh data
+- The home and teams pages were statically generated at build time and cached, showing stale data
+- With `dynamic = 'force-dynamic'` and `revalidate = 0`, these pages now fetch fresh data on each request, matching the team detail page behavior
+
+After redeploying, the home and teams pages should show the same up-to-date data as the team detail page (Rank #13, ELO: 1717.22, etc.).
+
+---
+

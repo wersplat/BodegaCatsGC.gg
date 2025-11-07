@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { ThemeToggle } from './theme-toggle'
 import { EXTERNAL_CONFIG } from '@/lib/config'
 import { Facebook, Twitter, Instagram, Youtube, Twitch } from 'lucide-react'
@@ -39,9 +40,11 @@ export function SiteFooter() {
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
             <Link href="/" className="flex items-center space-x-2 mb-4">
-              <img 
+              <Image 
                 src="/teams/bodega-cats-logo.png" 
                 alt="Bodega Cats GC" 
+                width={32}
+                height={32}
                 className="h-8 w-8 object-contain"
               />
               <span className="font-bold text-xl">BodegaCatsGC</span>

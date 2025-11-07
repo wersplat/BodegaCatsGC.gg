@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import Image from 'next/image'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Users, Target, Award } from 'lucide-react'
@@ -135,9 +136,11 @@ export default function AboutPage() {
             </div>
             <div className="text-center">
               <div className="w-48 h-48 rounded-3xl mx-auto overflow-hidden">
-                <img 
+                <Image 
                   src="/founder/cager.jpg" 
                   alt="Christian 'Cager' Werwaiss" 
+                  width={192}
+                  height={192}
                   className="w-full h-full object-cover"
                 />
               </div>

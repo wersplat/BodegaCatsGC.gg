@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 
 export function Hero() {
@@ -12,9 +13,11 @@ export function Hero() {
           {/* Logo */}
           <div className="mb-8">
             <div className="inline-flex items-center justify-center w-32 h-32 mb-6">
-              <img 
+              <Image 
                 src="/teams/bodega-cats-logo.png" 
                 alt="Bodega Cats GC Logo" 
+                width={128}
+                height={128}
                 className="w-full h-full object-contain"
               />
             </div>

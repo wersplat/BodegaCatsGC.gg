@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -28,9 +29,11 @@ export function TeamCard({ team, featured = false }: TeamCardProps) {
     <Card className={`group hover:scale-105 transition-all duration-300 ${featured ? 'ring-2 ring-bcg-accent' : ''}`}>
       <CardHeader className="text-center">
         <div className="mx-auto mb-4 w-16 h-16 rounded-2xl flex items-center justify-center">
-          <img 
+          <Image 
             src={logoUrl} 
             alt={`${team.name} Logo`}
+            width={64}
+            height={64}
             className="w-full h-full object-contain"
           />
         </div>

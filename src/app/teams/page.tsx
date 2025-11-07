@@ -7,6 +7,10 @@ export const metadata: Metadata = {
   description: 'Meet the elite teams of Bodega Cats Gaming Club. From street-smart Bodega Cats to sophisticated Capitol City Cats.',
 }
 
+// Force dynamic rendering to ensure fresh data
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export default async function TeamsPage() {
   const teams = await getKnownTeams()
 
