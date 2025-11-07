@@ -4260,7 +4260,269 @@ Lines added: 2, lines removed: 4
 
 ---
 
+<tool-use data-tool-type="write" data-tool-name="search_replace">
 
+<details><summary>Tool use: **code_edit** • Edit file: src/lib/fetchers.ts</summary>
+
+**Chunk 1**
+Lines added: undefined, lines removed: 6
+
+```diff
+@@ -239,10 +239,4 @@
+  export async function getKnownTeams(): Promise&lt;Team[]&gt; {
+    console.log(&#96;[DB] Fetching known teams directly by ID from team_analytics_mart&#96;)
+-   
+-   // During build time, always use mock data
+-   if (isBuildTime) {
+-     console.log(&#96;[DB] Build time detected, using mock data for known teams&#96;)
+-     return mockTeams
+-   }
+    
+    const knownTeamIds = [
+```
+
+**Chunk 2**
+Lines added: 1, lines removed: 3
+
+```diff
+@@ -272,7 +266,5 @@
+        if (error) {
+          console.error(&#96;[DB] Error fetching known teams from fallback:&#96;, error)
+-         // Only use mock data if both queries fail
+-         console.warn(&#96;[DB] Both mart and fallback queries failed, using mock data&#96;)
+-         return mockTeams
++         return []
+        }
+        
+```
+
+**Chunk 3**
+Lines added: 1, lines removed: 1
+
+```diff
+@@ -282,5 +274,5 @@
+        }
+        
+-       // Empty result - return empty array instead of mock data
++       // Empty result - return empty array
+        console.warn(&#96;[DB] No teams found in fallback query - returning empty array&#96;)
+        return []
+```
+
+**Chunk 4**
+Lines added: undefined, lines removed: 2
+
+```diff
+@@ -358,6 +350,4 @@
+    } catch (error) {
+      console.error(&#96;[DB] Exception in getKnownTeams:&#96;, error)
+-     // Only use mock data on actual exceptions, not empty results
+-     console.warn(&#96;[DB] Exception occurred, returning empty array instead of mock data&#96;)
+      return []
+    }
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **code_edit** • Edit file: src/lib/fetchers.ts</summary>
+
+**Chunk 1**
+Lines added: undefined, lines removed: 6
+
+```diff
+@@ -357,10 +357,4 @@
+  export async function getTeamRoster(teamId: string): Promise&lt;TeamRosterPlayer[]&gt; {
+    console.log(&#96;[DB] Fetching team roster for team ID: ${teamId}&#96;)
+-   
+-   // During build time, use mock data
+-   if (isBuildTime) {
+-     console.log(&#96;[DB] Build time detected, using mock data&#96;)
+-     return mockTeamRoster.filter(player =&gt; player.team_id === teamId)
+-   }
+    
+    try {
+```
+
+**Chunk 2**
+Lines added: 1, lines removed: 1
+
+```diff
+@@ -373,5 +367,5 @@
+      if (error) {
+        console.error(&#96;[DB] Error fetching team roster:&#96;, error)
+-       return mockTeamRoster.filter(player =&gt; player.team_id === teamId)
++       return []
+      }
+      
+```
+
+**Chunk 3**
+Lines added: 3, lines removed: 3
+
+```diff
+@@ -390,9 +384,9 @@
+      }
+      
+-     console.log(&#96;[DB] No players found, using fallback mock data&#96;)
+-     return mockTeamRoster.filter(player =&gt; player.team_id === teamId)
++     console.log(&#96;[DB] No players found - returning empty array&#96;)
++     return []
+    } catch (error) {
+      console.error(&#96;[DB] Exception in getTeamRoster:&#96;, error)
+-     return mockTeamRoster.filter(player =&gt; player.team_id === teamId)
++     return []
+    }
+  }
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **code_edit** • Edit file: src/lib/fetchers.ts</summary>
+
+**Chunk 1**
+Lines added: undefined, lines removed: 35
+
+```diff
+@@ -394,39 +394,4 @@
+  export async function getAllTeamRosters(): Promise&lt;{ team_id: string; team_name: string; players: TeamRosterPlayer[]; total_players: number; captains: TeamRosterPlayer[]; coaches: TeamRosterPlayer[] }[]&gt; {
+    console.log(&#96;[DB] Fetching all team rosters&#96;)
+-   
+-   // During build time, use mock data
+-   if (isBuildTime) {
+-     console.log(&#96;[DB] Build time detected, using mock data&#96;)
+-     const teamsMap = new Map&lt;string, { team_id: string; team_name: string; players: TeamRosterPlayer[]; captains: TeamRosterPlayer[]; coaches: TeamRosterPlayer[] }&gt;()
+-     
+-     mockTeamRoster.forEach(player =&gt; {
+-       if (!player.team_id) return
+-       
+-       if (!teamsMap.has(player.team_id)) {
+-         teamsMap.set(player.team_id, {
+-           team_id: player.team_id,
+-           team_name: player.team_name || &#39;Unknown Team&#39;,
+-           players: [],
+-           captains: [],
+-           coaches: []
+-         })
+-       }
+-       
+-       const team = teamsMap.get(player.team_id)!
+-       team.players.push(player)
+-       
+-       if (player.is_captain) {
+-         team.captains.push(player)
+-       }
+-       if (player.is_player_coach) {
+-         team.coaches.push(player)
+-       }
+-     })
+-     
+-     return Array.from(teamsMap.values()).map(team =&gt; ({
+-       ...team,
+-       total_players: team.players.length
+-     }))
+-   }
+    
+    try {
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **code_edit** • Edit file: src/lib/fetchers.ts</summary>
+
+**Chunk 1**
+Lines added: undefined, lines removed: 6
+
+```diff
+@@ -491,10 +491,4 @@
+  export async function getLeaderboard(): Promise&lt;RankingRow[]&gt; {
+    console.log(&#96;[DB] Fetching leaderboard from player_performance_mart (filtered by team)&#96;)
+-   
+-   // During build time, use mock data
+-   if (isBuildTime) {
+-     console.log(&#96;[DB] Build time detected, using mock data&#96;)
+-     return mockRankings
+-   }
+    
+    // Only show players from these teams
+```
+
+**Chunk 2**
+Lines added: 3, lines removed: 7
+
+```diff
+@@ -516,14 +510,10 @@
+      if (playersError) {
+        console.error(&#96;[DB] Error fetching players:&#96;, playersError)
+-       return mockRankings.filter(ranking =&gt; {
+-         return ranking.team === &#39;Bodega Cats&#39; || ranking.team === &#39;Capitol City Cats&#39;
+-       })
++       return []
+      }
+      
+      if (!players || players.length === 0) {
+-       console.log(&#96;[DB] No players found for specified teams, using filtered mock data&#96;)
+-       return mockRankings.filter(ranking =&gt; {
+-         return ranking.team === &#39;Bodega Cats&#39; || ranking.team === &#39;Capitol City Cats&#39;
+-       })
++       console.log(&#96;[DB] No players found for specified teams - returning empty array&#96;)
++       return []
+      }
+      
+```
+
+**Chunk 3**
+Lines added: 1, lines removed: 3
+
+```diff
+@@ -615,7 +605,5 @@
+    } catch (error) {
+      console.error(&#96;[DB] Exception in getLeaderboard:&#96;, error)
+-     return mockRankings.filter(ranking =&gt; {
+-       return ranking.team === &#39;Bodega Cats&#39; || ranking.team === &#39;Capitol City Cats&#39;
+-     })
++     return []
+    }
+  }
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 1 file</summary>
+      
+Lint paths:
+
+- `src/lib/fetchers.ts`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
 
 ---
 
@@ -4269,14 +4531,26 @@ Lines added: 2, lines removed: 4
 ---
 
 
+Removed unnecessary mock data usage. Summary:
 
----
+**Removed:**
+1. All `isBuildTime` checks — pages use `dynamic = 'force-dynamic'`, so build-time mock data isn't needed
+2. Mock data fallbacks — replaced with empty arrays (`[]`) or `null` for errors
+3. Mock data for empty results — empty arrays are valid
 
+**What's left:**
+- `apiCall()` still uses mock data as fallback for external API calls (tournaments, media) — this is fine since those are external APIs, not Supabase
+- Mock data imports remain but are only used for external API fallbacks
 
+**Benefits:**
+- Always uses real Supabase data when available
+- No stale mock data overriding real data
+- Cleaner error handling — returns empty arrays instead of fake data
+- Simpler code — removed unnecessary build-time checks
 
----
+The code now prioritizes real data from Supabase. Mock data is only used as a last resort for external API calls that might fail, which is appropriate.
 
-
+If you want, we can also remove mock data from `apiCall()` and return empty arrays there too, but keeping it for external API fallbacks is reasonable.
 
 ---
 

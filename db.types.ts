@@ -9994,6 +9994,7 @@ export type Database = {
           league_id: string | null
           match_id: string | null
           player_id: string | null
+          season_id: string | null
           tournament_id: string | null
           type: string
           updated_at: string
@@ -10006,6 +10007,7 @@ export type Database = {
           league_id?: string | null
           match_id?: string | null
           player_id?: string | null
+          season_id?: string | null
           tournament_id?: string | null
           type: string
           updated_at?: string
@@ -10018,6 +10020,7 @@ export type Database = {
           league_id?: string | null
           match_id?: string | null
           player_id?: string | null
+          season_id?: string | null
           tournament_id?: string | null
           type?: string
           updated_at?: string
@@ -10197,6 +10200,62 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "tournament_player_stats"
             referencedColumns: ["player_id"]
+          },
+          {
+            foreignKeyName: "player_rp_transactions_season_id_fkey"
+            columns: ["season_id"]
+            isOneToOne: false
+            referencedRelation: "league_calendar"
+            referencedColumns: ["season_id"]
+          },
+          {
+            foreignKeyName: "player_rp_transactions_season_id_fkey"
+            columns: ["season_id"]
+            isOneToOne: false
+            referencedRelation: "league_open_player_stats"
+            referencedColumns: ["season_id"]
+          },
+          {
+            foreignKeyName: "player_rp_transactions_season_id_fkey"
+            columns: ["season_id"]
+            isOneToOne: false
+            referencedRelation: "league_playoff_player_stats"
+            referencedColumns: ["season_id"]
+          },
+          {
+            foreignKeyName: "player_rp_transactions_season_id_fkey"
+            columns: ["season_id"]
+            isOneToOne: false
+            referencedRelation: "league_regular_season_player_stats"
+            referencedColumns: ["season_id"]
+          },
+          {
+            foreignKeyName: "player_rp_transactions_season_id_fkey"
+            columns: ["season_id"]
+            isOneToOne: false
+            referencedRelation: "league_results"
+            referencedColumns: ["season_id"]
+          },
+          {
+            foreignKeyName: "player_rp_transactions_season_id_fkey"
+            columns: ["season_id"]
+            isOneToOne: false
+            referencedRelation: "league_season_performance_mart"
+            referencedColumns: ["season_id"]
+          },
+          {
+            foreignKeyName: "player_rp_transactions_season_id_fkey"
+            columns: ["season_id"]
+            isOneToOne: false
+            referencedRelation: "league_seasons"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "player_rp_transactions_season_id_fkey"
+            columns: ["season_id"]
+            isOneToOne: false
+            referencedRelation: "player_stats_by_league_season"
+            referencedColumns: ["league_season_id"]
           },
           {
             foreignKeyName: "player_rp_transactions_tournament_id_fkey"
@@ -24199,6 +24258,25 @@ export type Database = {
     }
     Functions: {
       _sign_payload: { Args: { payload: Json }; Returns: string }
+      add_event_placement_bonus_rp_to_players: {
+        Args: {
+          dry_run?: boolean
+          placement_filter?: number
+          rp_amount?: number
+          season_id_param: string
+          team_id_param?: string
+          tournament_id_param?: string
+        }
+        Returns: {
+          bonus_rp_awarded: number
+          description: string
+          placement: number
+          player_id: string
+          team_id: string
+          tournament_id: string
+          transaction_id: string
+        }[]
+      }
       analyze_elo_distribution: {
         Args: never
         Returns: {
@@ -24218,6 +24296,23 @@ export type Database = {
           p_user_id: string
         }
         Returns: boolean
+      }
+      award_rp_for_event_result: {
+        Args: {
+          description_param: string
+          dry_run?: boolean
+          event_results_id_param: string
+          rp_amount: number
+        }
+        Returns: {
+          bonus_rp_awarded: number
+          description: string
+          placement: number
+          player_id: string
+          team_id: string
+          tournament_id: string
+          transaction_id: string
+        }[]
       }
       calculate_all_player_salaries: {
         Args: never
@@ -24247,6 +24342,24 @@ export type Database = {
           player_name: string
           raw_score: number
           tier_name: string
+        }[]
+      }
+      calculate_player_win_loss: {
+        Args: {
+          include_ties?: boolean
+          league_id_param?: string
+          player_id_param: string
+          season_id_param?: string
+          tournament_id_param?: string
+        }
+        Returns: {
+          gamertag: string
+          losses: number
+          player_id: string
+          ties: number
+          total_games: number
+          win_percentage: number
+          wins: number
         }[]
       }
       calculate_team_total_money_won: {
@@ -24418,6 +24531,18 @@ export type Database = {
       update_player_ps: { Args: never; Returns: undefined }
       update_player_rank_score: { Args: never; Returns: undefined }
       update_player_rankings: { Args: never; Returns: undefined }
+      update_player_rp: {
+        Args: {
+          bonus_amount?: number
+          description_param?: string
+          match_id_param?: string
+          player_id_param: string
+          rating_param?: number
+          season_id_param?: string
+          tournament_id_param?: string
+        }
+        Returns: string
+      }
       update_team_money_won: { Args: { team_uuid: string }; Returns: undefined }
       update_team_rankings: { Args: never; Returns: undefined }
       update_user_claims: { Args: { p_user_id: string }; Returns: boolean }

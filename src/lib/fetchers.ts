@@ -487,7 +487,7 @@ export async function getFeaturedEvents(): Promise<Event[]> {
 
 // Leaderboard fetchers - using player_performance_mart for real rankings data
 // Only shows players from specified teams (Bodega Cats and Capitol City Cats)
-// Calculates actual wins/losses from match results
+// Uses calculate_player_win_loss function to get accurate win/loss records
 export async function getLeaderboard(): Promise<RankingRow[]> {
   console.log(`[DB] Fetching leaderboard from player_performance_mart (filtered by team)`)
   
@@ -517,76 +517,63 @@ export async function getLeaderboard(): Promise<RankingRow[]> {
       return []
     }
     
-    console.log(`[DB] Successfully fetched ${players.length} players, calculating wins/losses from matches`)
+    console.log(`[DB] Successfully fetched ${players.length} players, calculating wins/losses using calculate_player_win_loss function`)
     
-    // Fetch matches for these teams to calculate actual wins/losses
-    // Query matches where either team_a_id or team_b_id is one of our teams
-    const teamAQuery = knownTeamIds.map(id => `team_a_id.eq.${id}`).join(',')
-    const teamBQuery = knownTeamIds.map(id => `team_b_id.eq.${id}`).join(',')
-    const { data: matches, error: matchesError } = await supabase
-      .from('matches')
-      .select('team_a_id, team_b_id, winner_id')
-      .or(`${teamAQuery},${teamBQuery}`)
-      .not('winner_id', 'is', null)
+    // Create a map to store win/loss stats for each player
+    const playerStats = new Map<string, { wins: number; losses: number; winRate: number }>()
     
-    if (matchesError) {
-      console.warn(`[DB] Error fetching matches, using estimated wins/losses:`, matchesError)
-    }
-    
-    // Create a map to count wins/losses per player
-    const playerStats = new Map<string, { wins: number; losses: number }>()
-    
-    // Initialize all players with 0 wins/losses
-    players.forEach((player: any) => {
-      if (player.player_id && player.current_team_id) {
-        playerStats.set(player.player_id, { wins: 0, losses: 0 })
-      }
-    })
-    
-    // Calculate wins/losses from matches
-    if (matches && matches.length > 0) {
-      matches.forEach((match: any) => {
-        const winnerId = match.winner_id
-        const teamAId = match.team_a_id
-        const teamBId = match.team_b_id
-        
-        // Count wins for players on winning team
-        if (winnerId && knownTeamIds.includes(winnerId)) {
-          players.forEach((player: any) => {
-            if (player.player_id && player.current_team_id === winnerId) {
-              const stats = playerStats.get(player.player_id)
-              if (stats) {
-                stats.wins++
+    // Call calculate_player_win_loss for each player in parallel for better performance
+    const winLossPromises = players
+      .filter(player => player.player_id)
+      .map(async (player) => {
+        try {
+          const { data: winLossData, error: winLossError } = await supabase.rpc(
+            'calculate_player_win_loss',
+            {
+              player_id_param: player.player_id!,
+              include_ties: false
+            }
+          )
+          
+          if (winLossError) {
+            console.warn(`[DB] Error calculating win/loss for player ${player.player_id}:`, winLossError)
+            // Fallback to 0 wins/losses if function call fails
+            return { playerId: player.player_id!, stats: { wins: 0, losses: 0, winRate: 0 } }
+          }
+          
+          if (winLossData && winLossData.length > 0) {
+            const stats = winLossData[0]
+            return {
+              playerId: player.player_id!,
+              stats: {
+                wins: stats.wins || 0,
+                losses: stats.losses || 0,
+                winRate: stats.win_percentage || 0
               }
             }
-          })
-        }
-        
-        // Count losses for players on losing team
-        const losingTeamId = winnerId === teamAId ? teamBId : teamAId
-        if (losingTeamId && knownTeamIds.includes(losingTeamId)) {
-          players.forEach((player: any) => {
-            if (player.player_id && player.current_team_id === losingTeamId) {
-              const stats = playerStats.get(player.player_id)
-              if (stats) {
-                stats.losses++
-              }
-            }
-          })
+          } else {
+            // No data returned, use defaults
+            return { playerId: player.player_id!, stats: { wins: 0, losses: 0, winRate: 0 } }
+          }
+        } catch (error) {
+          console.warn(`[DB] Exception calculating win/loss for player ${player.player_id}:`, error)
+          return { playerId: player.player_id!, stats: { wins: 0, losses: 0, winRate: 0 } }
         }
       })
-    }
     
-    // Map to RankingRow format with actual wins/losses
+    // Wait for all RPC calls to complete
+    const winLossResults = await Promise.all(winLossPromises)
+    
+    // Populate the stats map
+    winLossResults.forEach(({ playerId, stats }) => {
+      playerStats.set(playerId, stats)
+    })
+    
+    // Map to RankingRow format with win/loss data from function
     const rankings: RankingRow[] = players.map((player: any, index: number) => {
       const rank = index + 1
-      const stats = playerStats.get(player.player_id || '') || { wins: 0, losses: 0 }
-      const gamesPlayed = stats.wins + stats.losses || player.games_played || 0
-      
-      // Use actual wins/losses if available, otherwise fall back to games_played
-      const wins = stats.wins > 0 ? stats.wins : (gamesPlayed > 0 ? Math.round(gamesPlayed * 0.5) : 0)
-      const losses = stats.losses > 0 ? stats.losses : (gamesPlayed - wins)
-      const winRate = gamesPlayed > 0 ? (wins / gamesPlayed) * 100 : 0
+      const stats = playerStats.get(player.player_id || '') || { wins: 0, losses: 0, winRate: 0 }
+      const gamesPlayed = stats.wins + stats.losses
       
       return {
         id: player.player_id || `player-${rank}`,
@@ -594,13 +581,13 @@ export async function getLeaderboard(): Promise<RankingRow[]> {
         player: player.gamertag || 'Unknown Player',
         team: player.team_name || 'Free Agent',
         points: player.player_rp || 0,
-        wins,
-        losses,
-        winRate,
+        wins: stats.wins,
+        losses: stats.losses,
+        winRate: gamesPlayed > 0 ? stats.winRate : 0,
       }
     })
     
-    console.log(`[DB] Successfully calculated rankings with actual wins/losses for ${rankings.length} players`)
+    console.log(`[DB] Successfully calculated rankings with win/loss data from calculate_player_win_loss for ${rankings.length} players`)
     return rankings
   } catch (error) {
     console.error(`[DB] Exception in getLeaderboard:`, error)
@@ -658,3 +645,4 @@ export async function getMatches(): Promise<any[]> {
 export async function getPlayerStats(): Promise<any[]> {
   return apiCall(API_CONFIG.ENDPOINTS.PLAYER_STATS, [])
 }
+
