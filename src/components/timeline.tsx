@@ -32,8 +32,8 @@ const timelineData: TimelineItem[] = [
   },
   {
     year: '2026',
-    title: '2K26 Tournament Series',
-    description: 'Launching the most ambitious initiative yet: a yearlong competitive ecosystem with $52,000 prize pool, running from October through August.',
+    title: 'New Horizons',
+    description: 'Leading proamrank.gg project, organizing the UPA World Championships (July 24-26, 2026 at Hyper X Arena in Las Vegas), and launching the Legends Basketball Association (lba.gg).',
     highlight: true,
   },
 ]

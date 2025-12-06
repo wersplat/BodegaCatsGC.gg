@@ -7,7 +7,7 @@ import { Timeline } from '@/components/timeline'
 
 export const metadata: Metadata = {
   title: 'About - Bodega Cats Gaming Club',
-  description: 'Learn about the history, mission, and vision of Bodega Cats GC. From our foundation in 2021 to the upcoming 2K26 Tournament Series with $52,000 prize pool.',
+  description: 'Learn about the history, mission, and vision of Bodega Cats GC. From our foundation in 2021 to our current projects including proamrank.gg, UPA World Championships, and Legends Basketball Association.',
 }
 
 export default function AboutPage() {
@@ -80,30 +80,30 @@ export default function AboutPage() {
           <Timeline />
         </div>
 
-        {/* 2K26 Tournament Series */}
+        {/* Current Projects */}
         <div className="bg-bcg-accent text-white rounded-3xl p-8 md:p-12 mb-8">
           <div className="text-center">
-            <h2 className="text-3xl font-bold mb-4">2K26 Tournament Series</h2>
-            <p className="text-xl mb-6 opacity-90">
-              $52,000. 11 Months. One Community. Starting October 2025.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold mb-6">Current Projects</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-6">
               <div className="text-center">
-                <div className="text-2xl font-bold mb-2">11</div>
-                <div className="text-sm opacity-80">Monthly Events</div>
+                <h3 className="text-xl font-semibold mb-3">proamrank.gg</h3>
+                <p className="text-sm opacity-90">
+                  Overview of the proamrank.gg project
+                </p>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold mb-2">$52K</div>
-                <div className="text-sm opacity-80">Total Prize Pool</div>
+                <h3 className="text-xl font-semibold mb-3">UPA World Championships</h3>
+                <p className="text-sm opacity-90">
+                  July 24-26, 2026 at Hyper X Arena in Las Vegas
+                </p>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold mb-2">1</div>
-                <div className="text-sm opacity-80">Unified Community</div>
+                <h3 className="text-xl font-semibold mb-3">Legends Basketball Association</h3>
+                <p className="text-sm opacity-90">
+                  lba.gg
+                </p>
               </div>
             </div>
-            <p className="text-lg mt-6 opacity-90 max-w-3xl mx-auto">
-              Featuring monthly events from October through August—including March Madness, Locals, and the World Championship—this series delivers nonstop action and community-first competition.
-            </p>
           </div>
         </div>
 
@@ -123,7 +123,7 @@ export default function AboutPage() {
                 </div>
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-bcg-accent rounded-full mr-3" />
-                  <span>Architect of the 2K26 Tournament Series</span>
+                  <span>Leading proamrank.gg, UPA World Championships, and Legends Basketball Association</span>
                 </div>
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-bcg-accent rounded-full mr-3" />

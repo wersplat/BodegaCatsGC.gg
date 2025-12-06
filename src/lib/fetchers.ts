@@ -520,7 +520,7 @@ export async function getLeaderboard(): Promise<RankingRow[]> {
     console.log(`[DB] Successfully fetched ${players.length} players, calculating wins/losses using calculate_player_win_loss function`)
     
     // Create a map to store win/loss stats for each player
-    const playerStats = new Map<string, { wins: number; losses: number; winRate: number }>()
+    const playerStats = new Map<string, { wins: number; losses: number; totalGames: number; winRate: number }>()
     
     // Call calculate_player_win_loss for each player in parallel for better performance
     const winLossPromises = players
@@ -538,7 +538,7 @@ export async function getLeaderboard(): Promise<RankingRow[]> {
           if (winLossError) {
             console.warn(`[DB] Error calculating win/loss for player ${player.player_id}:`, winLossError)
             // Fallback to 0 wins/losses if function call fails
-            return { playerId: player.player_id!, stats: { wins: 0, losses: 0, winRate: 0 } }
+            return { playerId: player.player_id!, stats: { wins: 0, losses: 0, totalGames: 0, winRate: 0 } }
           }
           
           if (winLossData && winLossData.length > 0) {
@@ -548,16 +548,17 @@ export async function getLeaderboard(): Promise<RankingRow[]> {
               stats: {
                 wins: stats.wins || 0,
                 losses: stats.losses || 0,
+                totalGames: stats.total_games || 0,
                 winRate: stats.win_percentage || 0
               }
             }
           } else {
             // No data returned, use defaults
-            return { playerId: player.player_id!, stats: { wins: 0, losses: 0, winRate: 0 } }
+            return { playerId: player.player_id!, stats: { wins: 0, losses: 0, totalGames: 0, winRate: 0 } }
           }
         } catch (error) {
           console.warn(`[DB] Exception calculating win/loss for player ${player.player_id}:`, error)
-          return { playerId: player.player_id!, stats: { wins: 0, losses: 0, winRate: 0 } }
+          return { playerId: player.player_id!, stats: { wins: 0, losses: 0, totalGames: 0, winRate: 0 } }
         }
       })
     
@@ -572,8 +573,9 @@ export async function getLeaderboard(): Promise<RankingRow[]> {
     // Map to RankingRow format with win/loss data from function
     const rankings: RankingRow[] = players.map((player: any, index: number) => {
       const rank = index + 1
-      const stats = playerStats.get(player.player_id || '') || { wins: 0, losses: 0, winRate: 0 }
-      const gamesPlayed = stats.wins + stats.losses
+      const stats = playerStats.get(player.player_id || '') || { wins: 0, losses: 0, totalGames: 0, winRate: 0 }
+      // Use total_games from the function result instead of calculating wins + losses
+      const gamesPlayed = stats.totalGames > 0 ? stats.totalGames : (stats.wins + stats.losses)
       
       return {
         id: player.player_id || `player-${rank}`,
@@ -584,6 +586,15 @@ export async function getLeaderboard(): Promise<RankingRow[]> {
         wins: stats.wins,
         losses: stats.losses,
         winRate: gamesPlayed > 0 ? stats.winRate : 0,
+        position: player.position || null,
+        gamesPlayed: stats.totalGames > 0 ? stats.totalGames : (player.games_played || gamesPlayed || null),
+        avgPoints: player.avg_points || null,
+        avgAssists: player.avg_assists || null,
+        avgRebounds: player.avg_rebounds || null,
+        avgSteals: player.avg_steals || null,
+        avgBlocks: player.avg_blocks || null,
+        fgPct: player.avg_fg_pct || null,
+        performanceScore: player.avg_performance_score || null,
       }
     })
     

@@ -197,6 +197,15 @@ export interface RankingRow {
   wins: number
   losses: number
   winRate: number
+  position?: PlayerPosition | null
+  gamesPlayed?: number | null
+  avgPoints?: number | null
+  avgAssists?: number | null
+  avgRebounds?: number | null
+  avgSteals?: number | null
+  avgBlocks?: number | null
+  fgPct?: number | null
+  performanceScore?: number | null
 }
 
 export interface MediaItem {

@@ -45,15 +45,7 @@ export function Hero() {
           </div>
 
           {/* Stats */}
-          <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-bcg-accent mb-2">$52K</div>
-              <div className="text-gray-400">Prize Pool</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-bcg-accent mb-2">11</div>
-              <div className="text-gray-400">Monthly Events</div>
-            </div>
+          <div className="mt-16 flex justify-center">
             <div className="text-center">
               <div className="text-3xl font-bold text-bcg-accent mb-2">2021</div>
               <div className="text-gray-400">Founded</div>

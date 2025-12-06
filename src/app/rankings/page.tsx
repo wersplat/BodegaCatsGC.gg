@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import { RankingsTeaser } from '@/components/rankings-teaser'
 import { LeaderboardTable } from '@/components/leaderboard-table'
 import { getRankings } from '@/lib/fetchers'
 import { EXTERNAL_CONFIG } from '@/lib/config'
@@ -24,47 +23,41 @@ export default async function RankingsPage() {
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-6">
             Track player performance and see where your favorite competitors stand.
           </p>
-          <div className="flex justify-center gap-4">
-            <Button asChild variant="outline" size="lg">
-              <a 
-                href={EXTERNAL_CONFIG.GLOBAL_RANKINGS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center space-x-2"
-              >
-                <span>View Full Rankings on ProAmRank.gg</span>
-                <ExternalLink className="h-4 w-4" />
-              </a>
-            </Button>
+        </div>
+
+        {/* Global Rankings CTA */}
+        <div className="mb-8">
+          <div className="bg-bcg-accent/10 dark:bg-bcg-accent/20 rounded-xl p-4 border border-bcg-accent/20">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="text-center sm:text-left">
+                <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  View Global Rankings
+                </p>
+                <p className="text-xs text-gray-600 dark:text-gray-400">
+                  See how Bodega Cats players stack up against the world&apos;s best
+                </p>
+              </div>
+              <Button asChild variant="outline" size="sm">
+                <a 
+                  href={EXTERNAL_CONFIG.GLOBAL_RANKINGS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2"
+                >
+                  <span>View on ProAmRank.gg</span>
+                  <ExternalLink className="h-3 w-3" />
+                </a>
+              </Button>
+            </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {/* Rankings Teaser */}
-          <div className="lg:col-span-1">
-            <RankingsTeaser />
+        {/* Leaderboard */}
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold">Current Rankings</h2>
           </div>
-
-          {/* Leaderboard */}
-          <div className="lg:col-span-2">
-            <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold">Current Rankings</h2>
-                <Button asChild variant="outline" size="sm">
-                  <a 
-                    href={EXTERNAL_CONFIG.GLOBAL_RANKINGS_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center space-x-2"
-                  >
-                    <span>View on ProAmRank.gg</span>
-                    <ExternalLink className="h-3 w-3" />
-                  </a>
-                </Button>
-              </div>
-              <LeaderboardTable rankings={rankings} />
-            </div>
-          </div>
+          <LeaderboardTable rankings={rankings} />
         </div>
       </div>
     </div>

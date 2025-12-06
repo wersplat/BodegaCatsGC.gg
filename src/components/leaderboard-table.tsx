@@ -27,6 +27,11 @@ export function LeaderboardTable({ rankings }: LeaderboardTableProps) {
       const aValue = a[sortField]
       const bValue = b[sortField]
       
+      // Handle null/undefined values - put them at the end
+      if (aValue == null && bValue == null) return 0
+      if (aValue == null) return 1
+      if (bValue == null) return -1
+      
       if (typeof aValue === 'string' && typeof bValue === 'string') {
         return sortDirection === 'asc' 
           ? aValue.localeCompare(bValue)
@@ -125,6 +130,87 @@ export function LeaderboardTable({ rankings }: LeaderboardTableProps) {
                 </div>
               </th>
               <th className="text-left py-3 px-4 font-semibold">Record</th>
+              <th 
+                className="text-left py-3 px-4 font-semibold cursor-pointer hover:text-bcg-accent transition-colors"
+                onClick={() => handleSort('position')}
+              >
+                <div className="flex items-center">
+                  Pos
+                  <SortIcon field="position" />
+                </div>
+              </th>
+              <th 
+                className="text-left py-3 px-4 font-semibold cursor-pointer hover:text-bcg-accent transition-colors"
+                onClick={() => handleSort('gamesPlayed')}
+              >
+                <div className="flex items-center">
+                  GP
+                  <SortIcon field="gamesPlayed" />
+                </div>
+              </th>
+              <th 
+                className="text-left py-3 px-4 font-semibold cursor-pointer hover:text-bcg-accent transition-colors"
+                onClick={() => handleSort('avgPoints')}
+              >
+                <div className="flex items-center">
+                  PPG
+                  <SortIcon field="avgPoints" />
+                </div>
+              </th>
+              <th 
+                className="text-left py-3 px-4 font-semibold cursor-pointer hover:text-bcg-accent transition-colors"
+                onClick={() => handleSort('avgAssists')}
+              >
+                <div className="flex items-center">
+                  APG
+                  <SortIcon field="avgAssists" />
+                </div>
+              </th>
+              <th 
+                className="text-left py-3 px-4 font-semibold cursor-pointer hover:text-bcg-accent transition-colors"
+                onClick={() => handleSort('avgRebounds')}
+              >
+                <div className="flex items-center">
+                  RPG
+                  <SortIcon field="avgRebounds" />
+                </div>
+              </th>
+              <th 
+                className="text-left py-3 px-4 font-semibold cursor-pointer hover:text-bcg-accent transition-colors"
+                onClick={() => handleSort('avgSteals')}
+              >
+                <div className="flex items-center">
+                  SPG
+                  <SortIcon field="avgSteals" />
+                </div>
+              </th>
+              <th 
+                className="text-left py-3 px-4 font-semibold cursor-pointer hover:text-bcg-accent transition-colors"
+                onClick={() => handleSort('avgBlocks')}
+              >
+                <div className="flex items-center">
+                  BPG
+                  <SortIcon field="avgBlocks" />
+                </div>
+              </th>
+              <th 
+                className="text-left py-3 px-4 font-semibold cursor-pointer hover:text-bcg-accent transition-colors"
+                onClick={() => handleSort('fgPct')}
+              >
+                <div className="flex items-center">
+                  FG%
+                  <SortIcon field="fgPct" />
+                </div>
+              </th>
+              <th 
+                className="text-left py-3 px-4 font-semibold cursor-pointer hover:text-bcg-accent transition-colors"
+                onClick={() => handleSort('performanceScore')}
+              >
+                <div className="flex items-center">
+                  PS
+                  <SortIcon field="performanceScore" />
+                </div>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -150,6 +236,33 @@ export function LeaderboardTable({ rankings }: LeaderboardTableProps) {
                 </td>
                 <td className="py-3 px-4 text-sm text-gray-600 dark:text-gray-400">
                   {ranking.wins}W - {ranking.losses}L
+                </td>
+                <td className="py-3 px-4 text-sm text-gray-600 dark:text-gray-400">
+                  {ranking.position || '-'}
+                </td>
+                <td className="py-3 px-4 text-sm text-gray-600 dark:text-gray-400">
+                  {ranking.gamesPlayed ?? '-'}
+                </td>
+                <td className="py-3 px-4 text-sm">
+                  {ranking.avgPoints != null ? ranking.avgPoints.toFixed(1) : '-'}
+                </td>
+                <td className="py-3 px-4 text-sm">
+                  {ranking.avgAssists != null ? ranking.avgAssists.toFixed(1) : '-'}
+                </td>
+                <td className="py-3 px-4 text-sm">
+                  {ranking.avgRebounds != null ? ranking.avgRebounds.toFixed(1) : '-'}
+                </td>
+                <td className="py-3 px-4 text-sm">
+                  {ranking.avgSteals != null ? ranking.avgSteals.toFixed(1) : '-'}
+                </td>
+                <td className="py-3 px-4 text-sm">
+                  {ranking.avgBlocks != null ? ranking.avgBlocks.toFixed(1) : '-'}
+                </td>
+                <td className="py-3 px-4 text-sm">
+                  {ranking.fgPct != null ? `${ranking.fgPct.toFixed(1)}%` : '-'}
+                </td>
+                <td className="py-3 px-4 text-sm font-medium">
+                  {ranking.performanceScore != null ? ranking.performanceScore.toFixed(1) : '-'}
                 </td>
               </tr>
             ))}
